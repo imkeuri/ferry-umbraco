@@ -1,0 +1,52 @@
+site_name: Ferry for Umbraco
+site_description: Code-first schema and reviewed content deployment for Umbraco 17. Free to use, closed source.
+site_url: https://imkeuri.github.io/ferry-umbraco/
+repo_url: https://github.com/imkeuri/ferry-umbraco
+repo_name: imkeuri/ferry-umbraco
+edit_uri: ""
+docs_dir: build/docs
+site_dir: site
+copyright: Copyright &copy; 2026 Keuri Castillo. Free to use under the Ferry Freeware License.
+theme:
+  name: material
+  features:
+    - navigation.sections
+    - navigation.top
+    - navigation.footer
+    - search.highlight
+    - content.code.copy
+    - toc.follow
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      toggle: { icon: material/weather-night, name: Dark mode }
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      toggle: { icon: material/weather-sunny, name: Light mode }
+markdown_extensions:
+  - admonition
+  - tables
+  - toc: { permalink: true }
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - pymdownx.details
+nav:
+  - Home: index.md
+  - Guides:
+      - Supported scope: supported-scope.md
+      - Code-first schema: code-first-schema.md
+      - Extending Ferry: extending.md
+      - Package integration: umbraco-package-guide.md
+  - Evidence:
+      - Real-site validation: real-site-validation.md
+      - Validation record: validation-record.md
+      - Acceptance checklist: acceptance-checklist.md
+      - uSync API findings: usync-api-findings.md
+  - Design notes:
+      - uSync integration: research/core-usync-integration.md
+      - Peer policies: research/peer-policy-design.md
+  - Changelog: changelog.md
+  - License: license.md
+  - Third-party notices: third-party-notices.md
