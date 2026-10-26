@@ -3,6 +3,19 @@
 All notable changes to Ferry. Versions follow [Semantic Versioning](https://semver.org/); while Ferry is pre-1.0,
 minor versions may contain breaking changes.
 
+## 0.5.0-beta.1
+
+### Self-contained
+- **Self-contained.** Ferry no longer depends on any other synchronisation package. Schema is written and read by
+  Ferry's own serializer and importer on Umbraco's services, and property values by Ferry's own value mappers, built
+  on Umbraco's reference tracking. Sites that also run another synchronisation tool keep working side by side.
+- **Value mapper API**: `IFerryValueMapper` and `AddFerryValueMapper<T>()` let you add support for your own property
+  editors; see [extending Ferry](docs/extending.md).
+- Language keys are derived from the ISO code, and built-in member property keys from the member type and alias, so
+  every site agrees on them.
+- **Transfer formats are now `communitysync.full.v7` / `v8`.** Upgrade both sites together: 0.4 and 0.5 sites refuse
+  to exchange transfers or packages with each other.
+
 ## 0.4.0-beta.1 — first public release
 
 ### License and distribution

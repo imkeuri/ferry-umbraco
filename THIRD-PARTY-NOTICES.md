@@ -4,26 +4,6 @@ Ferry is proprietary freeware (see `LICENSE`). It uses the packages below as unm
 NuGet dependencies; their licenses remain those of their respective authors and are not
 affected by Ferry's license.
 
-## uSync.Core 17.4.2
-
-- Author: Kevin Jump / Jumoo; package copyright: Jumoo @ 2013–2026.
-- License: [Mozilla Public License 2.0](https://licenses.nuget.org/MPL-2.0).
-- [Upstream source](https://github.com/KevinJump/uSync8/tree/d762d529398d5a80a94572417deba0aca7d67026).
-- Used as an unmodified NuGet dependency for its public schema serializers and
-  property value mappers. Ferry's draft-content writer and site-to-site
-  protocol are separate original implementations.
-
-## uSync.BackOffice 17.4.2
-
-- Author: Kevin Jump / Jumoo; package copyright: Jumoo @ 2013–2026.
-- License: [Mozilla Public License 2.0](https://licenses.nuget.org/MPL-2.0).
-- [Upstream source](https://github.com/KevinJump/uSync/tree/d762d529398d5a80a94572417deba0aca7d67026).
-- Used as an unmodified NuGet dependency to register the public base-uSync
-  services, handlers and normal save/export lifecycle in the Full integration.
-  Ferry retains its guarded draft-write and explicit-publication paths;
-  this does not include the commercial uSync.Complete package.
-- License and source identity checked against the official NuGet 17.4.2 metadata.
-
 ## Umbraco CMS 17.6.2
 
 - Author: Umbraco; package copyright: Copyright © Umbraco 2026.
@@ -34,9 +14,7 @@ These versions and license identifiers were verified against restored package
 metadata. NuGet retains each dependency's own metadata and notices; this document
 does not replace the licenses of transitive dependencies.
 
-Ferry is an independent product. It does not include the
-commercial uSync.Complete package, its proprietary implementation, or its branding,
-and is not an official Jumoo or Umbraco product.
+Ferry is an independent product and is not an official Umbraco product.
 
 ## Hey API generated fetch client runtime
 

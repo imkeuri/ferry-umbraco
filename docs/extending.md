@@ -7,7 +7,7 @@ Ferry about a package:
 | What the package adds | What to do | Section |
 |---|---|---|
 | A property editor whose value has no ids, paths or references | Declare it a **scalar** editor | [Scalar editors](#scalar-editors) |
-| A property editor whose value points at pages, media or other items | Use a value **mapper** and declare it a **mapped** editor | [Mapped editors](#mapped-editors) |
+| A property editor whose value points at pages, media or other items | Register a value **mapper** (`IFerryValueMapper`) | [Mapped editors](#mapped-editors) |
 | Data stored outside content (redirects, forms, settings rows, …) | Write a Ferry **package provider** | [Package providers](#package-providers) |
 | Media files of a type Ferry does not allow | List the extension | [Media file types](#media-file-types) |
 
@@ -45,11 +45,38 @@ Keys are the same on both sites after a Ferry transfer, so a value that stores k
 copied unchanged; the mapper's job is to report the references. Ferry checks the round trip and the declared references
 before saving content.
 
-Ferry includes mappers for Umbraco's own editors (Block List, Block Grid, rich text, pickers) and for Contentment and
-MetaMomentum. A public mapper API for your own editors is planned for Ferry 0.5. Until then, ask for an editor through
-the [package or editor support](https://github.com/imkeuri/ferry-umbraco/issues/new/choose) issue form.
+Ferry includes mappers for Umbraco's own editors (pickers, Multi URL Picker, rich text, Block List, Block Grid and
+Single Block) and for Contentment and MetaMomentum. For your own editor, implement `IFerryValueMapper`
+(namespace `Ferry.Umbraco.Values`):
 
-Declaring an alias without a mapper does not make the editor transferable: content using it is still refused.
+```csharp
+public sealed class LinkCardMapper : IFerryValueMapper
+{
+    public IReadOnlyCollection<string> Editors { get; } = ["Our.LinkCard"];
+
+    // Keys are the same on both sites, so the stored value travels unchanged.
+    public Task<string?> ToPortableAsync(object value, FerryValueContext context) => Task.FromResult(value?.ToString());
+    public Task<object?> FromPortableAsync(string portable, FerryValueContext context) => Task.FromResult<object?>(portable);
+
+    // Every page and media item the value points at.
+    public Task<IReadOnlyCollection<GuidUdi>> ReferencesAsync(object value, FerryValueContext context) =>
+        Task.FromResult<IReadOnlyCollection<GuidUdi>>(PageKeys(value?.ToString())
+            .Select(key => new GuidUdi(Constants.UdiEntityType.Document, key)).ToArray());
+
+    private static IEnumerable<Guid> PageKeys(string? value) => /* read the keys out of your stored JSON */ [];
+}
+```
+
+Register it on every site that sends or receives the editor; that also opts the editor in:
+
+```csharp
+builder.AddFerryValueMapper<LinkCardMapper>();
+```
+
+`FerryValueContext.Values` maps values nested inside yours, for example the properties of a block.
+
+Declaring an alias in `MappedEditors` without a registered mapper does not make the editor transferable: content
+using it is still refused.
 
 Test the editor on two disposable sites whose local ids differ: create content on one, Send it, and check that a second
 review plans it as unchanged.
