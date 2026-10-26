@@ -1,0 +1,1308 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Code-first schema and reviewed content deployment for Umbraco 17. Free to use, closed source.">
+      
+      
+      
+        <link rel="canonical" href="https://imkeuri.github.io/ferry-umbraco/extending/">
+      
+      
+        <link rel="prev" href="../code-first-schema/">
+      
+      
+        <link rel="next" href="../umbraco-package-guide/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.23">
+    
+    
+      
+        <title>Extending Ferry - Ferry for Umbraco</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.84d31ad4.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#extending-ferry" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Ferry for Umbraco" class="md-header__button md-logo" aria-label="Ferry for Umbraco" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Ferry for Umbraco
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Extending Ferry
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/imkeuri/ferry-umbraco" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    imkeuri/ferry-umbraco
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Ferry for Umbraco" class="md-nav__button md-logo" aria-label="Ferry for Umbraco" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Ferry for Umbraco
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/imkeuri/ferry-umbraco" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    imkeuri/ferry-umbraco
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Guides
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Guides
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../supported-scope/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Supported scope
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../code-first-schema/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Code-first schema
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Extending Ferry
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Extending Ferry
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#scalar-editors" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scalar editors
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mapped-editors" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mapped editors
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#package-providers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Package providers
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Package providers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#turning-it-on" class="md-nav__link">
+    <span class="md-ellipsis">
+      Turning it on
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-a-transfer-does" class="md-nav__link">
+    <span class="md-ellipsis">
+      What a transfer does
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#writing-a-provider" class="md-nav__link">
+    <span class="md-ellipsis">
+      Writing a provider
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#media-file-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      Media file types
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sqlite-and-large-transfers" class="md-nav__link">
+    <span class="md-ellipsis">
+      SQLite and large transfers
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../umbraco-package-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Package integration
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Evidence
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Evidence
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../real-site-validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Real-site validation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../validation-record/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Validation record
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../acceptance-checklist/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Acceptance checklist
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../usync-api-findings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    uSync API findings
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Design notes
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Design notes
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../research/core-usync-integration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    uSync integration
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../research/peer-policy-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Peer policies
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../changelog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Changelog
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../license/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    License
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../third-party-notices/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Third-party notices
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#scalar-editors" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scalar editors
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mapped-editors" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mapped editors
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#package-providers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Package providers
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Package providers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#turning-it-on" class="md-nav__link">
+    <span class="md-ellipsis">
+      Turning it on
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-a-transfer-does" class="md-nav__link">
+    <span class="md-ellipsis">
+      What a transfer does
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#writing-a-provider" class="md-nav__link">
+    <span class="md-ellipsis">
+      Writing a provider
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#media-file-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      Media file types
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sqlite-and-large-transfers" class="md-nav__link">
+    <span class="md-ellipsis">
+      SQLite and large transfers
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="extending-ferry">Extending Ferry<a class="headerlink" href="#extending-ferry" title="Permanent link">&para;</a></h1>
+<p>Ferry refuses what it does not understand. A property editor it has no contract for, or data a package keeps in its own
+tables, blocks the transfer with a message instead of being copied half-right. This guide shows the three ways to teach
+Ferry about a package:</p>
+<table>
+<thead>
+<tr>
+<th>What the package adds</th>
+<th>What to do</th>
+<th>Section</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A property editor whose value has no ids, paths or references</td>
+<td>Declare it a <strong>scalar</strong> editor</td>
+<td><a href="#scalar-editors">Scalar editors</a></td>
+</tr>
+<tr>
+<td>A property editor whose value points at pages, media or other items</td>
+<td>Write a uSync <strong>mapper</strong> and declare it a <strong>mapped</strong> editor</td>
+<td><a href="#mapped-editors">Mapped editors</a></td>
+</tr>
+<tr>
+<td>Data stored outside content (redirects, forms, settings rows, …)</td>
+<td>Write a Ferry <strong>package provider</strong></td>
+<td><a href="#package-providers">Package providers</a></td>
+</tr>
+<tr>
+<td>Media files of a type Ferry does not allow</td>
+<td>List the extension</td>
+<td><a href="#media-file-types">Media file types</a></td>
+</tr>
+</tbody>
+</table>
+<p>Whatever you add, register it the same way on <strong>every</strong> site that sends or receives it.</p>
+<h2 id="scalar-editors">Scalar editors<a class="headerlink" href="#scalar-editors" title="Permanent link">&para;</a></h2>
+<p>A scalar value is copied exactly as stored. Use this only when the value contains no site-local ids, file paths or
+entity references: plain text, numbers, colours, a JSON object of settings.</p>
+<div class="highlight"><pre><span></span><code><span class="n">builder</span><span class="p">.</span><span class="n">AddFerryUmbracoFull</span><span class="p">(</span><span class="n">options</span><span class="w"> </span><span class="o">=&gt;</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">options</span><span class="p">.</span><span class="n">ScalarEditors</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="s">"Our.ColorPicker"</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div>
+<p>or in configuration:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">"Ferry"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"Editors"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"ScalarEditors"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Our.ColorPicker"</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<p>If the value holds a page or media key, a scalar contract copies it without the dependency, so the page may not exist
+on the destination. Use a mapped editor instead.</p>
+<h2 id="mapped-editors">Mapped editors<a class="headerlink" href="#mapped-editors" title="Permanent link">&para;</a></h2>
+<p>A mapped editor needs a uSync <code>ISyncMapper</code> that</p>
+<ul>
+<li>returns the value to export (<code>GetExportValueAsync</code>) and to import (<code>GetImportValueAsync</code>);</li>
+<li>reports every page and media item the value points at (<code>GetDependenciesAsync</code>), so they travel with the page and the
+  review shows them.</li>
+</ul>
+<p>Keys are the same on both sites after a Ferry transfer, so a value that stores keys or <code>umb://</code> UDIs can usually be
+copied unchanged; the mapper's job is to report the references. Ferry checks the round trip and the declared references
+before saving content.</p>
+<div class="highlight"><pre><span></span><code><span class="na">[HideFromTypeFinder]</span>
+<span class="k">public</span><span class="w"> </span><span class="k">sealed</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">LinkCardMapper</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ISyncMapper</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="n">Name</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s">"Link card"</span><span class="p">;</span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">string</span><span class="p">[]</span><span class="w"> </span><span class="n">Editors</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">[</span><span class="s">"Our.LinkCard"</span><span class="p">];</span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="nf">IsMapper</span><span class="p">(</span><span class="n">PropertyType</span><span class="w"> </span><span class="n">propertyType</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">propertyType</span><span class="p">.</span><span class="n">PropertyEditorAlias</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">"Our.LinkCard"</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="n">Task</span><span class="o">&lt;</span><span class="kt">string?</span><span class="o">&gt;</span><span class="w"> </span><span class="n">GetExportValueAsync</span><span class="p">(</span><span class="kt">object</span><span class="w"> </span><span class="k">value</span><span class="p">,</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="n">editorAlias</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">Task</span><span class="p">.</span><span class="n">FromResult</span><span class="p">(</span><span class="k">value</span><span class="o">?.</span><span class="n">ToString</span><span class="p">());</span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="n">Task</span><span class="o">&lt;</span><span class="kt">string?</span><span class="o">&gt;</span><span class="w"> </span><span class="n">GetImportValueAsync</span><span class="p">(</span><span class="kt">string</span><span class="w"> </span><span class="k">value</span><span class="p">,</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="n">editorAlias</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">Task</span><span class="p">.</span><span class="n">FromResult</span><span class="o">&lt;</span><span class="kt">string?</span><span class="o">&gt;</span><span class="p">(</span><span class="k">value</span><span class="p">);</span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="n">Task</span><span class="o">&lt;</span><span class="kt">string?</span><span class="o">&gt;</span><span class="w"> </span><span class="n">GetImportValueAsync</span><span class="p">(</span><span class="kt">string</span><span class="w"> </span><span class="k">value</span><span class="p">,</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="n">editorAlias</span><span class="p">,</span><span class="w"> </span><span class="n">SyncSerializerOptions</span><span class="w"> </span><span class="n">options</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span>
+<span class="w">        </span><span class="n">Task</span><span class="p">.</span><span class="n">FromResult</span><span class="o">&lt;</span><span class="kt">string?</span><span class="o">&gt;</span><span class="p">(</span><span class="k">value</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="n">Task</span><span class="o">&lt;</span><span class="n">IEnumerable</span><span class="o">&lt;</span><span class="n">uSyncDependency</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">GetDependenciesAsync</span><span class="p">(</span><span class="kt">object</span><span class="w"> </span><span class="k">value</span><span class="p">,</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="n">editorAlias</span><span class="p">,</span><span class="w"> </span><span class="n">DependencyFlags</span><span class="w"> </span><span class="n">flags</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span>
+<span class="w">        </span><span class="n">Task</span><span class="p">.</span><span class="n">FromResult</span><span class="o">&lt;</span><span class="n">IEnumerable</span><span class="o">&lt;</span><span class="n">uSyncDependency</span><span class="o">&gt;&gt;</span><span class="p">(</span><span class="n">PageKeys</span><span class="p">(</span><span class="k">value</span><span class="o">?.</span><span class="n">ToString</span><span class="p">())</span>
+<span class="w">            </span><span class="p">.</span><span class="n">Select</span><span class="p">(</span><span class="n">key</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">GuidUdi</span><span class="p">(</span><span class="n">Constants</span><span class="p">.</span><span class="n">UdiEntityType</span><span class="p">.</span><span class="n">Document</span><span class="p">,</span><span class="w"> </span><span class="n">key</span><span class="p">))</span>
+<span class="w">            </span><span class="p">.</span><span class="n">Select</span><span class="p">(</span><span class="n">udi</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">uSyncDependency</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">                </span><span class="n">Name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">udi</span><span class="p">.</span><span class="n">ToString</span><span class="p">(),</span><span class="w"> </span><span class="n">Udi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">udi</span><span class="p">,</span><span class="w"> </span><span class="n">Flags</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">flags</span><span class="p">,</span>
+<span class="w">                </span><span class="n">Order</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DependencyOrders</span><span class="p">.</span><span class="n">OrderFromEntityType</span><span class="p">(</span><span class="n">udi</span><span class="p">.</span><span class="n">EntityType</span><span class="p">),</span><span class="w"> </span><span class="n">Level</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">            </span><span class="p">}).</span><span class="n">ToArray</span><span class="p">());</span>
+
+<span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="k">static</span><span class="w"> </span><span class="n">IEnumerable</span><span class="o">&lt;</span><span class="n">Guid</span><span class="o">&gt;</span><span class="w"> </span><span class="n">PageKeys</span><span class="p">(</span><span class="kt">string?</span><span class="w"> </span><span class="k">value</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="cm">/* read the keys out of your stored JSON */</span><span class="w"> </span><span class="p">[];</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Register the mapper and declare the editor:</p>
+<div class="highlight"><pre><span></span><code><span class="n">builder</span><span class="p">.</span><span class="n">WithCollectionBuilder</span><span class="o">&lt;</span><span class="n">SyncValueMapperCollectionBuilder</span><span class="o">&gt;</span><span class="p">().</span><span class="n">Add</span><span class="o">&lt;</span><span class="n">LinkCardMapper</span><span class="o">&gt;</span><span class="p">();</span>
+<span class="n">builder</span><span class="p">.</span><span class="n">AddFerryUmbracoFull</span><span class="p">(</span><span class="n">options</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">options</span><span class="p">.</span><span class="n">MappedEditors</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="s">"Our.LinkCard"</span><span class="p">));</span>
+</code></pre></div>
+<p>Declaring an alias does not create a mapper: without one, content using the editor is still refused. Ferry's own
+<code>ContentmentReferenceMapper</code> and <code>MetaMomentumMapper</code> are working examples.</p>
+<p>Test the editor on two disposable sites whose local ids differ: create content on one, Send it, and check that a second
+review plans it as unchanged.</p>
+<h2 id="package-providers">Package providers<a class="headerlink" href="#package-providers" title="Permanent link">&para;</a></h2>
+<p>Some packages keep data outside content, in their own tables: redirects, form definitions, banners, settings. A package
+provider lets that data travel in the same transfer as the pages and media it points at.</p>
+<p>Ferry ships two:</p>
+<table>
+<thead>
+<tr>
+<th>Package</th>
+<th>Provider</th>
+<th>What travels</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://github.com/skybrud/Skybrud.Umbraco.Redirects">Skybrud.Umbraco.Redirects</a></td>
+<td><code>Ferry.Skybrud.Redirects</code>, <code>builder.AddFerrySkybrudRedirects()</code></td>
+<td>Redirects with their root page and destination page or media. Destination URLs must be site paths or http(s) URLs.</td>
+</tr>
+<tr>
+<td>Umbraco Forms</td>
+<td><code>Ferry.Umbraco.Forms</code>, <code>builder.AddFerryUmbracoForms()</code></td>
+<td>Form definitions with their workflows, and the page a form goes to after submit. The form and theme pickers are accepted as plain values. Records, folders, prevalue sources and data sources are not transferred; a form that uses a prevalue or data source needs it on the destination first.</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code><span class="n">builder</span><span class="p">.</span><span class="n">AddFerryUmbracoFull</span><span class="p">();</span>
+<span class="n">builder</span><span class="p">.</span><span class="n">AddFerrySkybrudRedirects</span><span class="p">();</span>
+<span class="n">builder</span><span class="p">.</span><span class="n">AddFerryUmbracoForms</span><span class="p">();</span>
+</code></pre></div>
+<p>Forms workflows act on the server, so every workflow and field setting is checked: a view path must stay inside the
+site's views, and an address must be an http or https URL to a public host. Ferry checks the address as written; it
+cannot see what a host name resolves to when Umbraco Forms later calls it.</p>
+<h3 id="turning-it-on">Turning it on<a class="headerlink" href="#turning-it-on" title="Permanent link">&para;</a></h3>
+<p>Package data is off by default, because a provider writes to tables Ferry does not otherwise touch. Turn it on on
+<strong>both</strong> sites:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">"Ferry"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"Full"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"AllowPackageItemTransfer"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<p>Each site advertises its providers. A site that receives items for a provider it does not have refuses the transfer
+before anything is written, with a message that names the provider.</p>
+<h3 id="what-a-transfer-does">What a transfer does<a class="headerlink" href="#what-a-transfer-does" title="Permanent link">&para;</a></h3>
+<ul>
+<li>A <strong>whole-site</strong> transfer carries every item of every provider.</li>
+<li>A <strong>selected</strong> transfer carries the items whose pages and media are all in the selection. An item that points at
+  nothing, such as a form with no page after submit, travels only in a whole-site transfer.</li>
+<li>Each item keeps its key on every site, shows in the review as "<em>ItemName</em>: <em>name</em>" with its changed fields, and is
+  written after the pages and media it points at, inside the same apply.</li>
+<li>An item that points at a page or media item that is missing or in the recycle bin is left out of the export and
+  logged: it is already broken on the source.</li>
+<li>Items are created or updated, never deleted.</li>
+</ul>
+<h3 id="writing-a-provider">Writing a provider<a class="headerlink" href="#writing-a-provider" title="Permanent link">&para;</a></h3>
+<p>Implement <code>IFerryPackageProvider</code> (namespace <code>Ferry.Umbraco.Packages</code>):</p>
+<table>
+<thead>
+<tr>
+<th>Member</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Alias</code></td>
+<td>Stable id, lowercase letters, digits and dashes, for example <code>our-banners</code>. Never change it.</td>
+</tr>
+<tr>
+<td><code>ItemName</code></td>
+<td>What one item is called in the review, for example <code>Banner</code>.</td>
+</tr>
+<tr>
+<td><code>ExportAllAsync</code></td>
+<td>Every item on this site.</td>
+</tr>
+<tr>
+<td><code>ExportAsync(key)</code></td>
+<td>One item, or null. Ferry compares it with the incoming item.</td>
+</tr>
+<tr>
+<td><code>ValidateAsync(item)</code></td>
+<td>Checks an incoming item before anything is written; throw <code>InvalidOperationException</code> or <code>NotSupportedException</code> with a message for the reviewer.</td>
+</tr>
+<tr>
+<td><code>ApplyAsync(item)</code></td>
+<td>Creates or updates the item, keeping its key.</td>
+</tr>
+</tbody>
+</table>
+<p>Each item is a <code>FerryPackageItem(Key, Name, Data, References)</code>:</p>
+<ul>
+<li><code>Data</code> is a JSON object with the item's portable settings. Leave out local integer ids, dates and anything derived,
+  so an unchanged item compares equal on both sites. Ferry sorts object properties, so field order does not matter.</li>
+<li><code>References</code> lists the pages (<code>FerryReferenceKind.Document</code>) and media (<code>FerryReferenceKind.Media</code>) the item needs,
+  by key. Ferry checks they exist on the destination or come in the same transfer.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="k">public</span><span class="w"> </span><span class="k">sealed</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nf">BannerProvider</span><span class="p">(</span><span class="n">IBannerService</span><span class="w"> </span><span class="n">banners</span><span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">IFerryPackageProvider</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="n">Alias</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s">"our-banners"</span><span class="p">;</span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="n">ItemName</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s">"Banner"</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="n">Task</span><span class="o">&lt;</span><span class="n">IReadOnlyList</span><span class="o">&lt;</span><span class="n">FerryPackageItem</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">ExportAllAsync</span><span class="p">(</span><span class="n">CancellationToken</span><span class="w"> </span><span class="n">token</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span>
+<span class="w">        </span><span class="n">Task</span><span class="p">.</span><span class="n">FromResult</span><span class="o">&lt;</span><span class="n">IReadOnlyList</span><span class="o">&lt;</span><span class="n">FerryPackageItem</span><span class="o">&gt;&gt;</span><span class="p">(</span><span class="n">banners</span><span class="p">.</span><span class="n">GetAll</span><span class="p">().</span><span class="n">Select</span><span class="p">(</span><span class="n">ToItem</span><span class="p">).</span><span class="n">ToArray</span><span class="p">());</span>
+
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="n">Task</span><span class="o">&lt;</span><span class="n">FerryPackageItem</span><span class="o">?&gt;</span><span class="w"> </span><span class="n">ExportAsync</span><span class="p">(</span><span class="n">Guid</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">CancellationToken</span><span class="w"> </span><span class="n">token</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span>
+<span class="w">        </span><span class="n">Task</span><span class="p">.</span><span class="n">FromResult</span><span class="p">(</span><span class="n">banners</span><span class="p">.</span><span class="n">Get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="n">banner</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">ToItem</span><span class="p">(</span><span class="n">banner</span><span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="k">null</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="n">Task</span><span class="w"> </span><span class="nf">ValidateAsync</span><span class="p">(</span><span class="n">FerryPackageItem</span><span class="w"> </span><span class="n">item</span><span class="p">,</span><span class="w"> </span><span class="n">CancellationToken</span><span class="w"> </span><span class="n">token</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">Task</span><span class="p">.</span><span class="n">CompletedTask</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="n">Task</span><span class="w"> </span><span class="nf">ApplyAsync</span><span class="p">(</span><span class="n">FerryPackageItem</span><span class="w"> </span><span class="n">item</span><span class="p">,</span><span class="w"> </span><span class="n">CancellationToken</span><span class="w"> </span><span class="n">token</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">banner</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">banners</span><span class="p">.</span><span class="n">Get</span><span class="p">(</span><span class="n">item</span><span class="p">.</span><span class="n">Key</span><span class="p">)</span><span class="w"> </span><span class="o">??</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Banner</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">Key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">item</span><span class="p">.</span><span class="n">Key</span><span class="w"> </span><span class="p">};</span>
+<span class="w">        </span><span class="n">banner</span><span class="p">.</span><span class="n">Text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">string?</span><span class="p">)</span><span class="n">item</span><span class="p">.</span><span class="n">Data</span><span class="p">[</span><span class="s">"text"</span><span class="p">]</span><span class="w"> </span><span class="o">??</span><span class="w"> </span><span class="s">""</span><span class="p">;</span>
+<span class="w">        </span><span class="n">banner</span><span class="p">.</span><span class="n">ImageKey</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">string?</span><span class="p">)</span><span class="n">item</span><span class="p">.</span><span class="n">Data</span><span class="p">[</span><span class="s">"image"</span><span class="p">]</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="n">image</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">Guid</span><span class="p">.</span><span class="n">Parse</span><span class="p">(</span><span class="n">image</span><span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="k">null</span><span class="p">;</span>
+<span class="w">        </span><span class="n">banners</span><span class="p">.</span><span class="n">Save</span><span class="p">(</span><span class="n">banner</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">Task</span><span class="p">.</span><span class="n">CompletedTask</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="k">static</span><span class="w"> </span><span class="n">FerryPackageItem</span><span class="w"> </span><span class="nf">ToItem</span><span class="p">(</span><span class="n">Banner</span><span class="w"> </span><span class="n">banner</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="k">new</span><span class="p">(</span>
+<span class="w">        </span><span class="n">banner</span><span class="p">.</span><span class="n">Key</span><span class="p">,</span><span class="w"> </span><span class="n">banner</span><span class="p">.</span><span class="n">Text</span><span class="p">,</span>
+<span class="w">        </span><span class="k">new</span><span class="w"> </span><span class="n">JsonObject</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">[</span><span class="s">"text"</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">banner</span><span class="p">.</span><span class="n">Text</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="s">"image"</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">banner</span><span class="p">.</span><span class="n">ImageKey</span><span class="o">?.</span><span class="n">ToString</span><span class="p">(</span><span class="s">"D"</span><span class="p">)</span><span class="w"> </span><span class="p">},</span>
+<span class="w">        </span><span class="n">banner</span><span class="p">.</span><span class="n">ImageKey</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="n">image</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="p">[</span><span class="k">new</span><span class="p">(</span><span class="n">FerryReferenceKind</span><span class="p">.</span><span class="n">Media</span><span class="p">,</span><span class="w"> </span><span class="n">image</span><span class="p">)]</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[]);</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Register it on both sites:</p>
+<div class="highlight"><pre><span></span><code><span class="n">builder</span><span class="p">.</span><span class="n">AddFerryPackageProvider</span><span class="o">&lt;</span><span class="n">BannerProvider</span><span class="o">&gt;</span><span class="p">();</span>
+</code></pre></div>
+<p>Guidelines:</p>
+<ul>
+<li><strong>Treat incoming data as untrusted.</strong> It came from another site. Validate every field in <code>ValidateAsync</code> and again in
+  <code>ApplyAsync</code>: lengths, enums, and above all URLs (the Skybrud provider accepts only site paths and http(s) URLs).</li>
+<li><strong>Keep the key.</strong> If the package's API gives new items a random key, set the source's key after creating it (the
+  Skybrud provider updates its row in the apply's scope).</li>
+<li><strong>Map local ids.</strong> If the package stores a page's integer id, store the key in <code>Data</code> and look up the local id when
+  applying.</li>
+<li><strong>Clash with a different local item</strong> (same URL, same alias, other key): refuse it in <code>ValidateAsync</code> with a message
+  that names both.</li>
+<li>Payloads are limited to 256 KiB per item and 32 providers per site.</li>
+</ul>
+<p><code>SkybrudRedirectsProvider</code> in <code>src/Ferry.Skybrud.Redirects</code> is the reference implementation.</p>
+<h2 id="media-file-types">Media file types<a class="headerlink" href="#media-file-types" title="Permanent link">&para;</a></h2>
+<p>Ferry allows common image, document, audio, video and font types. To carry another static type, list it on both sites:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">"Ferry"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"Full"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"AdditionalMediaExtensions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">".pdn"</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<p>Types a browser or the server can run (<code>.html</code>, <code>.js</code>, <code>.svgz</code>, <code>.cshtml</code>, <code>.exe</code> and similar) are refused at startup.</p>
+<h2 id="sqlite-and-large-transfers">SQLite and large transfers<a class="headerlink" href="#sqlite-and-large-transfers" title="Permanent link">&para;</a></h2>
+<p>On SQLite, Umbraco's relation tracking reads and then writes after each save without taking a write lock. A commit
+from another connection in between, such as one of Umbraco's background jobs, which run every few seconds, fails it
+with "database is locked" after minutes of retries. Ferry keeps its own background writes out of that gap. For a large
+first transfer into a SQLite site, set <code>Umbraco:CMS:DistributedJobs:Delay</code> to a few hours on the receiving site for the
+transfer, or use SQL Server.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../code-first-schema/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Code-first schema">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Code-first schema
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../umbraco-package-guide/" class="md-footer__link md-footer__link--next" aria-label="Next: Package integration">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Package integration
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2026 Keuri Castillo. Free to use under the Ferry Freeware License.
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.sections", "navigation.top", "navigation.footer", "search.highlight", "content.code.copy", "toc.follow"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>

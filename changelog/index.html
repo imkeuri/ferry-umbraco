@@ -1,0 +1,1330 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Code-first schema and reviewed content deployment for Umbraco 17. Free to use, closed source.">
+      
+      
+      
+        <link rel="canonical" href="https://imkeuri.github.io/ferry-umbraco/changelog/">
+      
+      
+        <link rel="prev" href="../research/peer-policy-design/">
+      
+      
+        <link rel="next" href="../license/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.23">
+    
+    
+      
+        <title>Changelog - Ferry for Umbraco</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.84d31ad4.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#changelog" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Ferry for Umbraco" class="md-header__button md-logo" aria-label="Ferry for Umbraco" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Ferry for Umbraco
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Changelog
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/imkeuri/ferry-umbraco" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    imkeuri/ferry-umbraco
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Ferry for Umbraco" class="md-nav__button md-logo" aria-label="Ferry for Umbraco" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Ferry for Umbraco
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/imkeuri/ferry-umbraco" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    imkeuri/ferry-umbraco
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Guides
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Guides
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../supported-scope/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Supported scope
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../code-first-schema/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Code-first schema
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../extending/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Extending Ferry
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../umbraco-package-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Package integration
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Evidence
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Evidence
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../real-site-validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Real-site validation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../validation-record/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Validation record
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../acceptance-checklist/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Acceptance checklist
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../usync-api-findings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    uSync API findings
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Design notes
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Design notes
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../research/core-usync-integration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    uSync integration
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../research/peer-policy-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Peer policies
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Changelog
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Changelog
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#040-beta1-first-public-release" class="md-nav__link">
+    <span class="md-ellipsis">
+      0.4.0-beta.1 — first public release
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.4.0-beta.1 — first public release">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#license-and-distribution" class="md-nav__link">
+    <span class="md-ellipsis">
+      License and distribution
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#package-data-in-transfers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Package data in transfers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixes-from-two-more-real-site-trials-umbraco-17-2800-items-with-19-redirects-6600-items-with-a-form" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fixes from two more real-site trials (Umbraco 17: 2,800 items with 19 redirects; 6,600 items with a form)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#030-alpha1-2026-10-24" class="md-nav__link">
+    <span class="md-ellipsis">
+      0.3.0-alpha.1 — 2026-10-24
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.3.0-alpha.1 — 2026-10-24">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#code-first-schema" class="md-nav__link">
+    <span class="md-ellipsis">
+      Code-first schema
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#backoffice" class="md-nav__link">
+    <span class="md-ellipsis">
+      Backoffice
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fixes
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#020-alpha1-2026-10-23" class="md-nav__link">
+    <span class="md-ellipsis">
+      0.2.0-alpha.1 — 2026-10-23
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.2.0-alpha.1 — 2026-10-23">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#renamed-and-standalone" class="md-nav__link">
+    <span class="md-ellipsis">
+      Renamed and standalone
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#backoffice-redesign" class="md-nav__link">
+    <span class="md-ellipsis">
+      Backoffice redesign
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features" class="md-nav__link">
+    <span class="md-ellipsis">
+      Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixes-and-maintenance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fixes and maintenance
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#010-alpha1" class="md-nav__link">
+    <span class="md-ellipsis">
+      0.1.0-alpha.1
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../license/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    License
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../third-party-notices/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Third-party notices
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#040-beta1-first-public-release" class="md-nav__link">
+    <span class="md-ellipsis">
+      0.4.0-beta.1 — first public release
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.4.0-beta.1 — first public release">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#license-and-distribution" class="md-nav__link">
+    <span class="md-ellipsis">
+      License and distribution
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#package-data-in-transfers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Package data in transfers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixes-from-two-more-real-site-trials-umbraco-17-2800-items-with-19-redirects-6600-items-with-a-form" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fixes from two more real-site trials (Umbraco 17: 2,800 items with 19 redirects; 6,600 items with a form)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#030-alpha1-2026-10-24" class="md-nav__link">
+    <span class="md-ellipsis">
+      0.3.0-alpha.1 — 2026-10-24
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.3.0-alpha.1 — 2026-10-24">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#code-first-schema" class="md-nav__link">
+    <span class="md-ellipsis">
+      Code-first schema
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#backoffice" class="md-nav__link">
+    <span class="md-ellipsis">
+      Backoffice
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fixes
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#020-alpha1-2026-10-23" class="md-nav__link">
+    <span class="md-ellipsis">
+      0.2.0-alpha.1 — 2026-10-23
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.2.0-alpha.1 — 2026-10-23">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#renamed-and-standalone" class="md-nav__link">
+    <span class="md-ellipsis">
+      Renamed and standalone
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#backoffice-redesign" class="md-nav__link">
+    <span class="md-ellipsis">
+      Backoffice redesign
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features" class="md-nav__link">
+    <span class="md-ellipsis">
+      Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixes-and-maintenance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fixes and maintenance
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#010-alpha1" class="md-nav__link">
+    <span class="md-ellipsis">
+      0.1.0-alpha.1
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="changelog">Changelog<a class="headerlink" href="#changelog" title="Permanent link">&para;</a></h1>
+<p>All notable changes to Ferry. Versions follow <a href="https://semver.org/">Semantic Versioning</a>; while Ferry is pre-1.0,
+minor versions may contain breaking changes.</p>
+<h2 id="040-beta1-first-public-release">0.4.0-beta.1 — first public release<a class="headerlink" href="#040-beta1-first-public-release" title="Permanent link">&para;</a></h2>
+<h3 id="license-and-distribution">License and distribution<a class="headerlink" href="#license-and-distribution" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Ferry is now free to use and closed source</strong>, under the <a href="../license/">Ferry Freeware License</a>: free for any site,
+  including commercial work; no redistribution, modification or reverse engineering. Earlier builds were never
+  published.</li>
+<li>Packages ship obfuscated, without source, symbols or repository links. <code>scripts/release.py</code> builds and checks them;
+  the package E2E checks run against the same obfuscated build.</li>
+</ul>
+<h3 id="package-data-in-transfers">Package data in transfers<a class="headerlink" href="#package-data-in-transfers" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Package providers</strong>: a package can add data it keeps outside content (redirects, forms, …) to Ferry transfers
+  by implementing <code>IFerryPackageProvider</code>. Items keep their keys, show in the review with their changed fields, and
+  are written after the pages and media they point at. Off by default: set <code>Ferry:Full:AllowPackageItemTransfer</code> on
+  both sites. A site without the provider refuses those items before anything is written. See
+  <a href="../extending/">extending Ferry</a>.</li>
+<li><strong><code>Ferry.Skybrud.Redirects</code></strong> carries Skybrud redirects. Destination URLs must be site paths or http(s) URLs.</li>
+<li><strong><code>Ferry.Umbraco.Forms</code></strong> carries Umbraco Forms definitions with their workflows, and accepts the form and theme
+  pickers. Workflow view paths must stay inside the site's views, and address settings must be public http(s) URLs.</li>
+<li><strong><code>Ferry:Full:AdditionalMediaExtensions</code></strong> allows a site's own static media types (for example <code>.pdn</code>). Types a
+  browser or the server can run are refused.</li>
+</ul>
+<h3 id="fixes-from-two-more-real-site-trials-umbraco-17-2800-items-with-19-redirects-6600-items-with-a-form">Fixes from two more real-site trials (Umbraco 17: 2,800 items with 19 redirects; 6,600 items with a form)<a class="headerlink" href="#fixes-from-two-more-real-site-trials-umbraco-17-2800-items-with-19-redirects-6600-items-with-a-form" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Templates whose <code>Layout</code> is a plain view rather than a template transfer, including over an existing view file.</li>
+<li>Pages that no longer fit their type's root or child rules copy as the source has them when the type comes along.</li>
+<li>Blueprints kept in a blueprint folder no longer stop a whole-site export.</li>
+<li>The display-only <code>Umbraco.ListView</code> property of upgraded sites is accepted.</li>
+<li>Legacy <code>{localLink:umb://…}</code> links in rich text inside blocks no longer block the import.</li>
+<li>On SQLite, Ferry's lease renewal no longer commits in the middle of an entity write, where Umbraco's relation
+  tracking would fail with "database is locked" after retrying for minutes.</li>
+<li>Legacy <code>{localLink:1234}</code> links by integer id approve the page they resolve to, so the import no longer refuses
+  them as unapproved references.</li>
+<li>A page whose type varies by culture but that exists in no language is left out of a whole-site export with a
+  warning, instead of stopping it.</li>
+<li>Changing a data type's editor or storage, or changing or removing a property, is allowed when no stored value uses
+  it (a fresh site's built-in types). Element types always count as used, since block values are stored in pages.</li>
+<li>Block values that uSync writes in another order compare equal.</li>
+<li>A peer request refused with 422 is logged with its cause on the refusing site.</li>
+<li>The "would lose or change data" message shows both values as text where they differ.</li>
+</ul>
+<h2 id="030-alpha1-2026-10-24">0.3.0-alpha.1 — 2026-10-24<a class="headerlink" href="#030-alpha1-2026-10-24" title="Permanent link">&para;</a></h2>
+<h3 id="code-first-schema">Code-first schema<a class="headerlink" href="#code-first-schema" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong><code>SchemaBuilder</code> covers the whole schema</strong> (#30):</li>
+<li>data types, with uSync's portable configuration;</li>
+<li>templates (the view file ships with the site; the layout comes from its <code>Layout</code>);</li>
+<li>languages, media types and custom relation types;</li>
+<li>document types with tabs and nested groups, folders, allowed and default templates, list views, variations,
+    history cleanup and every property setting.
+  Definitions are written through the same uSync serializers transfers use, so a migration produces exactly the schema
+  a content-only transfer compares. Nothing is removed, and destructive changes are refused.</li>
+<li><strong>Adopt code-first on an existing site</strong> (#30, #33):</li>
+<li><strong>Settings › Ferry › Advanced › Download schema as code</strong>, or <code>GET community-sync/schema/code</code>, writes the site's
+    schema as one migration that keeps every key.</li>
+<li>The download is a zip with one partial-class file per schema kind; <code>format=cs</code> returns a single file.</li>
+<li>Validated on a real client site (165 document types, 463 data types): a fresh content-only install ran the
+    migration and got 6,117 items with every schema item unchanged.</li>
+</ul>
+<h3 id="backoffice">Backoffice<a class="headerlink" href="#backoffice" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Spanish translation</strong> (#31). Every term the backoffice uses now has English and Spanish text, including the
+  workspace tab labels; a test keeps it that way.</li>
+<li><strong>Accessibility checks</strong> with axe in the light and dark themes (#31); the Danger zone heading contrast is fixed.</li>
+<li><strong>Queue changes survive a reload</strong> (#32): clearing the queue and reloading at once no longer brings items back.</li>
+</ul>
+<h3 id="fixes">Fixes<a class="headerlink" href="#fixes" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Real-site Get fixes</strong> (#29):</li>
+<li>non-root pages kept their templates;</li>
+<li>template layouts come from the Razor <code>Layout</code>;</li>
+<li><code>.jfif</code>, <code>.jpe</code>, <code>.heic</code> and <code>.heif</code> media are allowed;</li>
+<li>orphan segment values are skipped;</li>
+<li><code>FerryImport.IsActive</code> lets site handlers skip work during an apply;</li>
+<li>legacy block UDIs, SQL Server and SQLite dates, empty values and empty rich-text blocks no longer plan as updates.</li>
+<li><strong>Items Umbraco renamed "Name (n)"</strong> because a destination sibling holds the source name plan as unchanged (#32).</li>
+<li>The packaged dashboard imported a chunk that was not committed; CI now fails when the committed backoffice build
+  differs from a fresh one (#31).</li>
+<li><strong>SQLite: a durable apply could stall for minutes</strong> while its restore point was saved. Ferry's database work read and
+  then wrote in one deferred transaction; when another request committed in between, SQLite refused the write
+  (<code>SQLITE_BUSY_SNAPSHOT</code>), which waiting never fixes, and the provider kept retrying it. Ferry's write work now takes
+  SQLite's write lock first, as Umbraco does.</li>
+<li>The E2E fixture uses SQLite <code>Cache=Private</code>, which ends an intermittent Umbraco database deadlock in UI tests (#32).
+  The README now recommends SQL Server for production sites that receive transfers.</li>
+</ul>
+<h2 id="020-alpha1-2026-10-23">0.2.0-alpha.1 — 2026-10-23<a class="headerlink" href="#020-alpha1-2026-10-23" title="Permanent link">&para;</a></h2>
+<h3 id="renamed-and-standalone">Renamed and standalone<a class="headerlink" href="#renamed-and-standalone" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>CommunitySync is now Ferry</strong> (#19). Packages are <code>Ferry.Core</code>, <code>Ferry.Transport</code>, <code>Ferry.Umbraco</code> and
+  <code>Ferry.Backoffice</code>. Configuration lives under <code>Ferry</code>; a site with only a <code>CommunitySync</code> section keeps working.
+  Database tables, routes, headers, permission verbs and file formats keep their CommunitySync names, so existing
+  sites and peers interoperate. See <em>Upgrading from CommunitySync</em> in the README.</li>
+<li><strong>Standalone package</strong> (#20). Ferry no longer extends uSync's backoffice: it has its own workspace under
+  Settings › Synchronisation and depends only on <code>uSync.Core</code>.</li>
+</ul>
+<h3 id="backoffice-redesign">Backoffice redesign<a class="headerlink" href="#backoffice-redesign" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Send and Get</strong> replace Push and Pull throughout the interface (#21).</li>
+<li><strong>Pickers instead of GUID fields</strong>, with a key fallback for items that exist only on the other site (#21).</li>
+<li><strong>Review screen</strong> leads with a summary ("4 new pages"), calls out schema changes, moves and templates, and keeps
+  the full list and unchanged items behind toggles (#22); the Publish review follows the same layout (#27).</li>
+<li><strong>Overview, Sites, Packages and Advanced tabs</strong> (#23): connected-site diagram, whole-site Send and Get,
+  activity in plain sentences, a Connect a site wizard with pairing codes, drag-and-drop package import, and a danger
+  zone for recycle-bin moves and seeding.</li>
+<li><strong>Top-bar Ferry panel</strong> with Queue and Activity tabs, and an <em>Add to queue</em> action (#23).</li>
+<li>Side-panel buttons sit in the panel footer (#24); compact site cards, a single Synchronisation heading next to
+  uSync, and theme-aware colours (#25); Umbraco form controls, first-run guidance, a Managed in config badge and
+  visible keyboard focus (#27).</li>
+<li>Settings-tab text is translatable through <code>ferry_*</code> keys (#26, #27).</li>
+<li>Connection checks on the Sites tab are cached for five minutes (#26).</li>
+</ul>
+<h3 id="features">Features<a class="headerlink" href="#features" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Editors see their own activity:</strong> <code>GET community-sync/operations/mine</code> (#26).</li>
+<li><strong>Code-first schema:</strong> <code>SchemaBuilder</code> with stable, alias-derived keys (#18).</li>
+<li><strong>Content-only sites:</strong> <code>Ferry:Full:ContentOnly</code> rejects transfers that would change schema (#17).</li>
+<li><strong>Granular permissions</strong> on top of delegated grants (#16) and a <strong>server-side per-user transfer queue</strong> (#14).</li>
+<li><strong>Package import at startup</strong> (#12), a <strong>cluster operation lease</strong> (#11) and <strong>bulk-apply suspensions</strong> (#9).</li>
+</ul>
+<h3 id="fixes-and-maintenance">Fixes and maintenance<a class="headerlink" href="#fixes-and-maintenance" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Audited transitive package versions (#10) and editor reference coverage (#13).</li>
+<li>The E2E harness proxy streams responses in TLS-record chunks; browser specs record failed requests (#25, #26).</li>
+<li>The Settings workspace source is TypeScript.</li>
+</ul>
+<h2 id="010-alpha1">0.1.0-alpha.1<a class="headerlink" href="#010-alpha1" title="Permanent link">&para;</a></h2>
+<p>First experimental release as CommunitySync: reviewed Full-mode Push and Pull, packages, snapshots, publication,
+delegated editors and the native backoffice dashboard. No package was published.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../research/peer-policy-design/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Peer policies">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Peer policies
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../license/" class="md-footer__link md-footer__link--next" aria-label="Next: License">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                License
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2026 Keuri Castillo. Free to use under the Ferry Freeware License.
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.sections", "navigation.top", "navigation.footer", "search.highlight", "content.code.copy", "toc.follow"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>

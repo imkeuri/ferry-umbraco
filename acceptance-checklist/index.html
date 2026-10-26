@@ -1,0 +1,1191 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Code-first schema and reviewed content deployment for Umbraco 17. Free to use, closed source.">
+      
+      
+      
+        <link rel="canonical" href="https://imkeuri.github.io/ferry-umbraco/acceptance-checklist/">
+      
+      
+        <link rel="prev" href="../validation-record/">
+      
+      
+        <link rel="next" href="../usync-api-findings/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.23">
+    
+    
+      
+        <title>Acceptance checklist - Ferry for Umbraco</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.84d31ad4.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#completion-criteria" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Ferry for Umbraco" class="md-header__button md-logo" aria-label="Ferry for Umbraco" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Ferry for Umbraco
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Acceptance checklist
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/imkeuri/ferry-umbraco" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    imkeuri/ferry-umbraco
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Ferry for Umbraco" class="md-nav__button md-logo" aria-label="Ferry for Umbraco" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Ferry for Umbraco
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/imkeuri/ferry-umbraco" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    imkeuri/ferry-umbraco
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Guides
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Guides
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../supported-scope/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Supported scope
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../code-first-schema/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Code-first schema
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../extending/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Extending Ferry
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../umbraco-package-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Package integration
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Evidence
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Evidence
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../real-site-validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Real-site validation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../validation-record/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Validation record
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Acceptance checklist
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Acceptance checklist
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#automated-acceptance-completed" class="md-nav__link">
+    <span class="md-ellipsis">
+      Automated acceptance completed
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#remaining-manualrelease-acceptance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Remaining manual/release acceptance
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../usync-api-findings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    uSync API findings
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Design notes
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Design notes
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../research/core-usync-integration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    uSync integration
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../research/peer-policy-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Peer policies
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../changelog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Changelog
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../license/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    License
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../third-party-notices/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Third-party notices
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#automated-acceptance-completed" class="md-nav__link">
+    <span class="md-ellipsis">
+      Automated acceptance completed
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#remaining-manualrelease-acceptance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Remaining manual/release acceptance
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="completion-criteria">Completion criteria<a class="headerlink" href="#completion-criteria" title="Permanent link">&para;</a></h1>
+<p>This tracks the implemented content-sync and separate explicit-publication scope.
+The experimental Full v5 checkpoint reports 433/433 ordinary .NET tests, a fresh
+exact-NuGet fixture-consumer package install through an isolated Docker SDK, Full
+transfer/publication 22/22, exact-package two-site source-version Published UploadField 6/6, and exact-NuGet culture-Media Push/Pull 2/2, including a
+SQL Server-target restart run. Commands and artifact paths are in the
+<a href="../validation-record/">validation record</a>. All run files live in ignored <code>artifacts/</code>
+and are local evidence; CI evidence is pending. Checked items apply only to Umbraco
+17.6.2 and the specific tested cases, not every site configuration. No commercial
+parity claim is made.</p>
+<h2 id="automated-acceptance-completed">Automated acceptance completed<a class="headerlink" href="#automated-acceptance-completed" title="Permanent link">&para;</a></h2>
+<ul>
+<li>[x] Official isolated SDK; normal restore/build/test with package validation.</li>
+<li>[x] Two independent real SQLite sites over loopback HTTPS with different numeric IDs.</li>
+<li>[x] Draft tree transfer preserving stable keys, hierarchy, values and live versions.</li>
+<li>[x] Administrator opt-in move of existing Content/Media trees. A Full destination
+  must enable <code>AllowExistingTreeMoves</code>; a Push/Pull preview must explicitly request
+  <code>allowMoves</code>. Preview exposes path and affected-descendant impact, binds the
+  affected branch and publication state to approval, and stale edits reject before
+  movement. Native moves carry destination-only descendants. The installed-package
+  two-site Push/Pull suite passed 3/3. Native Content/Media transfer modals and
+  Settings dashboard expose a default-off toggle and passed browser verification.
+  Delegated moves and deletion remain unsupported.</li>
+<li>[x] Receiver-only administrator tree trash of explicit Content/Media destination
+  roots. <code>Ferry:Full:AllowExistingTreeTrash</code> is default-off and must be
+  enabled; named peers need separate <code>TrashPreview</code> and <code>TrashApply</code> grants.
+  Preview accepts 1–100 unique, non-overlapping roots and shows full subtree path,
+  affected descendants and published descendants. It binds branch, ancestor and
+  publication state to a one-use approval; stale state rejects before Umbraco moves
+  the root to its native recycle bin. Recycled or top-level roots and Content branches
+  with scheduled publication are blocked. Transfer omission never trashes, and this
+  feature neither deletes missing items nor empties a recycle bin. The correlated
+  journal before-state is manual recovery evidence, not automatic rollback or
+  published-version restoration. The FINAL2 packaged Full/Full two-site trash suite
+  passed 3/3, including Content/Media recycle-bin descendants, journal correlation,
+  stale and replayed approval rejection, and ordinary-transfer omission
+  (<code>artifacts/e2e/run-fe728d8adbe5/results.json</code>).</li>
+<li>[x] Full-site Dictionary Item preview/apply preserves stable GUID identity, parent
+  hierarchy, translations and language dependencies. This is full-site only; selected
+  Content/Media behavior is unchanged. Moves and deletions are unsupported, and
+  destination translation removals reject. The <code>dictionary-item</code> capability is
+  opt-in, so older peers reject that kind. System audit identity is
+  <code>Umbraco SuperUserKey</code>. NuGet consumer suite passed 1/1 in
+  <code>artifacts/e2e/run-d84b5395c2e5/results.json</code>; package evidence is in
+  <code>artifacts/package-install/run-dictionary-fixed-20260924/result.json</code>.</li>
+<li>[x] Published source-version selection supports invariant and variant Full content.
+  For variants, the current source <code>PublishedCultures</code> set the effective culture scope;
+  each culture's name, template and published value transfer per segment, while drafts
+  in unselected destination cultures persist. Selecting an unpublished source culture
+  rejects. Full-site selection omits unpublished nodes and fails closed when an omitted
+  unpublished ancestor is required. Draft remains the default; destination publication
+  is separate. Peers without the version capability reject the request. Final NuGet
+  consumer source-version suite passed 6/6 in
+  <code>artifacts/e2e/run-8fdee911be35/results.json</code>, including Published UploadField
+  same-path A/B isolation, missing-snapshot rejection before writes, and partial
+  culture carry-forward after an en-US-only republish. Earlier-package browser suites
+  passed 19/19 in <code>artifacts/e2e/browser-snapshot-final/results.json</code>; they predate
+  the current production commit.</li>
+<li>[x] Repeat import unchanged, destination-only preservation and stale approval rejection.</li>
+<li>[x] Existing installed template assignments are retained when their keys match;
+  executable template files and template hierarchies remain site code. The current
+  exact-package Full run (22/22) includes a greenfield missing-template rejection.</li>
+<li>[x] Reject scheduled target content before writes.</li>
+<li>[x] Create missing languages, document/data/media types and compositions.</li>
+<li>[x] Nested block dependency closure and reciprocal content references.</li>
+<li>[x] Reject schema identity collisions and destructive shared data type editor changes.</li>
+<li>[x] Preserve declared native data type storage; block changes requiring migration.</li>
+<li>[x] Invariant/culture Content values and default/named Content segments in tested
+  real-site scenarios.</li>
+<li>[x] Full/Full relational MediaPicker3 values map to the selected destination Media
+  identity, with unchanged repeat preview/apply (2/2 E2E cases). This does not imply
+  support for arbitrary relational Media editors.</li>
+<li>[x] Full/Full Segment-varying scalar Media TextBox values transfer with invariant
+  values and case-varied named segments, then converge to Unchanged on repeat (1/1).
+  Arbitrary segmented editors remain unsupported.</li>
+<li>[x] Full/Full culture-varying Media for the tested name/caption/<code>umbracoFile</code>
+  shape. A clean exact-NuGet two-site Push/Pull suite passed 2/2, including distinct
+  en-US/fr-FR PNG bytes, captions, Ferry durable culture-name metadata,
+  unchanged replay, and a fresh target process (<code>run-d96fcf3e9db4</code>); the SQL
+  Server-target restart run also passed 2/2 (<code>run-7cc1d7cd178d</code>). Umbraco 17.6.2
+  natively reads these culture names as <code>null</code> after a fresh Media read; this proves
+  Ferry transfer persistence, not native Backoffice display or arbitrary
+  culture-varying Media editor support.</li>
+<li>[x] Full/Full Content UploadField transfer uses hash-addressed assets and verifies
+  exact destination bytes. Draft source covers changed source bytes and <code>Unchanged</code>
+  replay. Published source is bounded to immutable publish-time
+  snapshots: instrumented two-site source-version E2E 6/6 proves same deterministic path
+  A/B isolation, exact Published A versus Draft B bytes, repeat <code>Unchanged</code>, a
+  missing-snapshot preview rejection before target writes, and en-US-only partial
+  republish carrying immutable fr-FR bytes forward after its live file is overwritten
+  (<code>artifacts/e2e/run-c7b6236be7ec/results.json</code>). It also verifies native new-content
+  <code>SaveAndPublish</code>: immutable bytes captured before <code>VersionId=0</code> is assigned bind to
+  the resulting <code>PublishedVersionId</code>, transfer exactly, and replay unchanged.
+  Preexisting publications without a snapshot fail closed on Published export.
+  Exact-package SQL Server source E2E 4/4 verifies the snapshot
+  table, <code>PK_cmsCommunitySyncPublishedContentAsset</code>, and one saved row
+  (<code>artifacts/e2e/run-148ef4ea5e5e/results.json</code>); SQL Server target culture-Media
+  E2E 2/2 verifies table/PK creation with zero snapshot rows as expected
+  (<code>artifacts/e2e/run-923dbb295bb3/results.json</code>). The tested culture-varying shape
+  is limited to en-US-only republish/fr-FR snapshot carry-forward; arbitrary
+  configurations, multi-node hosting, hosted CI, and production topology remain
+  untested.</li>
+<li>[x] Optional Full-mode culture-scoped transfer includes selected variant
+  names/values and invariant values, preserves unselected destination variants, and
+  binds the scope into the frozen manifest and approval fingerprint. A Pull peer
+  without the capability fails closed; creating a scoped variant item requires the
+  default and mandatory cultures. Full package E2E rejects a French-only create when
+  en-US is mandatory: <code>run-ece7838074c4</code>. Full transfer/publication passed 21/21 and
+  admin Pull 4/4 in preceding package <code>run-683eb6a1e837</code>.</li>
+<li>[x] Content/media pickers, rich-text links and embedded image references.</li>
+<li>[x] Media length/hash validation, native target paths and custom media metadata.</li>
+<li>[x] Optional asset-availability optimization: authenticated bounded extension-gated
+  probe verifies staged hash/length; Push, Pull and generic client skip repeat network
+  bytes; old peers fall back to full transfer. Target media remains locally re-exported
+  and staged during planning, so only network byte transfer is saved. Cache eviction
+  falls back safely. Push media passed 1/1 in <code>run-c8985f54771f</code> and Pull passed 4/4
+  in <code>run-b2324d89cce4</code>; proxy-private counters asserted zero repeat GET/PUT transfers.</li>
+<li>[x] Selected-root closure includes required ancestors, schema and referenced entities.</li>
+<li>[x] In Full mode, <code>IScopedSyncDestinationStore</code> reads only destination entities in the dependency
+  closure and external direct prerequisites; the same bounded snapshot drives approval
+  fingerprints and recovery before-state. Unrelated destination edits do not stale
+  approval, while selected-entity or prerequisite edits do. Adapters without scoped
+  destination support retain full-snapshot behavior. Scoped E2E passed 1/1 in
+  <code>run-ae4d8657cce4</code>; the recovery journal remains limited to 64 MiB per record by
+  default and is not an atomic rollback.</li>
+<li>[x] Full-mode source selection ignores unrelated invalid editors/media while
+  selected invalid dependencies still reject; all six typed roots match full-snapshot closure.</li>
+<li>[x] Authenticated peer capabilities declare the implemented protocol, adapter,
+  entity kinds, operations and effective limits; incompatible Full/Draft formats
+  reject before a poisoned source selection can export or write the destination.</li>
+<li>[x] Named receiver peers with explicit operation scopes, rotation tokens, live
+  policy reload after host configuration publication, and HMAC-bound expiring
+  transfer/publication approvals. Invalid policy values fail closed before receiver I/O.</li>
+<li>[x] Unsupported editor diagnostics and documented explicit adapter extension points.</li>
+<li>[x] Hard dependency ordering, cyclic soft references and partial-write reporting.</li>
+<li>[x] Administrative API connections, preview/apply, ownership and single-use approvals.</li>
+<li>[x] Bounded optional preview names/paths from frozen Full manifests; malformed,
+  custom or unavailable projections fall back to Kind/Key without affecting approval.</li>
+<li>[x] Separate publication approval, selected cultures, ancestor validation and
+  mandatory-language protection; publication apply rechecks enabled/destination
+  configuration after capability negotiation; draft transfer does not infer publication.</li>
+<li>[x] Ordinary tests for cancellation, recovery, limits, TLS and process-local locking.</li>
+<li>[x] Opt-in durable Backoffice Push and local Pull: an administrator can select
+  durable Push during review
+  only when the destination advertises <code>durable-transfer-jobs</code> for its authenticated
+  <code>Apply</code> peer. Before one bounded receiver admission POST, the Backoffice rechecks
+  the preview's destination capability, current configuration and administrator
+  access, then persists an owner-bound idempotency mapping. The receiver binds
+  admission and status to that peer owner and <code>Apply</code> permission; same
+  owner/key/request returns the original receipt and a changed request conflicts.
+  The saved mapping supports receipt recovery by idempotency key and status recovery
+  by operation ID. Lost admission/status confirmation and interrupted receiver work
+  remain <code>OutcomeUnknown</code> and require destination inspection; no automatic retry,
+  rollback, cancellation or replay is claimed. Local Pull is separately opt-in through
+  <code>EnableDurableLocalPull</code>, using a separate local-Pull job kind and owner binding.
+  At admission and worker execution it rechecks the configured source, credential,
+  current Pull grant and native permissions. Staged Media assets are preflighted at
+  both points, then consumed through independently verified streams; each asset is
+  limited to 100 MiB. Its idempotency admission and
+  receipt/status recovery are owner-bound, so it cannot cross into receiver-Apply
+  jobs. Durable Push remains unavailable to delegated Push and publication. The
+  latest local test totals and the packaged Media Pull, Push and Full E2E evidence
+  are listed in the <a href="../validation-record/">validation record</a>; those artifact files
+  are ignored and CI evidence is pending.</li>
+<li>[x] Local NuGet consumer restore/build/publish, provenance and static assets.</li>
+<li>[x] Final package's 24 Ferry App_Plugins assets byte-verified and public-base uSync
+  asset mounted in consumer; served import-resolution probes passed (these are not
+  rendered-browser acceptance).</li>
+<li>[x] Native publication picker/workflow and administrator operation history implemented;
+  final-package publication/history real-site scenario passed 1/1.</li>
+<li>[x] Full registration of real base-uSync services/handlers and NuGet coexistence;
+  production packages exclude the fixture probes.</li>
+<li>[x] Native base-uSync exports and updated XML values, unchanged repeats,
+  disabled handler behavior, custom-mapper selection and cancellation semantics.</li>
+<li>[x] Final npm and NuGet dependency audits report zero advisories.</li>
+<li>[x] Setup/scope/failure/version documentation and original/upstream license notices.</li>
+</ul>
+<h2 id="remaining-manualrelease-acceptance">Remaining manual/release acceptance<a class="headerlink" href="#remaining-manualrelease-acceptance" title="Permanent link">&para;</a></h2>
+<ul>
+<li>[x] Delegated editor Push package and real-site acceptance: explicit group alias,
+  connection, local roots, allowed cultures, native Umbraco Read authorization,
+  and default-deny behavior. The final Dictionary-capable package passed its focused
+  two-site suite 1/1 in <code>artifacts/e2e/run-2c2a790f39a7/results.json</code>, including
+  grant revocation between preview and apply.</li>
+<li>
+<p>[x] Delegated editor Pull final-package scenario: explicit valid Pull grant,
+  existing local root, permitted remote root/culture, native permission, and
+  draft-only behavior. Full-site delegated Pull is prohibited; schema changes are
+  denied.</p>
+</li>
+<li>
+<p>[x] B2 administrator opt-in draft pull preview/apply final-package validation,
+  including typed roots, dependency closure, verified assets,
+  capability/configuration drift and recovery journaling.</p>
+</li>
+<li>
+<p>[x] B2 bounded remote Browse metadata API real-site evidence. Configured remote
+  roots, including nested roots, appear in a virtual paged list; delegated editors
+  can navigate descendants after exact ancestry and direct-child checks. Prior and current-package
+  scenarios and ordinary regressions cover separate Browse permission/capability negotiation,
+  1–100 direct-child pages, absent readers, revoked grants before reads, malformed
+  remote JSON, and human breadcrumbs. Native Content/Media actions now consume
+  Browse. The latest package also passed 2/2 dedicated Browse cases.</p>
+</li>
+<li>[x] Optional B2 BrowseSearch name-only metadata API. It has a distinct machine
+  grant and opt-in capability extension, keeps Browse's local/delegated scope
+  proofs, rejects SQL wildcard terms, limits terms to 2–128 characters, result pages
+  to 50 and offsets to 10,000, and never searches properties or returns entity data.
+  The latest package passed 2/2 dedicated BrowseSearch real-site cases.</li>
+<li>
+<p>[x] Administrator Push/Pull field comparison uses the planning snapshot and
+  bounds supported scalar Content/Media values. Receiver Preview needs a current
+  Export grant before target values are returned; delegated responses omit them.
+  Ordinary authorization/projector tests and latest-package real-site Push/Pull
+  assertions passed. The native browser suite exercised the comparison view.</p>
+</li>
+<li>
+<p>[x] Earlier-package native Backoffice browser flows: three suites covering dashboard,
+  transfer, publication, history and browse-authorized remote selection passed 19/19
+  against two disposable Umbraco sites in a Playwright MCP image container
+  (<code>artifacts/e2e/browser-snapshot-final/results.json</code>).</p>
+</li>
+<li>[ ] Broad visual layout, accessibility, cross-browser behavior, browser lifecycle
+  and production topology acceptance. The local container result is not hosted CI or
+  cross-browser evidence.</li>
+<li>[x] Content transfer modal optional localized culture-code input, default-all
+  behavior, and selected-scope review verified in Docker Chromium; Media transfer
+  does not offer culture scope.</li>
+<li>[x] Final-package publication/history scenario passed 1/1; Astra re-review found
+  no remaining P1/P2 issues.</li>
+<li>[ ] Operational acceptance on the intended hosting/database/filesystem topology,
+  with its installed custom editors, backup/restore process and concurrency policy.</li>
+<li>[ ] Large-site transfer capacity beyond the documented request, manifest and
+  BrowseSearch bounds.</li>
+<li>[ ] Maintainer release review and deliberate public package publication, if desired.</li>
+</ul>
+<p>Cancellation controls exist; aborting a request cannot promise rollback or prevent
+an already-started remote write. Recovery records report before-state and known
+outcomes; full site backups and host-specific restore drills remain operational work.
+No production service or public package is deployed automatically.</p>
+<p>Implicit deletion, user/member replication, executable script/template deployment
+and commercial product branding are outside the documented scope.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../validation-record/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Validation record">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Validation record
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../usync-api-findings/" class="md-footer__link md-footer__link--next" aria-label="Next: uSync API findings">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                uSync API findings
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2026 Keuri Castillo. Free to use under the Ferry Freeware License.
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.sections", "navigation.top", "navigation.footer", "search.highlight", "content.code.copy", "toc.follow"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>
