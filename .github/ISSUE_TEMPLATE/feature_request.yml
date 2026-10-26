@@ -1,0 +1,15 @@
+name: Feature request
+description: Suggest an improvement to Ferry.
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes: { label: The problem, description: What are you trying to do, and what gets in the way today? }
+    validations: { required: true }
+  - type: textarea
+    id: idea
+    attributes: { label: What would help }
+    validations: { required: true }
+  - type: input
+    id: umbraco
+    attributes: { label: Umbraco version, placeholder: "17.6.2" }

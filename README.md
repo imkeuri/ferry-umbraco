@@ -471,3 +471,13 @@ See [integration decisions](docs/umbraco-package-guide.md),
 [third-party notices](THIRD-PARTY-NOTICES.md). Ferry is proprietary freeware ([license](LICENSE));
 uSync.Core is an unmodified MPL-2.0 dependency. No commercial uSync.Complete code
 or binaries are included.
+
+## Help and feedback
+
+- **Bugs:** [open an issue](https://github.com/imkeuri/ferry-umbraco/issues/new/choose) with your Ferry and Umbraco
+  versions, the database and the steps. Remove tokens, connection strings and passwords from settings and logs.
+- **Questions and ideas:** [Discussions](https://github.com/imkeuri/ferry-umbraco/discussions).
+- **A package or editor Ferry should support:** use the *Package or editor support* issue form, or add it yourself
+  with [extending Ferry](docs/extending.md).
+- **Security problems:** report them [privately](https://github.com/imkeuri/ferry-umbraco/security/advisories/new),
+  never in a public issue.

@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Questions and ideas
+    url: https://github.com/imkeuri/ferry-umbraco/discussions
+    about: Ask how to do something, or discuss an idea before opening an issue.
+  - name: Documentation
+    url: https://github.com/imkeuri/ferry-umbraco#readme
+    about: Setup, supported scope and the extension guide.
+  - name: Report a security problem
+    url: https://github.com/imkeuri/ferry-umbraco/security/advisories/new
+    about: Report vulnerabilities privately, never in a public issue.

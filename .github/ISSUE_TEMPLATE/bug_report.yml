@@ -1,0 +1,46 @@
+name: Bug report
+description: Something in Ferry does not work as documented.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting. **Never paste secrets**: remove bearer tokens, connection strings, passwords and API keys from settings and logs.
+        Security problems go through [private reporting](https://github.com/imkeuri/ferry-umbraco/security/advisories/new), not here.
+  - type: input
+    id: ferry
+    attributes: { label: Ferry version, placeholder: "0.4.0-beta.1" }
+    validations: { required: true }
+  - type: input
+    id: umbraco
+    attributes: { label: Umbraco version, placeholder: "17.6.2" }
+    validations: { required: true }
+  - type: dropdown
+    id: database
+    attributes:
+      label: Database
+      options: [SQL Server, Azure SQL, SQLite]
+    validations: { required: true }
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options: [Send / Get transfer, Review / preview, Schema / code-first, Media, Packages / snapshots, Backoffice UI, Package provider (redirects, forms, ...), Other]
+    validations: { required: true }
+  - type: textarea
+    id: what
+    attributes: { label: What happened, description: What you did, what you expected and what happened instead. }
+    validations: { required: true }
+  - type: textarea
+    id: steps
+    attributes: { label: Steps to reproduce, placeholder: "1. ...\n2. ..." }
+    validations: { required: true }
+  - type: textarea
+    id: logs
+    attributes:
+      label: Error message and log
+      description: The Ferry error from the review or apply, and the related lines from the Umbraco log of both sites (secrets removed).
+      render: text
+  - type: textarea
+    id: editors
+    attributes: { label: Property editors and packages involved, description: "For example Block List, Contentment, Skybrud redirects." }
