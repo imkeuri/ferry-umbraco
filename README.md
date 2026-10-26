@@ -22,13 +22,10 @@ Ferry keeps schema in your code and moves content between sites, such as develop
 
 **Documentation:** <https://imkeuri.github.io/ferry-umbraco/>
 
-Ferry works alongside uSync: it uses the open-source `uSync.Core` serializers, and uSync files are optional.
+Ferry is a self-contained package: it needs no other synchronisation tool or file export.
 
 > **Free to use, closed source.** Ferry is free for any site, including commercial work, under the
 > [Ferry Freeware License](LICENSE); its source is not published.
->
-> **Not affiliated with uSync or Jumoo.** uSync and uSync Complete are products of Jumoo. Ferry is an independent
-> product and contains no commercial uSync code.
 
 **Status: experimental, pre-1.0.** Tested on Umbraco **17.6.2** and .NET 10. See [supported scope](docs/supported-scope.md)
 for exactly what is verified and the [validation record](docs/validation-record.md) for evidence.
@@ -54,7 +51,7 @@ transport, connections and options.
 
 ## Using the backoffice
 
-Ferry.Backoffice adds a **Ferry** workspace under **Settings › Synchronisation** (next to uSync when it is installed):
+Ferry.Backoffice adds a **Ferry** workspace under **Settings › Synchronisation**:
 
 | Tab | What it is for |
 | --- | --- |
@@ -187,20 +184,15 @@ coordination. See the [supported scope](docs/supported-scope.md) and
 
 Two adapters are available. `AddFerryUmbraco()` supports invariant
 TextBox/TextArea drafts with matching preinstalled schemas.
-`AddFerryUmbracoFull()` is standalone. It uses the open-source `uSync.Core` serializers and
-value mappers internally (`AdduSyncCore()`), retains guarded native content/media writes,
-and never installs the uSync backoffice. A site that also installs uSync keeps it as a
-separate product: uSync registers itself, and its configured save handlers can export
-Ferry's changes to its normal folders. Full mode requires an `ISyncAssetStore`.
+`AddFerryUmbracoFull()` is standalone and writes content and media through Umbraco's own
+services, so other packages' save handlers see Ferry's changes as normal saves. Full mode
+requires an `ISyncAssetStore`.
 See the documented supported editors and verified scenarios above. Existing shared
 data type editor/storage migrations are blocked; declared source storage is
 preserved. Older experimental manifests without this metadata must be re-exported.
 
-The installed BackOffice package also has a native Umbraco composer, so its base
-services can activate independently of Ferry's transport switch or chosen
-adapter. Configure base-uSync export/import behavior through its own settings.
-Our guarded draft path does not invoke the generic uSync import pipeline or invent
-its import-origin notifications. See [the integration contract](docs/research/core-usync-integration.md).
+The installed BackOffice package also has a native Umbraco composer, so its
+services can activate independently of Ferry's transport switch or chosen adapter.
 
 ## Host integration
 
@@ -450,11 +442,8 @@ Executable templates/scripts, account replication and commercial product brandin
 are outside scope; installed template assignments use stable keys.
 
 See [integration decisions](docs/umbraco-package-guide.md),
-[supported scope and recovery limits](docs/supported-scope.md),
-[public API findings](docs/usync-api-findings.md), and
-[third-party notices](THIRD-PARTY-NOTICES.md). Ferry is proprietary freeware ([license](LICENSE));
-uSync.Core is an unmodified MPL-2.0 dependency. No commercial uSync.Complete code
-or binaries are included.
+[supported scope and recovery limits](docs/supported-scope.md) and
+[third-party notices](THIRD-PARTY-NOTICES.md). Ferry is proprietary freeware ([license](LICENSE)).
 
 ## Help and feedback
 

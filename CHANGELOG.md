@@ -38,7 +38,7 @@ minor versions may contain breaking changes.
   warning, instead of stopping it.
 - Changing a data type's editor or storage, or changing or removing a property, is allowed when no stored value uses
   it (a fresh site's built-in types). Element types always count as used, since block values are stored in pages.
-- Block values that uSync writes in another order compare equal.
+- Block values written in another order compare equal.
 - A peer request refused with 422 is logged with its cause on the refusing site.
 - The "would lose or change data" message shows both values as text where they differ.
 
@@ -46,12 +46,12 @@ minor versions may contain breaking changes.
 
 ### Code-first schema
 - **`SchemaBuilder` covers the whole schema** (#30):
-  - data types, with uSync's portable configuration;
+  - data types, with their portable configuration;
   - templates (the view file ships with the site; the layout comes from its `Layout`);
   - languages, media types and custom relation types;
   - document types with tabs and nested groups, folders, allowed and default templates, list views, variations,
     history cleanup and every property setting.
-  Definitions are written through the same uSync serializers transfers use, so a migration produces exactly the schema
+  Definitions are written through the same serializers transfers use, so a migration produces exactly the schema
   a content-only transfer compares. Nothing is removed, and destructive changes are refused.
 - **Adopt code-first on an existing site** (#30, #33):
   - **Settings › Ferry › Advanced › Download schema as code**, or `GET community-sync/schema/code`, writes the site's
@@ -91,8 +91,8 @@ minor versions may contain breaking changes.
   `Ferry.Backoffice`. Configuration lives under `Ferry`; a site with only a `CommunitySync` section keeps working.
   Database tables, routes, headers, permission verbs and file formats keep their CommunitySync names, so existing
   sites and peers interoperate. See *Upgrading from CommunitySync* in the README.
-- **Standalone package** (#20). Ferry no longer extends uSync's backoffice: it has its own workspace under
-  Settings › Synchronisation and depends only on `uSync.Core`.
+- **Standalone package** (#20). Ferry has its own workspace under Settings › Synchronisation and needs no other
+  synchronisation package.
 
 ### Backoffice redesign
 - **Send and Get** replace Push and Pull throughout the interface (#21).
@@ -103,8 +103,8 @@ minor versions may contain breaking changes.
   activity in plain sentences, a Connect a site wizard with pairing codes, drag-and-drop package import, and a danger
   zone for recycle-bin moves and seeding.
 - **Top-bar Ferry panel** with Queue and Activity tabs, and an *Add to queue* action (#23).
-- Side-panel buttons sit in the panel footer (#24); compact site cards, a single Synchronisation heading next to
-  uSync, and theme-aware colours (#25); Umbraco form controls, first-run guidance, a Managed in config badge and
+- Side-panel buttons sit in the panel footer (#24); compact site cards, a single Synchronisation heading, and
+  theme-aware colours (#25); Umbraco form controls, first-run guidance, a Managed in config badge and
   visible keyboard focus (#27).
 - Settings-tab text is translatable through `ferry_*` keys (#26, #27).
 - Connection checks on the Sites tab are cached for five minutes (#26).

@@ -5,13 +5,13 @@ instances. This records what a real site exposed that the synthetic E2E fixtures
 
 ## Setup
 
-- Site: an agency client site on Umbraco 17.5.3 with uSync, Contentment, Block List, MetaMomentum and
+- Site: an agency client site on Umbraco 17.5.3 with Contentment, Block List, MetaMomentum and
   Google Maps editors; Azure Blob media storage.
-- Source: fresh SQL Server database seeded from the site's own uSync export — 9,182 documents, 5,168 media,
+- Source: fresh SQL Server database seeded from the site's own schema and content export — 9,182 documents, 5,168 media,
   299 document types, 496 data types, 45 templates. Media files replaced by placeholders in Azurite.
-- Target: fresh SQL Server database; schema imported from the same uSync export (as a deployment would),
+- Target: fresh SQL Server database; schema imported from the same export (as a deployment would),
   content and media pushed with Ferry.
-- Installing Ferry required Umbraco 17.6.2, uSync 17.4.2 and EF Core 10.0.10 (the site pinned
+- Installing Ferry required Umbraco 17.6.2 and EF Core 10.0.10 (the site pinned
   17.5.3 / 17.0.2 / 10.0.6).
 - Driver: `tests/e2e/realsite.spec.ts` (`COMMUNITY_SYNC_SUITE=realsite`, manual only).
 
@@ -30,12 +30,12 @@ instances. This records what a real site exposed that the synthetic E2E fixtures
 
 | Finding | Fix |
 | --- | --- |
-| The packages pinned exactly Umbraco 17.6.2 and uSync 17.4.2. | Ranges `[17.5.0, 18.0.0)` and `[17.3.0, 18.0.0)`; the real site installs on its own Umbraco 17.5.3. `Microsoft.OpenApi` is pinned to the patched 2.9.0. |
+| The packages pinned exactly Umbraco 17.6.2. | Range `[17.5.0, 18.0.0)`; the real site installs on its own Umbraco 17.5.3. `Microsoft.OpenApi` is pinned to the patched 2.9.0. |
 | Pushing schema into a fresh install collided with its built-in data types. | Data types may be renamed; renames run before new data types are allocated; a name may move from a destination data type renamed in the same transfer or unused there. Apply still verifies every key. |
 | Template Razor already shipped with the site's code blocked template creation. | A Views file identical to the incoming Razor is adopted. Razor is compared as Umbraco stores it (no BOM, no trailing whitespace), so adopted templates stay Unchanged. |
 | Batching spread a site's schema across batches, losing allowed child types. | Schema comes first and does not count toward the 250-item batch cap. |
 | SVG media were not transferable. | Static SVGs transfer after a strict safety check on export and again on the destination (no script, event handlers, foreignObject, external links or DTDs). |
-| Contentment Data List / Data Picker had to be opted in as untracked scalars. | A uSync mapper keeps the value, reports its `umb://` references and exports compact JSON so repeats compare equal. Value-only editors can be opted in through `Ferry:Editors:ScalarEditors`. |
+| Contentment Data List / Data Picker had to be opted in as untracked scalars. | A Ferry mapper keeps the value, reports its `umb://` references and exports compact JSON so repeats compare equal. Value-only editors can be opted in through `Ferry:Editors:ScalarEditors`. |
 | Upload autofill values (`umbracoBytes` etc.) made repeat pushes report Updates. | Media differing only in autofilled values is Unchanged. |
 | The eye-dropper colour picker was refused. | `Umbraco.ColorPicker.EyeDropper` and `Umbraco.EmailAddress` are built-in scalars. |
 | Pull and package imports kept the 8 MB limit. | Bounded by `Ferry:Backoffice:MaximumPackageBytes` (default 256 MB); the transport request limit is not applied to local applies. |
@@ -62,7 +62,7 @@ instances. This records what a real site exposed that the synthetic E2E fixtures
   created, with 1,301 unresolved-reference warnings. About 10 minutes of previews and 62 minutes of applies.
   A repeat previewed 9,011 of 9,182 documents as Unchanged; the rest are open finding 4.
 - Unauthenticated transport requests are rejected (401).
-- Fresh Umbraco 17.5.3 install, no uSync import (package floor): a selected tree whose references reach most
+- Fresh Umbraco 17.5.3 install, no schema import (package floor): a selected tree whose references reach most
   of the site (114 MB) pushed schema and content in 43 batches — 166 data types, 236 document types, 39
   templates, 1,635 media and 8,426 documents. A repeat previewed all schema, templates and media and 8,289
   of 8,426 documents as Unchanged (the rest is remaining observation 1).
@@ -77,10 +77,10 @@ way round: a fresh install **got** the whole site from a copy of it.
 
 ## Setup
 
-- Site: Umbraco 17.7.1 with uSync 17.4.3, Umbraco Forms, Umbraco Engage, Azure Blob media, Azure SSO, 2FA, Skybrud
+- Site: Umbraco 17.7.1 with Umbraco Forms, Umbraco Engage, Azure Blob media, Azure SSO, 2FA, Skybrud
   Redirects, MetaMomentum, Google Maps and Block List.
 - Source: the site's local development database (SQL Server) with **2,076 documents, 4,041 media, 165 document types,
-  472 data types and 28 templates**. Its uSync export holds schema only, so the content came from the database. Media
+  472 data types and 28 templates**. Its file export holds schema only, so the content came from the database. Media
   files were replaced by placeholders on local disk (the development storage account was not reachable).
 - Target: a fresh install on **SQLite**, with Engage removed (it refuses SQLite). The target ran
   `POST pull/preview` (`fullSite: true`) and `pull/{id}/apply` against the source over the peer protocol, so no

@@ -79,8 +79,8 @@ await new Upgrader(plan).ExecuteAsync(migrationPlanExecutor, coreScopeProvider, 
   the schema as unchanged.
   `.Key(existingKey)` adopts an item that was created by hand. On groups, tabs and properties it also re-keys an
   existing one, so built-in media types on an upgraded site can be matched.
-- **Data type configuration** is uSync's portable JSON, the `Config` of a uSync `DataType` file. Data types are
-  written through the same uSync serializers that Ferry transfers use. When the configuration is left out, an existing
+- **Data type configuration** is the data type's portable JSON configuration. Data types are written through the same
+  serializers that Ferry transfers use. When the configuration is left out, an existing
   data type keeps its configuration.
 - **Templates use the site's view file.** A new template reads `Views/{alias}.cshtml` and never changes it. Umbraco
   takes its layout (master template) from the view's `Layout`, so create layouts first. If the view is missing, the

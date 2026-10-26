@@ -100,5 +100,5 @@ Backoffice, and 67 Umbraco adapter. The peer-policy coverage includes strict sta
 and reload binding, exact expiry, queued permission and token revocation, envelope
 purpose and policy-drift rejection before I/O, and directional asset capabilities.
 The current real-site E2E set has 30 scenarios: 19 final-package consumer cases, 4
-named-policy cases, 4 base-uSync cases, 1 scoped-export case, and 2 legacy-capability
+named-policy cases, 4 coexistence cases, 1 scoped-export case, and 2 legacy-capability
 cases. Their run records and scope are in verification.

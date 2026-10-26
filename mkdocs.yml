@@ -43,9 +43,7 @@ nav:
       - Real-site validation: real-site-validation.md
       - Validation record: validation-record.md
       - Acceptance checklist: acceptance-checklist.md
-      - uSync API findings: usync-api-findings.md
   - Design notes:
-      - uSync integration: research/core-usync-integration.md
       - Peer policies: research/peer-policy-design.md
   - Changelog: changelog.md
   - License: license.md

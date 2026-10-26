@@ -7,7 +7,7 @@ Ferry about a package:
 | What the package adds | What to do | Section |
 |---|---|---|
 | A property editor whose value has no ids, paths or references | Declare it a **scalar** editor | [Scalar editors](#scalar-editors) |
-| A property editor whose value points at pages, media or other items | Write a uSync **mapper** and declare it a **mapped** editor | [Mapped editors](#mapped-editors) |
+| A property editor whose value points at pages, media or other items | Use a value **mapper** and declare it a **mapped** editor | [Mapped editors](#mapped-editors) |
 | Data stored outside content (redirects, forms, settings rows, …) | Write a Ferry **package provider** | [Package providers](#package-providers) |
 | Media files of a type Ferry does not allow | List the extension | [Media file types](#media-file-types) |
 
@@ -36,51 +36,20 @@ on the destination. Use a mapped editor instead.
 
 ## Mapped editors
 
-A mapped editor needs a uSync `ISyncMapper` that
+A mapped editor's values are converted by a value mapper that
 
-- returns the value to export (`GetExportValueAsync`) and to import (`GetImportValueAsync`);
-- reports every page and media item the value points at (`GetDependenciesAsync`), so they travel with the page and the
-  review shows them.
+- returns the value to send and the value to store on the destination;
+- reports every page and media item the value points at, so they travel with the page and the review shows them.
 
 Keys are the same on both sites after a Ferry transfer, so a value that stores keys or `umb://` UDIs can usually be
 copied unchanged; the mapper's job is to report the references. Ferry checks the round trip and the declared references
 before saving content.
 
-```csharp
-[HideFromTypeFinder]
-public sealed class LinkCardMapper : ISyncMapper
-{
-    public string Name => "Link card";
-    public string[] Editors => ["Our.LinkCard"];
-    public bool IsMapper(PropertyType propertyType) => propertyType.PropertyEditorAlias == "Our.LinkCard";
+Ferry includes mappers for Umbraco's own editors (Block List, Block Grid, rich text, pickers) and for Contentment and
+MetaMomentum. A public mapper API for your own editors is planned for Ferry 0.5. Until then, ask for an editor through
+the [package or editor support](https://github.com/imkeuri/ferry-umbraco/issues/new/choose) issue form.
 
-    public Task<string?> GetExportValueAsync(object value, string editorAlias) => Task.FromResult(value?.ToString());
-    public Task<string?> GetImportValueAsync(string value, string editorAlias) => Task.FromResult<string?>(value);
-    public Task<string?> GetImportValueAsync(string value, string editorAlias, SyncSerializerOptions options) =>
-        Task.FromResult<string?>(value);
-
-    public Task<IEnumerable<uSyncDependency>> GetDependenciesAsync(object value, string editorAlias, DependencyFlags flags) =>
-        Task.FromResult<IEnumerable<uSyncDependency>>(PageKeys(value?.ToString())
-            .Select(key => new GuidUdi(Constants.UdiEntityType.Document, key))
-            .Select(udi => new uSyncDependency
-            {
-                Name = udi.ToString(), Udi = udi, Flags = flags,
-                Order = DependencyOrders.OrderFromEntityType(udi.EntityType), Level = 0
-            }).ToArray());
-
-    private static IEnumerable<Guid> PageKeys(string? value) => /* read the keys out of your stored JSON */ [];
-}
-```
-
-Register the mapper and declare the editor:
-
-```csharp
-builder.WithCollectionBuilder<SyncValueMapperCollectionBuilder>().Add<LinkCardMapper>();
-builder.AddFerryUmbracoFull(options => options.MappedEditors.Add("Our.LinkCard"));
-```
-
-Declaring an alias does not create a mapper: without one, content using the editor is still refused. Ferry's own
-`ContentmentReferenceMapper` and `MetaMomentumMapper` are working examples.
+Declaring an alias without a mapper does not make the editor transferable: content using it is still refused.
 
 Test the editor on two disposable sites whose local ids differ: create content on one, Send it, and check that a second
 review plans it as unchanged.

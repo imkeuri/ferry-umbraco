@@ -7,8 +7,7 @@ documentation links now redirect or return a suggested replacement path.
 
 Umbraco recommends NuGet distribution and keeping a package library, tests and an
 example website in the repository. Ferry follows that layout with an
-explicit .NET 10 / Umbraco 17.6.2 adapter project, with public uSync.Core 17.4.2
-for schema and portable value support. Shared package metadata marks the
+explicit .NET 10 / Umbraco 17.6.2 adapter project. Shared package metadata marks the
 code under the Ferry Freeware License (free to use, closed source).
 
 The opt-in `AddFerryUmbraco()` extension registers the constrained text store through
@@ -19,7 +18,7 @@ sites merely because they reference the library. Scoped store instances allow th
 adapter to use request-scoped Umbraco dependencies without a singleton capturing them.
 
 `AddFerryUmbracoFull()` opts into the staged schema/language/content/media
-adapter and public uSync core services. Referencing the package alone does not select
+adapter. Referencing the package alone does not select
 this adapter. The backoffice package adds the Ferry workspace under Settings › Synchronisation
 (Overview, Sites, Packages and Advanced tabs), Send/Get actions and a top-bar queue for editors, and a
 Management API; enable it with `Ferry:Backoffice:Enabled` and configure named
@@ -34,7 +33,7 @@ Sources: [Creating a Package](https://docs.umbraco.com/umbraco-cms/extend-your-p
 
 ## Draft persistence
 
-The initial adapter uses `IContentService.Save`, not base uSync deserialization.
+The initial adapter uses `IContentService.Save`, not a generic import pipeline.
 It never calls publication, unpublication or schedule-writing methods. The native
 save result is checked. Existing target items with schedules are blocked because
 their changed draft could otherwise be published by a future scheduled operation.

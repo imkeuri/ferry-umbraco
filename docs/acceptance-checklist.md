@@ -165,15 +165,11 @@ parity claim is made.
   are listed in the [validation record](validation-record.md); those artifact files
   are ignored and CI evidence is pending.
 - [x] Local NuGet consumer restore/build/publish, provenance and static assets.
-- [x] Final package's 24 Ferry App_Plugins assets byte-verified and public-base uSync
+- [x] Final package's 24 Ferry App_Plugins assets byte-verified
   asset mounted in consumer; served import-resolution probes passed (these are not
   rendered-browser acceptance).
 - [x] Native publication picker/workflow and administrator operation history implemented;
   final-package publication/history real-site scenario passed 1/1.
-- [x] Full registration of real base-uSync services/handlers and NuGet coexistence;
-  production packages exclude the fixture probes.
-- [x] Native base-uSync exports and updated XML values, unchanged repeats,
-  disabled handler behavior, custom-mapper selection and cancellation semantics.
 - [x] Final npm and NuGet dependency audits report zero advisories.
 - [x] Setup/scope/failure/version documentation and original/upstream license notices.
 

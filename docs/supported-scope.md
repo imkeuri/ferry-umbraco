@@ -8,8 +8,7 @@ Push/Pull run (2/2). SQLite and SQL Server-target runs cover the v5 culture case
 names retained in Ferry's durable store, captions, distinct en-US/fr-FR
 file bytes, unchanged replay, and a fresh target process. Commands and artifact paths are in the
 [validation record](validation-record.md). These files are ignored local artifacts,
-not CI evidence; CI evidence is pending. No run establishes commercial uSync
-Complete parity.
+not CI evidence; CI evidence is pending.
 
 | Capability | Evidence/status |
 | --- | --- |
@@ -25,7 +24,7 @@ Complete parity.
 | Rich-text local links and embedded images | Real two-site tests; native legacy-link normalization |
 | Reciprocal content pickers | Real two-site tests |
 | Nested Block List content/settings and schema closure | Real two-site tests |
-| Block Grid, Multinode Treepicker and Multi URL Picker references | Full/Full E2E `editors` 3/3 (`run.py --mode Full --suite editors`). Values are mapped by base-uSync mappers. Each case selects its referenced entities: a document picked inside a Block Grid block plus the grid's element and data types, MNTP documents and media, and Multi URL Picker document and media links. The stored destination value is identical; a media link's read-time `url` is the destination's own media path. An external link is kept, and a repeat push is `Unchanged`. Block Grid areas, nested grids and Single Block are not covered. |
+| Block Grid, Multinode Treepicker and Multi URL Picker references | Full/Full E2E `editors` 3/3 (`run.py --mode Full --suite editors`). Values are mapped by Ferry's value mappers. Each case selects its referenced entities: a document picked inside a Block Grid block plus the grid's element and data types, MNTP documents and media, and Multi URL Picker document and media links. The stored destination value is identical; a media link's read-time `url` is the destination's own media path. An external link is kept, and a repeat push is `Unchanged`. Block Grid areas, nested grids and Single Block are not covered. |
 | Selected subtree including referenced entities | Real two-site tests |
 | Full-site Dictionary Item synchronization | NuGet consumer E2E 1/1. Full-site only; the selected Content/Media experience is unchanged. Preserves stable GUID identity, parent hierarchy, translations and language dependencies. Moves and deletion are unsupported; deleting a destination translation is rejected. The `dictionary-item` capability is opt-in, so older peers reject the unsupported kind. System audit identity uses `Umbraco SuperUserKey`. No commercial parity claim. |
 | Scoped destination preview/apply and recovery before-state | Package E2E 1/1 (`run-ae4d8657cce4`); bounded snapshot covers selected closure and external direct prerequisites; unrelated target edits do not stale approval; unsupported adapters use full snapshot; journal default limit is 64 MiB per record |
@@ -45,7 +44,6 @@ Complete parity.
 | Remote Content/Media Browse and BrowseSearch | Configured remote roots, including nested roots, appear in a virtual paged list; delegated child navigation and search require exact ancestry/direct-child scope proofs. Search is name-only, metadata-only and bounded. |
 | Update field comparison | Bounded Content/Media field differences in administrator Push/Pull previews; only known scalar editors reveal values, unavailable editors are marked, and receiver preview requires a current Export grant for target values |
 | Typed Media push selection | Preceding-package real-site regression; destination kind preflight occurs before export |
-| Base-uSync file exports, handler configuration, mapper closure and cancellation | Four focused real-site scenarios |
 | Settings dashboard, transfer, publication and history | Three earlier-package native Backoffice suites passed 19/19 against two disposable sites in a Playwright MCP image container using a browse-authorized peer (`artifacts/e2e/browser-snapshot-final/results.json`); they predate the current production commit. |
 | Broad dashboard layout and interactive browser behavior | Bounded native flows have earlier-package 19/19 browser evidence; broad layout, accessibility, cross-browser and production-topology acceptance remain open. |
 | Native publication selection | Included in the packaged 19/19 native browser run; final package smoke and publication/history real-site scenario also passed. |
@@ -54,13 +52,9 @@ Complete parity.
 | Delegated editor Push | One configured connection; exact group alias; local Content/Media roots; allowed cultures; native Umbraco Read checks; package and one real-site scenario passed. The group also needs the `CommunitySync.Push` user-group permission on each sent document, granular or as a default; media uses the group default. A grant without the verb is denied (403), and the real-site case for this passed. |
 | Delegated editor Pull | Latest package real-site case: explicit valid Pull grant, existing local root, permitted remote root/culture and native permission; draft-only; full-site prohibited; schema changes denied. The group also needs the `CommunitySync.Pull` user-group permission on the updated items and existing create parents, granular or as a default; media uses the group default. |
 
-Ferry is a standalone package. Full transfer uses the public `uSync.Core` schema
-serializers and value mappers (`AdduSyncCore()`) and retains native Umbraco draft saves;
-it never installs the uSync backoffice, and its packages do not depend on it (the pack
-check enforces this). Its backoffice lives in Settings → Synchronisation → Ferry. Where
-a site also installs uSync, uSync registers itself and its normal save handlers perform
-configured exports of Ferry's saves without a global pause or fabricated uSync import
-events (`base-usync` suite). No commercial package implementation is included. Schema and
+Ferry is a standalone package. Full transfer saves through Umbraco's native services, so
+other packages' save handlers see Ferry's changes as normal saves. Its backoffice lives in
+Settings → Synchronisation → Ferry. Schema and
 media changes are applied to the destination's live definitions/files; content
 publication is a separate operation. Preserve a site/database backup appropriate
 to your hosting environment when operating on a real site.
@@ -184,7 +178,7 @@ acceptance. Dictionary behavior is verified by the real API suite. Dictionary ev
 `artifacts/e2e/run-d84b5395c2e5/results.json`; package smoke in
 `artifacts/package-install/run-dictionary-fixed-20260924/result.json`. Other real-site
 evidence above refers to earlier packages unless an artifact is explicitly listed as
-current. This is not a claim of commercial uSync Complete parity.
+current.
 
 | Boundary | Current limit |
 | --- | --- |
@@ -212,9 +206,7 @@ destination or local site and status before creating another approved attempt. T
 queue never automatically retries, rolls back, cancels, resumes assets, or replays
 interrupted work, and it is private to one process rather than a distributed queue.
 These bounds are not
-a tested large-site capacity claim. See the backend capability audit
-and the current implementation roadmap
-for the scoped-snapshot and large-site work still required.
+a tested large-site capacity claim.
 
 ## Named receiver policies
 
@@ -336,7 +328,7 @@ capability operation on both peers. Default sites keep protocol 1 and
 | Module | Enable | Contract and limits | E2E |
 | --- | --- | --- | --- |
 | Executable templates | `Ferry:Full:AllowTemplateTransfer` on both peers | Create-only Razor templates as verified SHA-256 assets (1 MiB each, 16 MiB/200 per manifest); aliases `[A-Za-z0-9_]`, `_ViewStart`/`_ViewImports` blocked; alias/key, duplicate and existing `Views/*.cshtml` collisions rejected (fails closed without a content root); parents created first; a stored alias or `Layout`-derived parent that differs from the approval is removed. Approval shows an executable-code warning. Updates, renames and deletions are unsupported; runtime rendering is not proven because the test host precompiles Razor. | `templates` 4/4 |
-| People | `Ferry:Full:AllowPeopleTransfer` on both peers | User groups (sections, fallback and document-level granular permissions, languages, start nodes), users (groups, start nodes, language), member groups, member types (public uSync serializer) and members (identity, approval on creation, groups, invariant values for text/textarea/email/integer/decimal/true-false/date editors). The Administrators group, administrators, the super-user and API users are never exported or modified; **no password, security stamp, lockout, login state or token is transferred**, so accounts need a password reset. Name/alias/user-name/email collisions reject before writes; other member editors and granular permission types fail the export closed; at most 10,000 members per full-site transfer. People move in full-site transfers. | `people` 5/5 |
+| People | `Ferry:Full:AllowPeopleTransfer` on both peers | User groups (sections, fallback and document-level granular permissions, languages, start nodes), users (groups, start nodes, language), member groups, member types and members (identity, approval on creation, groups, invariant values for text/textarea/email/integer/decimal/true-false/date editors). The Administrators group, administrators, the super-user and API users are never exported or modified; **no password, security stamp, lockout, login state or token is transferred**, so accounts need a password reset. Name/alias/user-name/email collisions reject before writes; other member editors and granular permission types fail the export closed; at most 10,000 members per full-site transfer. People move in full-site transfers. | `people` 5/5 |
 | Domains | `Ferry:Full:AllowDomainTransfer` on both peers | A content node's default culture and ordered hostnames travel with the node; hostnames taken by another destination node or duplicated in one manifest reject; wildcard/unsafe names and non-BCP-47 cultures reject. Apply replaces the approved node's assignment; a node without domains never clears destination domains. | `domains` 3/3 |
 | Offline packages | Always available to administrators | `.csync.zip`: one header (exporting site's capabilities + exact manifest) and one `assets/<sha256>` blob per declared asset. Import rejects unexpected names, traversal, duplicates, undeclared/missing blobs, oversize entries (`MaximumPackageBytes`, default 256 MiB), unsupported versions and any blob whose bytes differ from its hash, even when cached. Import uses the Pull planner, a one-time owner-bound approval and the local journal; it never publishes. Not compatible with any commercial package format. | `packages` 3/3 |
 | Startup package import | Off by default; `Ferry:Backoffice:ImportOnStartup:Enabled` and `Files` (default `umbraco/Ferry/import-on-startup.csync.zip`, relative to the content root) | When the site starts at run level, each existing file is validated and checked for compatibility exactly as an uploaded package is. It is then planned and applied under one operation-gate hold, with the local journal, a restore point when existing entities change, and an operation-history entry (actor `startup`). A package whose plan has errors is never applied, and unattended import never publishes. The import finishes before the site reports started. Afterwards the file is renamed `.imported` or `.failed` and a `.result.json` (status, applied count, operation ID, restore point, error) is written next to it, so a restart never imports it twice. A shared file imported by several instances plans as unchanged after the first. | `startup-import` 1/1 |
@@ -345,7 +337,7 @@ capability operation on both peers. Default sites keep protocol 1 and
 | Document blueprints | `Ferry:Full:AllowBlueprintTransfer` on both peers | Blueprints in full-site transfers, using the content format and the complete content apply pipeline (mapped values, references, file hashes); no parent and no allowed-at-root rule. Blueprint folders are not transferred: a blueprint kept in a folder arrives at the blueprint root. | `blueprints` 2/2 |
 | Bulk apply suspensions | On by default; `Ferry:Full:BulkApply:Suspensions` (`None`, `ScheduledPublishing`, `Examine`, `DocumentCache`, `All`) and `MinimumOperations` (default 50) | A Full batch with at least `MinimumOperations` operations pauses scheduled publishing, Examine indexing and document-cache refresh through Umbraco's `Suspendable` switches, then resumes them once on every exit path (success, failure, cancellation). Resuming Examine after a suspended index request rebuilds all indexes, which is why small batches keep per-item indexing. Overlapping batches share one reference-counted suspension; a failing resume is logged and does not block the others. The switches are process-local, so other load-balanced instances are unaffected. Local negotiation only; no peer capability. | Unit tests; `packages` 3/3 with `MinimumOperations=1` (target log shows suspend and resume of `All`) |
 | Server-side transfer queue | Every backoffice user with Ferry access; `GET`/`PUT community-sync/queue` | Each user's queue (at most 1000 Content, Media, DocumentType, MediaType or DataType roots) is stored on the server in `cmsCommunitySyncQueue`, one row per user, created by its own `CommunitySync.TransferQueue` migration plan. The queue follows the user across browsers and is cleared after a completed transfer as before. The browser keeps a synchronous cache: the server copy replaces it when the backoffice loads, a browser queue from before is uploaded once, and a server without the endpoint keeps the browser-only queue. Queued Content and Media show a "Queued for transfer" sign in trees and collections (`CommunitySync.QueuedForTransfer` flag); the sign appears when the tree is next loaded. Queueing grants nothing: every transfer is still authorized at review. | `queue` 1/1 |
-| Content-only sites | Off by default; `Ferry:Full:ContentOnly` on the receiving site | For sites whose schema is deployed with the code, for example uSync files in source control. Any Push, Pull, package or startup import whose plan would create, update or move a document, media or member type, data type, language, template, media-type variation or relation type is rejected before anything is written. The error lists up to 20 items (kind, alias, key) to deploy first. Unchanged schema prerequisites are accepted, so content whose types already match transfers normally. The check runs on every planned transfer, at review and again at apply. Dictionary items, members and other content-like kinds are not affected. | `content-only` 2/2 |
+| Content-only sites | Off by default; `Ferry:Full:ContentOnly` on the receiving site | For sites whose schema is deployed with the code, for example code-first migrations or schema files in source control. Any Push, Pull, package or startup import whose plan would create, update or move a document, media or member type, data type, language, template, media-type variation or relation type is rejected before anything is written. The error lists up to 20 items (kind, alias, key) to deploy first. Unchanged schema prerequisites are accepted, so content whose types already match transfers normally. The check runs on every planned transfer, at review and again at apply. Dictionary items, members and other content-like kinds are not affected. | `content-only` 2/2 |
 | Code-first schema (`SchemaBuilder`) | Use `SchemaBuilder` in your own Umbraco migrations; see [code-first schema](code-first-schema.md) | `Ensure…` methods create or converge data types, templates, languages, media types and document types (tabs, groups, folders, templates, variations) and never remove anything. Destructive changes (a property's data type, a data type's editor or storage, variations) are refused. Keys are RFC 4122 v5 UUIDs derived from aliases, so every environment gets identical identities and content-only transfers plan the schema as unchanged. `GET …/community-sync/schema/code` writes an existing site's schema as one migration that keeps every key. | `schema-migrations` 6/6 |
 | Package data | Off by default; `Ferry:Full:AllowPackageItemTransfer` on both peers, plus a provider registered on both (`AddFerrySkybrudRedirects()`, `AddFerryUmbracoForms()` or your own `AddFerryPackageProvider<T>()`) | Items a package keeps outside content, as `PackageItem` entities with their keys. A whole-site transfer carries every item; a selected transfer carries the items whose pages and media are all selected. Items pointing at missing or binned pages or media are left out of the export and logged. Items are created or updated, never deleted. Peers negotiate provider aliases; a missing provider refuses the transfer before anything is written. Skybrud redirects: destination URLs must be site paths or http(s). Umbraco Forms: definitions and workflows; records, folders, prevalue and data sources are not transferred, and a form whose prevalue or data source is missing on the destination is refused. See [extending Ferry](extending.md). | `package-items` 4/4 |
 | Site seed | Administrators | `seed/preflight` reports compatibility, destination emptiness (when Browse is granted) and shared optional features; the seed is the ordinary full-site Push review, so re-running re-plans and applies only remaining differences. | `seed` 3/3 |
@@ -355,7 +347,7 @@ capability operation on both peers. Default sites keep protocol 1 and
 Where schema is deployed with the code, set `Ferry:Full:ContentOnly` on the receiving site so transfers carry content only (see the modules table).
 
 Data type exports declare native storage metadata. Apply preserves that declared
-storage instead of accepting base-uSync editor-default normalization. Existing
+storage instead of normalizing to the editor's default storage. Existing
 shared data type editor or storage changes are blocked before mutation because
 they can affect destination-only content, unless Umbraco reports that no stored
 value uses the data type (for example a fresh site's built-in types); a data type
@@ -379,7 +371,7 @@ umbraco.AddFerryUmbracoFull(options =>
 
 Use a scalar contract only for values that contain no site-local IDs, file paths
 or entity references. A mapped contract additionally requires an installed
-base-uSync mapper. The adapter checks mapped round trips and declared references
+value mapper for the editor. The adapter checks mapped round trips and declared references
 before saving content; declaring an alias does not create a mapper automatically.
 Validate your custom editor on two disposable sites with different local IDs.
 
