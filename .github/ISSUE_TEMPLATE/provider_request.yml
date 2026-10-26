@@ -4,15 +4,22 @@ labels: [provider]
 body:
   - type: input
     id: package
-    attributes: { label: Package or property editor, placeholder: "Package name and NuGet ID, or the editor alias" }
-    validations: { required: true }
+    attributes:
+      label: Package or property editor
+      placeholder: "Package name and NuGet ID, or the editor alias"
+    validations:
+      required: true
   - type: input
     id: version
-    attributes: { label: Package version }
+    attributes:
+      label: Package version
   - type: textarea
     id: data
-    attributes: { label: What should travel, description: "Which of its data (settings, items, values) you need on the other site." }
-    validations: { required: true }
+    attributes:
+      label: What should travel
+      description: "Which of its data (settings, items, values) you need on the other site."
+    validations:
+      required: true
   - type: markdown
     attributes:
-      value: You can also add support yourself; see [extending Ferry](https://github.com/imkeuri/ferry-umbraco/blob/main/docs/extending.md).
+      value: "You can also add support yourself; see [extending Ferry](https://github.com/imkeuri/ferry-umbraco/blob/main/docs/extending.md)."
