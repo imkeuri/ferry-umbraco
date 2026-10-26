@@ -664,6 +664,30 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#050-beta1" class="md-nav__link">
+    <span class="md-ellipsis">
+      0.5.0-beta.1
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.5.0-beta.1">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#self-contained" class="md-nav__link">
+    <span class="md-ellipsis">
+      Self-contained
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#040-beta1-first-public-release" class="md-nav__link">
     <span class="md-ellipsis">
       0.4.0-beta.1 — first public release
@@ -886,6 +910,30 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#050-beta1" class="md-nav__link">
+    <span class="md-ellipsis">
+      0.5.0-beta.1
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.5.0-beta.1">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#self-contained" class="md-nav__link">
+    <span class="md-ellipsis">
+      Self-contained
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#040-beta1-first-public-release" class="md-nav__link">
     <span class="md-ellipsis">
       0.4.0-beta.1 — first public release
@@ -1048,6 +1096,19 @@
 <h1 id="changelog">Changelog<a class="headerlink" href="#changelog" title="Permanent link">&para;</a></h1>
 <p>All notable changes to Ferry. Versions follow <a href="https://semver.org/">Semantic Versioning</a>; while Ferry is pre-1.0,
 minor versions may contain breaking changes.</p>
+<h2 id="050-beta1">0.5.0-beta.1<a class="headerlink" href="#050-beta1" title="Permanent link">&para;</a></h2>
+<h3 id="self-contained">Self-contained<a class="headerlink" href="#self-contained" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Self-contained.</strong> Ferry no longer depends on any other synchronisation package. Schema is written and read by
+  Ferry's own serializer and importer on Umbraco's services, and property values by Ferry's own value mappers, built
+  on Umbraco's reference tracking. Sites that also run another synchronisation tool keep working side by side.</li>
+<li><strong>Value mapper API</strong>: <code>IFerryValueMapper</code> and <code>AddFerryValueMapper&lt;T&gt;()</code> let you add support for your own property
+  editors; see <a href="../extending/">extending Ferry</a>.</li>
+<li>Language keys are derived from the ISO code, and built-in member property keys from the member type and alias, so
+  every site agrees on them.</li>
+<li><strong>Transfer formats are now <code>communitysync.full.v7</code> / <code>v8</code>.</strong> Upgrade both sites together: 0.4 and 0.5 sites refuse
+  to exchange transfers or packages with each other.</li>
+</ul>
 <h2 id="040-beta1-first-public-release">0.4.0-beta.1 — first public release<a class="headerlink" href="#040-beta1-first-public-release" title="Permanent link">&para;</a></h2>
 <h3 id="license-and-distribution">License and distribution<a class="headerlink" href="#license-and-distribution" title="Permanent link">&para;</a></h3>
 <ul>

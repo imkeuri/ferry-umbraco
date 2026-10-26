@@ -935,7 +935,7 @@ Ferry about a package:</p>
 </tr>
 <tr>
 <td>A property editor whose value points at pages, media or other items</td>
-<td>Use a value <strong>mapper</strong> and declare it a <strong>mapped</strong> editor</td>
+<td>Register a value <strong>mapper</strong> (<code>IFerryValueMapper</code>)</td>
 <td><a href="#mapped-editors">Mapped editors</a></td>
 </tr>
 <tr>
@@ -973,10 +973,31 @@ on the destination. Use a mapped editor instead.</p>
 <p>Keys are the same on both sites after a Ferry transfer, so a value that stores keys or <code>umb://</code> UDIs can usually be
 copied unchanged; the mapper's job is to report the references. Ferry checks the round trip and the declared references
 before saving content.</p>
-<p>Ferry includes mappers for Umbraco's own editors (Block List, Block Grid, rich text, pickers) and for Contentment and
-MetaMomentum. A public mapper API for your own editors is planned for Ferry 0.5. Until then, ask for an editor through
-the <a href="https://github.com/imkeuri/ferry-umbraco/issues/new/choose">package or editor support</a> issue form.</p>
-<p>Declaring an alias without a mapper does not make the editor transferable: content using it is still refused.</p>
+<p>Ferry includes mappers for Umbraco's own editors (pickers, Multi URL Picker, rich text, Block List, Block Grid and
+Single Block) and for Contentment and MetaMomentum. For your own editor, implement <code>IFerryValueMapper</code>
+(namespace <code>Ferry.Umbraco.Values</code>):</p>
+<div class="highlight"><pre><span></span><code><span class="k">public</span><span class="w"> </span><span class="k">sealed</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">LinkCardMapper</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">IFerryValueMapper</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="n">IReadOnlyCollection</span><span class="o">&lt;</span><span class="kt">string</span><span class="o">&gt;</span><span class="w"> </span><span class="n">Editors</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">get</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s">"Our.LinkCard"</span><span class="p">];</span>
+
+<span class="w">    </span><span class="c1">// Keys are the same on both sites, so the stored value travels unchanged.</span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="n">Task</span><span class="o">&lt;</span><span class="kt">string?</span><span class="o">&gt;</span><span class="w"> </span><span class="n">ToPortableAsync</span><span class="p">(</span><span class="kt">object</span><span class="w"> </span><span class="k">value</span><span class="p">,</span><span class="w"> </span><span class="n">FerryValueContext</span><span class="w"> </span><span class="n">context</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">Task</span><span class="p">.</span><span class="n">FromResult</span><span class="p">(</span><span class="k">value</span><span class="o">?.</span><span class="n">ToString</span><span class="p">());</span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="n">Task</span><span class="o">&lt;</span><span class="kt">object?</span><span class="o">&gt;</span><span class="w"> </span><span class="n">FromPortableAsync</span><span class="p">(</span><span class="kt">string</span><span class="w"> </span><span class="n">portable</span><span class="p">,</span><span class="w"> </span><span class="n">FerryValueContext</span><span class="w"> </span><span class="n">context</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">Task</span><span class="p">.</span><span class="n">FromResult</span><span class="o">&lt;</span><span class="kt">object?</span><span class="o">&gt;</span><span class="p">(</span><span class="n">portable</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Every page and media item the value points at.</span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="n">Task</span><span class="o">&lt;</span><span class="n">IReadOnlyCollection</span><span class="o">&lt;</span><span class="n">GuidUdi</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">ReferencesAsync</span><span class="p">(</span><span class="kt">object</span><span class="w"> </span><span class="k">value</span><span class="p">,</span><span class="w"> </span><span class="n">FerryValueContext</span><span class="w"> </span><span class="n">context</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span>
+<span class="w">        </span><span class="n">Task</span><span class="p">.</span><span class="n">FromResult</span><span class="o">&lt;</span><span class="n">IReadOnlyCollection</span><span class="o">&lt;</span><span class="n">GuidUdi</span><span class="o">&gt;&gt;</span><span class="p">(</span><span class="n">PageKeys</span><span class="p">(</span><span class="k">value</span><span class="o">?.</span><span class="n">ToString</span><span class="p">())</span>
+<span class="w">            </span><span class="p">.</span><span class="n">Select</span><span class="p">(</span><span class="n">key</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">GuidUdi</span><span class="p">(</span><span class="n">Constants</span><span class="p">.</span><span class="n">UdiEntityType</span><span class="p">.</span><span class="n">Document</span><span class="p">,</span><span class="w"> </span><span class="n">key</span><span class="p">)).</span><span class="n">ToArray</span><span class="p">());</span>
+
+<span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="k">static</span><span class="w"> </span><span class="n">IEnumerable</span><span class="o">&lt;</span><span class="n">Guid</span><span class="o">&gt;</span><span class="w"> </span><span class="n">PageKeys</span><span class="p">(</span><span class="kt">string?</span><span class="w"> </span><span class="k">value</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="cm">/* read the keys out of your stored JSON */</span><span class="w"> </span><span class="p">[];</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Register it on every site that sends or receives the editor; that also opts the editor in:</p>
+<div class="highlight"><pre><span></span><code><span class="n">builder</span><span class="p">.</span><span class="n">AddFerryValueMapper</span><span class="o">&lt;</span><span class="n">LinkCardMapper</span><span class="o">&gt;</span><span class="p">();</span>
+</code></pre></div>
+<p><code>FerryValueContext.Values</code> maps values nested inside yours, for example the properties of a block.</p>
+<p>Declaring an alias in <code>MappedEditors</code> without a registered mapper does not make the editor transferable: content
+using it is still refused.</p>
 <p>Test the editor on two disposable sites whose local ids differ: create content on one, Send it, and check that a second
 review plans it as unchanged.</p>
 <h2 id="package-providers">Package providers<a class="headerlink" href="#package-providers" title="Permanent link">&para;</a></h2>
