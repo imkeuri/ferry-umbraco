@@ -527,29 +527,6 @@
 
               
             
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../usync-api-findings/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    uSync API findings
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
           </ul>
         </nav>
       
@@ -599,29 +576,6 @@
             Design notes
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../research/core-usync-integration/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    uSync integration
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
             
               
                 
@@ -1131,7 +1085,7 @@ minor versions may contain breaking changes.</p>
   warning, instead of stopping it.</li>
 <li>Changing a data type's editor or storage, or changing or removing a property, is allowed when no stored value uses
   it (a fresh site's built-in types). Element types always count as used, since block values are stored in pages.</li>
-<li>Block values that uSync writes in another order compare equal.</li>
+<li>Block values written in another order compare equal.</li>
 <li>A peer request refused with 422 is logged with its cause on the refusing site.</li>
 <li>The "would lose or change data" message shows both values as text where they differ.</li>
 </ul>
@@ -1139,12 +1093,12 @@ minor versions may contain breaking changes.</p>
 <h3 id="code-first-schema">Code-first schema<a class="headerlink" href="#code-first-schema" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong><code>SchemaBuilder</code> covers the whole schema</strong> (#30):</li>
-<li>data types, with uSync's portable configuration;</li>
+<li>data types, with their portable configuration;</li>
 <li>templates (the view file ships with the site; the layout comes from its <code>Layout</code>);</li>
 <li>languages, media types and custom relation types;</li>
 <li>document types with tabs and nested groups, folders, allowed and default templates, list views, variations,
     history cleanup and every property setting.
-  Definitions are written through the same uSync serializers transfers use, so a migration produces exactly the schema
+  Definitions are written through the same serializers transfers use, so a migration produces exactly the schema
   a content-only transfer compares. Nothing is removed, and destructive changes are refused.</li>
 <li><strong>Adopt code-first on an existing site</strong> (#30, #33):</li>
 <li><strong>Settings › Ferry › Advanced › Download schema as code</strong>, or <code>GET community-sync/schema/code</code>, writes the site's
@@ -1186,8 +1140,8 @@ minor versions may contain breaking changes.</p>
   <code>Ferry.Backoffice</code>. Configuration lives under <code>Ferry</code>; a site with only a <code>CommunitySync</code> section keeps working.
   Database tables, routes, headers, permission verbs and file formats keep their CommunitySync names, so existing
   sites and peers interoperate. See <em>Upgrading from CommunitySync</em> in the README.</li>
-<li><strong>Standalone package</strong> (#20). Ferry no longer extends uSync's backoffice: it has its own workspace under
-  Settings › Synchronisation and depends only on <code>uSync.Core</code>.</li>
+<li><strong>Standalone package</strong> (#20). Ferry has its own workspace under Settings › Synchronisation and needs no other
+  synchronisation package.</li>
 </ul>
 <h3 id="backoffice-redesign">Backoffice redesign<a class="headerlink" href="#backoffice-redesign" title="Permanent link">&para;</a></h3>
 <ul>
@@ -1199,8 +1153,8 @@ minor versions may contain breaking changes.</p>
   activity in plain sentences, a Connect a site wizard with pairing codes, drag-and-drop package import, and a danger
   zone for recycle-bin moves and seeding.</li>
 <li><strong>Top-bar Ferry panel</strong> with Queue and Activity tabs, and an <em>Add to queue</em> action (#23).</li>
-<li>Side-panel buttons sit in the panel footer (#24); compact site cards, a single Synchronisation heading next to
-  uSync, and theme-aware colours (#25); Umbraco form controls, first-run guidance, a Managed in config badge and
+<li>Side-panel buttons sit in the panel footer (#24); compact site cards, a single Synchronisation heading, and
+  theme-aware colours (#25); Umbraco form controls, first-run guidance, a Managed in config badge and
   visible keyboard focus (#27).</li>
 <li>Settings-tab text is translatable through <code>ferry_*</code> keys (#26, #27).</li>
 <li>Connection checks on the Sites tab are cached for five minutes (#26).</li>

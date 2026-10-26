@@ -717,29 +717,6 @@
 
               
             
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="usync-api-findings/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    uSync API findings
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
           </ul>
         </nav>
       
@@ -789,29 +766,6 @@
             Design notes
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="research/core-usync-integration/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    uSync integration
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
             
               
                 
@@ -1122,12 +1076,10 @@
   caches pause during large imports. Each apply writes a recovery journal.</li>
 </ul>
 <p><strong>Documentation:</strong> <a href="https://imkeuri.github.io/ferry-umbraco/">https://imkeuri.github.io/ferry-umbraco/</a></p>
-<p>Ferry works alongside uSync: it uses the open-source <code>uSync.Core</code> serializers, and uSync files are optional.</p>
+<p>Ferry is a self-contained package: it needs no other synchronisation tool or file export.</p>
 <blockquote>
 <p><strong>Free to use, closed source.</strong> Ferry is free for any site, including commercial work, under the
 <a href="license/">Ferry Freeware License</a>; its source is not published.</p>
-<p><strong>Not affiliated with uSync or Jumoo.</strong> uSync and uSync Complete are products of Jumoo. Ferry is an independent
-product and contains no commercial uSync code.</p>
 </blockquote>
 <p><strong>Status: experimental, pre-1.0.</strong> Tested on Umbraco <strong>17.6.2</strong> and .NET 10. See <a href="supported-scope/">supported scope</a>
 for exactly what is verified and the <a href="validation-record/">validation record</a> for evidence.</p>
@@ -1145,7 +1097,7 @@ dotnet<span class="w"> </span>add<span class="w"> </span>package<span class="w">
 <p>Configuration lives under a <code>Ferry</code> section in <code>appsettings.json</code>; <a href="#host-integration">Host integration</a> covers
 transport, connections and options.</p>
 <h2 id="using-the-backoffice">Using the backoffice<a class="headerlink" href="#using-the-backoffice" title="Permanent link">&para;</a></h2>
-<p>Ferry.Backoffice adds a <strong>Ferry</strong> workspace under <strong>Settings › Synchronisation</strong> (next to uSync when it is installed):</p>
+<p>Ferry.Backoffice adds a <strong>Ferry</strong> workspace under <strong>Settings › Synchronisation</strong>:</p>
 <table>
 <thead>
 <tr>
@@ -1288,19 +1240,14 @@ coordination. See the <a href="supported-scope/">supported scope</a> and
 </ul>
 <p>Two adapters are available. <code>AddFerryUmbraco()</code> supports invariant
 TextBox/TextArea drafts with matching preinstalled schemas.
-<code>AddFerryUmbracoFull()</code> is standalone. It uses the open-source <code>uSync.Core</code> serializers and
-value mappers internally (<code>AdduSyncCore()</code>), retains guarded native content/media writes,
-and never installs the uSync backoffice. A site that also installs uSync keeps it as a
-separate product: uSync registers itself, and its configured save handlers can export
-Ferry's changes to its normal folders. Full mode requires an <code>ISyncAssetStore</code>.
+<code>AddFerryUmbracoFull()</code> is standalone and writes content and media through Umbraco's own
+services, so other packages' save handlers see Ferry's changes as normal saves. Full mode
+requires an <code>ISyncAssetStore</code>.
 See the documented supported editors and verified scenarios above. Existing shared
 data type editor/storage migrations are blocked; declared source storage is
 preserved. Older experimental manifests without this metadata must be re-exported.</p>
-<p>The installed BackOffice package also has a native Umbraco composer, so its base
-services can activate independently of Ferry's transport switch or chosen
-adapter. Configure base-uSync export/import behavior through its own settings.
-Our guarded draft path does not invoke the generic uSync import pipeline or invent
-its import-origin notifications. See <a href="research/core-usync-integration/">the integration contract</a>.</p>
+<p>The installed BackOffice package also has a native Umbraco composer, so its
+services can activate independently of Ferry's transport switch or chosen adapter.</p>
 <h2 id="host-integration">Host integration<a class="headerlink" href="#host-integration" title="Permanent link">&para;</a></h2>
 <p>Register the selected Umbraco adapter, then configure transport explicitly:</p>
 <div class="highlight"><pre><span></span><code><span class="n">builder</span><span class="p">.</span><span class="n">Services</span><span class="p">.</span><span class="n">AddFerryTransport</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">SyncTransportOptions</span>
@@ -1592,11 +1539,8 @@ sort changes can affect live rendering independently of content publication.
 Executable templates/scripts, account replication and commercial product branding
 are outside scope; installed template assignments use stable keys.</p>
 <p>See <a href="umbraco-package-guide/">integration decisions</a>,
-<a href="supported-scope/">supported scope and recovery limits</a>,
-<a href="usync-api-findings/">public API findings</a>, and
-<a href="third-party-notices/">third-party notices</a>. Ferry is proprietary freeware (<a href="license/">license</a>);
-uSync.Core is an unmodified MPL-2.0 dependency. No commercial uSync.Complete code
-or binaries are included.</p>
+<a href="supported-scope/">supported scope and recovery limits</a> and
+<a href="third-party-notices/">third-party notices</a>. Ferry is proprietary freeware (<a href="license/">license</a>).</p>
 <h2 id="help-and-feedback">Help and feedback<a class="headerlink" href="#help-and-feedback" title="Permanent link">&para;</a></h2>
 <ul>
 <li><strong>Bugs:</strong> <a href="https://github.com/imkeuri/ferry-umbraco/issues/new/choose">open an issue</a> with your Ferry and Umbraco

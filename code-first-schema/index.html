@@ -607,29 +607,6 @@
 
               
             
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../usync-api-findings/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    uSync API findings
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
           </ul>
         </nav>
       
@@ -679,29 +656,6 @@
             Design notes
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../research/core-usync-integration/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    uSync integration
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
             
               
                 
@@ -973,8 +927,8 @@ content. A site that receives transfers can enforce that with <code>Ferry:Full:C
   the schema as unchanged.
   <code>.Key(existingKey)</code> adopts an item that was created by hand. On groups, tabs and properties it also re-keys an
   existing one, so built-in media types on an upgraded site can be matched.</li>
-<li><strong>Data type configuration</strong> is uSync's portable JSON, the <code>Config</code> of a uSync <code>DataType</code> file. Data types are
-  written through the same uSync serializers that Ferry transfers use. When the configuration is left out, an existing
+<li><strong>Data type configuration</strong> is the data type's portable JSON configuration. Data types are written through the same
+  serializers that Ferry transfers use. When the configuration is left out, an existing
   data type keeps its configuration.</li>
 <li><strong>Templates use the site's view file.</strong> A new template reads <code>Views/{alias}.cshtml</code> and never changes it. Umbraco
   takes its layout (master template) from the view's <code>Layout</code>, so create layouts first. If the view is missing, the

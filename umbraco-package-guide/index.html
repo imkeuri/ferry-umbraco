@@ -598,29 +598,6 @@
 
               
             
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../usync-api-findings/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    uSync API findings
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
           </ul>
         </nav>
       
@@ -670,29 +647,6 @@
             Design notes
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../research/core-usync-integration/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    uSync integration
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
             
               
                 
@@ -865,8 +819,7 @@ documentation links now redirect or return a suggested replacement path.</p>
 <h2 id="package-layout-and-registration">Package layout and registration<a class="headerlink" href="#package-layout-and-registration" title="Permanent link">&para;</a></h2>
 <p>Umbraco recommends NuGet distribution and keeping a package library, tests and an
 example website in the repository. Ferry follows that layout with an
-explicit .NET 10 / Umbraco 17.6.2 adapter project, with public uSync.Core 17.4.2
-for schema and portable value support. Shared package metadata marks the
+explicit .NET 10 / Umbraco 17.6.2 adapter project. Shared package metadata marks the
 code under the Ferry Freeware License (free to use, closed source).</p>
 <p>The opt-in <code>AddFerryUmbraco()</code> extension registers the constrained text store through
 <code>IUmbracoBuilder.Services</code>. It does not enable network endpoints or install a
@@ -875,7 +828,7 @@ endpoints only when <code>Ferry:Enabled</code> is true. This avoids changing ins
 sites merely because they reference the library. Scoped store instances allow the
 adapter to use request-scoped Umbraco dependencies without a singleton capturing them.</p>
 <p><code>AddFerryUmbracoFull()</code> opts into the staged schema/language/content/media
-adapter and public uSync core services. Referencing the package alone does not select
+adapter. Referencing the package alone does not select
 this adapter. The backoffice package adds the Ferry workspace under Settings › Synchronisation
 (Overview, Sites, Packages and Advanced tabs), Send/Get actions and a top-bar queue for editors, and a
 Management API; enable it with <code>Ferry:Backoffice:Enabled</code> and configure named
@@ -887,7 +840,7 @@ payloads are sent to the browser. The workspace's generated client uses the Umbr
 <a href="https://docs.umbraco.com/umbraco-cms/develop-with-umbraco/application-code/backend-and-custom-logic/using-ioc">Dependency Injection</a>,
 <a href="https://docs.umbraco.com/umbraco-cms/model-your-content/content-types-and-structure/composing">Composing</a>.</p>
 <h2 id="draft-persistence">Draft persistence<a class="headerlink" href="#draft-persistence" title="Permanent link">&para;</a></h2>
-<p>The initial adapter uses <code>IContentService.Save</code>, not base uSync deserialization.
+<p>The initial adapter uses <code>IContentService.Save</code>, not a generic import pipeline.
 It never calls publication, unpublication or schedule-writing methods. The native
 save result is checked. Existing target items with schedules are blocked because
 their changed draft could otherwise be published by a future scheduled operation.</p>

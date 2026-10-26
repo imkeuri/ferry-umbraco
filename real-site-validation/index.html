@@ -616,29 +616,6 @@
 
               
             
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../usync-api-findings/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    uSync API findings
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
           </ul>
         </nav>
       
@@ -688,29 +665,6 @@
             Design notes
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../research/core-usync-integration/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    uSync integration
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
             
               
                 
@@ -900,13 +854,13 @@
 instances. This records what a real site exposed that the synthetic E2E fixtures did not.</p>
 <h2 id="setup">Setup<a class="headerlink" href="#setup" title="Permanent link">&para;</a></h2>
 <ul>
-<li>Site: an agency client site on Umbraco 17.5.3 with uSync, Contentment, Block List, MetaMomentum and
+<li>Site: an agency client site on Umbraco 17.5.3 with Contentment, Block List, MetaMomentum and
   Google Maps editors; Azure Blob media storage.</li>
-<li>Source: fresh SQL Server database seeded from the site's own uSync export — 9,182 documents, 5,168 media,
+<li>Source: fresh SQL Server database seeded from the site's own schema and content export — 9,182 documents, 5,168 media,
   299 document types, 496 data types, 45 templates. Media files replaced by placeholders in Azurite.</li>
-<li>Target: fresh SQL Server database; schema imported from the same uSync export (as a deployment would),
+<li>Target: fresh SQL Server database; schema imported from the same export (as a deployment would),
   content and media pushed with Ferry.</li>
-<li>Installing Ferry required Umbraco 17.6.2, uSync 17.4.2 and EF Core 10.0.10 (the site pinned
+<li>Installing Ferry required Umbraco 17.6.2 and EF Core 10.0.10 (the site pinned
   17.5.3 / 17.0.2 / 10.0.6).</li>
 <li>Driver: <code>tests/e2e/realsite.spec.ts</code> (<code>COMMUNITY_SYNC_SUITE=realsite</code>, manual only).</li>
 </ul>
@@ -955,8 +909,8 @@ instances. This records what a real site exposed that the synthetic E2E fixtures
 </thead>
 <tbody>
 <tr>
-<td>The packages pinned exactly Umbraco 17.6.2 and uSync 17.4.2.</td>
-<td>Ranges <code>[17.5.0, 18.0.0)</code> and <code>[17.3.0, 18.0.0)</code>; the real site installs on its own Umbraco 17.5.3. <code>Microsoft.OpenApi</code> is pinned to the patched 2.9.0.</td>
+<td>The packages pinned exactly Umbraco 17.6.2.</td>
+<td>Range <code>[17.5.0, 18.0.0)</code>; the real site installs on its own Umbraco 17.5.3. <code>Microsoft.OpenApi</code> is pinned to the patched 2.9.0.</td>
 </tr>
 <tr>
 <td>Pushing schema into a fresh install collided with its built-in data types.</td>
@@ -976,7 +930,7 @@ instances. This records what a real site exposed that the synthetic E2E fixtures
 </tr>
 <tr>
 <td>Contentment Data List / Data Picker had to be opted in as untracked scalars.</td>
-<td>A uSync mapper keeps the value, reports its <code>umb://</code> references and exports compact JSON so repeats compare equal. Value-only editors can be opted in through <code>Ferry:Editors:ScalarEditors</code>.</td>
+<td>A Ferry mapper keeps the value, reports its <code>umb://</code> references and exports compact JSON so repeats compare equal. Value-only editors can be opted in through <code>Ferry:Editors:ScalarEditors</code>.</td>
 </tr>
 <tr>
 <td>Upload autofill values (<code>umbracoBytes</code> etc.) made repeat pushes report Updates.</td>
@@ -1020,7 +974,7 @@ instances. This records what a real site exposed that the synthetic E2E fixtures
   created, with 1,301 unresolved-reference warnings. About 10 minutes of previews and 62 minutes of applies.
   A repeat previewed 9,011 of 9,182 documents as Unchanged; the rest are open finding 4.</li>
 <li>Unauthenticated transport requests are rejected (401).</li>
-<li>Fresh Umbraco 17.5.3 install, no uSync import (package floor): a selected tree whose references reach most
+<li>Fresh Umbraco 17.5.3 install, no schema import (package floor): a selected tree whose references reach most
   of the site (114 MB) pushed schema and content in 43 batches — 166 data types, 236 document types, 39
   templates, 1,635 media and 8,426 documents. A repeat previewed all schema, templates and media and 8,289
   of 8,426 documents as Unchanged (the rest is remaining observation 1).</li>
@@ -1033,10 +987,10 @@ instances. This records what a real site exposed that the synthetic E2E fixtures
 way round: a fresh install <strong>got</strong> the whole site from a copy of it.</p>
 <h2 id="setup_1">Setup<a class="headerlink" href="#setup_1" title="Permanent link">&para;</a></h2>
 <ul>
-<li>Site: Umbraco 17.7.1 with uSync 17.4.3, Umbraco Forms, Umbraco Engage, Azure Blob media, Azure SSO, 2FA, Skybrud
+<li>Site: Umbraco 17.7.1 with Umbraco Forms, Umbraco Engage, Azure Blob media, Azure SSO, 2FA, Skybrud
   Redirects, MetaMomentum, Google Maps and Block List.</li>
 <li>Source: the site's local development database (SQL Server) with <strong>2,076 documents, 4,041 media, 165 document types,
-  472 data types and 28 templates</strong>. Its uSync export holds schema only, so the content came from the database. Media
+  472 data types and 28 templates</strong>. Its file export holds schema only, so the content came from the database. Media
   files were replaced by placeholders on local disk (the development storage account was not reachable).</li>
 <li>Target: a fresh install on <strong>SQLite</strong>, with Engage removed (it refuses SQLite). The target ran
   <code>POST pull/preview</code> (<code>fullSite: true</code>) and <code>pull/{id}/apply</code> against the source over the peer protocol, so no

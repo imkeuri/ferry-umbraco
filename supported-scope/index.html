@@ -661,29 +661,6 @@
 
               
             
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../usync-api-findings/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    uSync API findings
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
           </ul>
         </nav>
       
@@ -733,29 +710,6 @@
             Design notes
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../research/core-usync-integration/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    uSync integration
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
             
               
                 
@@ -994,8 +948,7 @@ Push/Pull run (2/2). SQLite and SQL Server-target runs cover the v5 culture case
 names retained in Ferry's durable store, captions, distinct en-US/fr-FR
 file bytes, unchanged replay, and a fresh target process. Commands and artifact paths are in the
 <a href="../validation-record/">validation record</a>. These files are ignored local artifacts,
-not CI evidence; CI evidence is pending. No run establishes commercial uSync
-Complete parity.</p>
+not CI evidence; CI evidence is pending.</p>
 <table>
 <thead>
 <tr>
@@ -1054,7 +1007,7 @@ Complete parity.</p>
 </tr>
 <tr>
 <td>Block Grid, Multinode Treepicker and Multi URL Picker references</td>
-<td>Full/Full E2E <code>editors</code> 3/3 (<code>run.py --mode Full --suite editors</code>). Values are mapped by base-uSync mappers. Each case selects its referenced entities: a document picked inside a Block Grid block plus the grid's element and data types, MNTP documents and media, and Multi URL Picker document and media links. The stored destination value is identical; a media link's read-time <code>url</code> is the destination's own media path. An external link is kept, and a repeat push is <code>Unchanged</code>. Block Grid areas, nested grids and Single Block are not covered.</td>
+<td>Full/Full E2E <code>editors</code> 3/3 (<code>run.py --mode Full --suite editors</code>). Values are mapped by Ferry's value mappers. Each case selects its referenced entities: a document picked inside a Block Grid block plus the grid's element and data types, MNTP documents and media, and Multi URL Picker document and media links. The stored destination value is identical; a media link's read-time <code>url</code> is the destination's own media path. An external link is kept, and a repeat push is <code>Unchanged</code>. Block Grid areas, nested grids and Single Block are not covered.</td>
 </tr>
 <tr>
 <td>Selected subtree including referenced entities</td>
@@ -1133,10 +1086,6 @@ Complete parity.</p>
 <td>Preceding-package real-site regression; destination kind preflight occurs before export</td>
 </tr>
 <tr>
-<td>Base-uSync file exports, handler configuration, mapper closure and cancellation</td>
-<td>Four focused real-site scenarios</td>
-</tr>
-<tr>
 <td>Settings dashboard, transfer, publication and history</td>
 <td>Three earlier-package native Backoffice suites passed 19/19 against two disposable sites in a Playwright MCP image container using a browse-authorized peer (<code>artifacts/e2e/browser-snapshot-final/results.json</code>); they predate the current production commit.</td>
 </tr>
@@ -1166,13 +1115,9 @@ Complete parity.</p>
 </tr>
 </tbody>
 </table>
-<p>Ferry is a standalone package. Full transfer uses the public <code>uSync.Core</code> schema
-serializers and value mappers (<code>AdduSyncCore()</code>) and retains native Umbraco draft saves;
-it never installs the uSync backoffice, and its packages do not depend on it (the pack
-check enforces this). Its backoffice lives in Settings → Synchronisation → Ferry. Where
-a site also installs uSync, uSync registers itself and its normal save handlers perform
-configured exports of Ferry's saves without a global pause or fabricated uSync import
-events (<code>base-usync</code> suite). No commercial package implementation is included. Schema and
+<p>Ferry is a standalone package. Full transfer saves through Umbraco's native services, so
+other packages' save handlers see Ferry's changes as normal saves. Its backoffice lives in
+Settings → Synchronisation → Ferry. Schema and
 media changes are applied to the destination's live definitions/files; content
 publication is a separate operation. Preserve a site/database backup appropriate
 to your hosting environment when operating on a real site.</p>
@@ -1282,7 +1227,7 @@ acceptance. Dictionary behavior is verified by the real API suite. Dictionary ev
 <code>artifacts/e2e/run-d84b5395c2e5/results.json</code>; package smoke in
 <code>artifacts/package-install/run-dictionary-fixed-20260924/result.json</code>. Other real-site
 evidence above refers to earlier packages unless an artifact is explicitly listed as
-current. This is not a claim of commercial uSync Complete parity.</p>
+current.</p>
 <table>
 <thead>
 <tr>
@@ -1337,9 +1282,7 @@ destination or local site and status before creating another approved attempt. T
 queue never automatically retries, rolls back, cancels, resumes assets, or replays
 interrupted work, and it is private to one process rather than a distributed queue.
 These bounds are not
-a tested large-site capacity claim. See the backend capability audit
-and the current implementation roadmap
-for the scoped-snapshot and large-site work still required.</p>
+a tested large-site capacity claim.</p>
 <h2 id="named-receiver-policies">Named receiver policies<a class="headerlink" href="#named-receiver-policies" title="Permanent link">&para;</a></h2>
 <p>A receiver may keep one optional legacy bearer token, which grants all receiver
 operations, or configure named peers with an id, rotation tokens, enabled flag,
@@ -1463,7 +1406,7 @@ capability operation on both peers. Default sites keep protocol 1 and
 <tr>
 <td>People</td>
 <td><code>Ferry:Full:AllowPeopleTransfer</code> on both peers</td>
-<td>User groups (sections, fallback and document-level granular permissions, languages, start nodes), users (groups, start nodes, language), member groups, member types (public uSync serializer) and members (identity, approval on creation, groups, invariant values for text/textarea/email/integer/decimal/true-false/date editors). The Administrators group, administrators, the super-user and API users are never exported or modified; <strong>no password, security stamp, lockout, login state or token is transferred</strong>, so accounts need a password reset. Name/alias/user-name/email collisions reject before writes; other member editors and granular permission types fail the export closed; at most 10,000 members per full-site transfer. People move in full-site transfers.</td>
+<td>User groups (sections, fallback and document-level granular permissions, languages, start nodes), users (groups, start nodes, language), member groups, member types and members (identity, approval on creation, groups, invariant values for text/textarea/email/integer/decimal/true-false/date editors). The Administrators group, administrators, the super-user and API users are never exported or modified; <strong>no password, security stamp, lockout, login state or token is transferred</strong>, so accounts need a password reset. Name/alias/user-name/email collisions reject before writes; other member editors and granular permission types fail the export closed; at most 10,000 members per full-site transfer. People move in full-site transfers.</td>
 <td><code>people</code> 5/5</td>
 </tr>
 <tr>
@@ -1517,7 +1460,7 @@ capability operation on both peers. Default sites keep protocol 1 and
 <tr>
 <td>Content-only sites</td>
 <td>Off by default; <code>Ferry:Full:ContentOnly</code> on the receiving site</td>
-<td>For sites whose schema is deployed with the code, for example uSync files in source control. Any Push, Pull, package or startup import whose plan would create, update or move a document, media or member type, data type, language, template, media-type variation or relation type is rejected before anything is written. The error lists up to 20 items (kind, alias, key) to deploy first. Unchanged schema prerequisites are accepted, so content whose types already match transfers normally. The check runs on every planned transfer, at review and again at apply. Dictionary items, members and other content-like kinds are not affected.</td>
+<td>For sites whose schema is deployed with the code, for example code-first migrations or schema files in source control. Any Push, Pull, package or startup import whose plan would create, update or move a document, media or member type, data type, language, template, media-type variation or relation type is rejected before anything is written. The error lists up to 20 items (kind, alias, key) to deploy first. Unchanged schema prerequisites are accepted, so content whose types already match transfers normally. The check runs on every planned transfer, at review and again at apply. Dictionary items, members and other content-like kinds are not affected.</td>
 <td><code>content-only</code> 2/2</td>
 </tr>
 <tr>
@@ -1543,7 +1486,7 @@ capability operation on both peers. Default sites keep protocol 1 and
 <h2 id="schema-storage-and-migrations">Schema storage and migrations<a class="headerlink" href="#schema-storage-and-migrations" title="Permanent link">&para;</a></h2>
 <p>Where schema is deployed with the code, set <code>Ferry:Full:ContentOnly</code> on the receiving site so transfers carry content only (see the modules table).</p>
 <p>Data type exports declare native storage metadata. Apply preserves that declared
-storage instead of accepting base-uSync editor-default normalization. Existing
+storage instead of normalizing to the editor's default storage. Existing
 shared data type editor or storage changes are blocked before mutation because
 they can affect destination-only content, unless Umbraco reports that no stored
 value uses the data type (for example a fresh site's built-in types); a data type
@@ -1562,7 +1505,7 @@ exported again with the current version.</p>
 </code></pre></div>
 <p>Use a scalar contract only for values that contain no site-local IDs, file paths
 or entity references. A mapped contract additionally requires an installed
-base-uSync mapper. The adapter checks mapped round trips and declared references
+value mapper for the editor. The adapter checks mapped round trips and declared references
 before saving content; declaring an alias does not create a mapper automatically.
 Validate your custom editor on two disposable sites with different local IDs.</p>
 <h2 id="explicit-publication">Explicit publication<a class="headerlink" href="#explicit-publication" title="Permanent link">&para;</a></h2>

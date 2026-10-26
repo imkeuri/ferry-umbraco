@@ -649,29 +649,6 @@
 
               
             
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../usync-api-findings/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    uSync API findings
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
           </ul>
         </nav>
       
@@ -721,29 +698,6 @@
             Design notes
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../research/core-usync-integration/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    uSync integration
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
             
               
                 
@@ -981,7 +935,7 @@ Ferry about a package:</p>
 </tr>
 <tr>
 <td>A property editor whose value points at pages, media or other items</td>
-<td>Write a uSync <strong>mapper</strong> and declare it a <strong>mapped</strong> editor</td>
+<td>Use a value <strong>mapper</strong> and declare it a <strong>mapped</strong> editor</td>
 <td><a href="#mapped-editors">Mapped editors</a></td>
 </tr>
 <tr>
@@ -1011,45 +965,18 @@ entity references: plain text, numbers, colours, a JSON object of settings.</p>
 <p>If the value holds a page or media key, a scalar contract copies it without the dependency, so the page may not exist
 on the destination. Use a mapped editor instead.</p>
 <h2 id="mapped-editors">Mapped editors<a class="headerlink" href="#mapped-editors" title="Permanent link">&para;</a></h2>
-<p>A mapped editor needs a uSync <code>ISyncMapper</code> that</p>
+<p>A mapped editor's values are converted by a value mapper that</p>
 <ul>
-<li>returns the value to export (<code>GetExportValueAsync</code>) and to import (<code>GetImportValueAsync</code>);</li>
-<li>reports every page and media item the value points at (<code>GetDependenciesAsync</code>), so they travel with the page and the
-  review shows them.</li>
+<li>returns the value to send and the value to store on the destination;</li>
+<li>reports every page and media item the value points at, so they travel with the page and the review shows them.</li>
 </ul>
 <p>Keys are the same on both sites after a Ferry transfer, so a value that stores keys or <code>umb://</code> UDIs can usually be
 copied unchanged; the mapper's job is to report the references. Ferry checks the round trip and the declared references
 before saving content.</p>
-<div class="highlight"><pre><span></span><code><span class="na">[HideFromTypeFinder]</span>
-<span class="k">public</span><span class="w"> </span><span class="k">sealed</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">LinkCardMapper</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ISyncMapper</span>
-<span class="p">{</span>
-<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="n">Name</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s">"Link card"</span><span class="p">;</span>
-<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">string</span><span class="p">[]</span><span class="w"> </span><span class="n">Editors</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">[</span><span class="s">"Our.LinkCard"</span><span class="p">];</span>
-<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="nf">IsMapper</span><span class="p">(</span><span class="n">PropertyType</span><span class="w"> </span><span class="n">propertyType</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">propertyType</span><span class="p">.</span><span class="n">PropertyEditorAlias</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">"Our.LinkCard"</span><span class="p">;</span>
-
-<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="n">Task</span><span class="o">&lt;</span><span class="kt">string?</span><span class="o">&gt;</span><span class="w"> </span><span class="n">GetExportValueAsync</span><span class="p">(</span><span class="kt">object</span><span class="w"> </span><span class="k">value</span><span class="p">,</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="n">editorAlias</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">Task</span><span class="p">.</span><span class="n">FromResult</span><span class="p">(</span><span class="k">value</span><span class="o">?.</span><span class="n">ToString</span><span class="p">());</span>
-<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="n">Task</span><span class="o">&lt;</span><span class="kt">string?</span><span class="o">&gt;</span><span class="w"> </span><span class="n">GetImportValueAsync</span><span class="p">(</span><span class="kt">string</span><span class="w"> </span><span class="k">value</span><span class="p">,</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="n">editorAlias</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">Task</span><span class="p">.</span><span class="n">FromResult</span><span class="o">&lt;</span><span class="kt">string?</span><span class="o">&gt;</span><span class="p">(</span><span class="k">value</span><span class="p">);</span>
-<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="n">Task</span><span class="o">&lt;</span><span class="kt">string?</span><span class="o">&gt;</span><span class="w"> </span><span class="n">GetImportValueAsync</span><span class="p">(</span><span class="kt">string</span><span class="w"> </span><span class="k">value</span><span class="p">,</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="n">editorAlias</span><span class="p">,</span><span class="w"> </span><span class="n">SyncSerializerOptions</span><span class="w"> </span><span class="n">options</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span>
-<span class="w">        </span><span class="n">Task</span><span class="p">.</span><span class="n">FromResult</span><span class="o">&lt;</span><span class="kt">string?</span><span class="o">&gt;</span><span class="p">(</span><span class="k">value</span><span class="p">);</span>
-
-<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="n">Task</span><span class="o">&lt;</span><span class="n">IEnumerable</span><span class="o">&lt;</span><span class="n">uSyncDependency</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">GetDependenciesAsync</span><span class="p">(</span><span class="kt">object</span><span class="w"> </span><span class="k">value</span><span class="p">,</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="n">editorAlias</span><span class="p">,</span><span class="w"> </span><span class="n">DependencyFlags</span><span class="w"> </span><span class="n">flags</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span>
-<span class="w">        </span><span class="n">Task</span><span class="p">.</span><span class="n">FromResult</span><span class="o">&lt;</span><span class="n">IEnumerable</span><span class="o">&lt;</span><span class="n">uSyncDependency</span><span class="o">&gt;&gt;</span><span class="p">(</span><span class="n">PageKeys</span><span class="p">(</span><span class="k">value</span><span class="o">?.</span><span class="n">ToString</span><span class="p">())</span>
-<span class="w">            </span><span class="p">.</span><span class="n">Select</span><span class="p">(</span><span class="n">key</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">GuidUdi</span><span class="p">(</span><span class="n">Constants</span><span class="p">.</span><span class="n">UdiEntityType</span><span class="p">.</span><span class="n">Document</span><span class="p">,</span><span class="w"> </span><span class="n">key</span><span class="p">))</span>
-<span class="w">            </span><span class="p">.</span><span class="n">Select</span><span class="p">(</span><span class="n">udi</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">uSyncDependency</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">                </span><span class="n">Name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">udi</span><span class="p">.</span><span class="n">ToString</span><span class="p">(),</span><span class="w"> </span><span class="n">Udi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">udi</span><span class="p">,</span><span class="w"> </span><span class="n">Flags</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">flags</span><span class="p">,</span>
-<span class="w">                </span><span class="n">Order</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DependencyOrders</span><span class="p">.</span><span class="n">OrderFromEntityType</span><span class="p">(</span><span class="n">udi</span><span class="p">.</span><span class="n">EntityType</span><span class="p">),</span><span class="w"> </span><span class="n">Level</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
-<span class="w">            </span><span class="p">}).</span><span class="n">ToArray</span><span class="p">());</span>
-
-<span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="k">static</span><span class="w"> </span><span class="n">IEnumerable</span><span class="o">&lt;</span><span class="n">Guid</span><span class="o">&gt;</span><span class="w"> </span><span class="n">PageKeys</span><span class="p">(</span><span class="kt">string?</span><span class="w"> </span><span class="k">value</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="cm">/* read the keys out of your stored JSON */</span><span class="w"> </span><span class="p">[];</span>
-<span class="p">}</span>
-</code></pre></div>
-<p>Register the mapper and declare the editor:</p>
-<div class="highlight"><pre><span></span><code><span class="n">builder</span><span class="p">.</span><span class="n">WithCollectionBuilder</span><span class="o">&lt;</span><span class="n">SyncValueMapperCollectionBuilder</span><span class="o">&gt;</span><span class="p">().</span><span class="n">Add</span><span class="o">&lt;</span><span class="n">LinkCardMapper</span><span class="o">&gt;</span><span class="p">();</span>
-<span class="n">builder</span><span class="p">.</span><span class="n">AddFerryUmbracoFull</span><span class="p">(</span><span class="n">options</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">options</span><span class="p">.</span><span class="n">MappedEditors</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="s">"Our.LinkCard"</span><span class="p">));</span>
-</code></pre></div>
-<p>Declaring an alias does not create a mapper: without one, content using the editor is still refused. Ferry's own
-<code>ContentmentReferenceMapper</code> and <code>MetaMomentumMapper</code> are working examples.</p>
+<p>Ferry includes mappers for Umbraco's own editors (Block List, Block Grid, rich text, pickers) and for Contentment and
+MetaMomentum. A public mapper API for your own editors is planned for Ferry 0.5. Until then, ask for an editor through
+the <a href="https://github.com/imkeuri/ferry-umbraco/issues/new/choose">package or editor support</a> issue form.</p>
+<p>Declaring an alias without a mapper does not make the editor transferable: content using it is still refused.</p>
 <p>Test the editor on two disposable sites whose local ids differ: create content on one, Send it, and check that a second
 review plans it as unchanged.</p>
 <h2 id="package-providers">Package providers<a class="headerlink" href="#package-providers" title="Permanent link">&para;</a></h2>
