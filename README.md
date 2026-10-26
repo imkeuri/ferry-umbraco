@@ -20,6 +20,8 @@ Ferry keeps schema in your code and moves content between sites, such as develop
 - **Safe on real sites.** One operation runs at a time across load-balanced instances (database lease). Indexing and
   caches pause during large imports. Each apply writes a recovery journal.
 
+**Documentation:** <https://imkeuri.github.io/ferry-umbraco/>
+
 Ferry works alongside uSync: it uses the open-source `uSync.Core` serializers, and uSync files are optional.
 
 > **Free to use, closed source.** Ferry is free for any site, including commercial work, under the
@@ -199,24 +201,6 @@ services can activate independently of Ferry's transport switch or chosen
 adapter. Configure base-uSync export/import behavior through its own settings.
 Our guarded draft path does not invoke the generic uSync import pipeline or invent
 its import-origin notifications. See [the integration contract](docs/research/core-usync-integration.md).
-
-## Build and test
-
-Install .NET SDK 10.0.201 (see `global.json`), then run:
-
-```sh
-dotnet restore Ferry.slnx
-dotnet test Ferry.slnx -m:1
-```
-
-The normal test runner works. The repository also contains a
-two-site sample and a real-site E2E launcher in
-`scripts/e2e/run.py`. Fixture credentials and databases belong in ignored
-`artifacts/`; do not reuse them for deployed sites.
-
-No public package has been published. Broad layout, accessibility, cross-browser,
-and production-topology acceptance remains pending. See
-[validation](docs/validation-record.md) for the latest local evidence and its limits.
 
 ## Host integration
 
