@@ -151,3 +151,33 @@ The same site moved its backoffice-made schema to code with `SchemaBuilder`.
 - Repeat preview: everything **Unchanged** except the duplicate-name media item, which #32 later fixed.
 - Running the migration a second time converged all 694 items and created nothing; the preview stayed unchanged.
 - The source database was restored to its prior state, and the trial copy was deleted.
+
+# Real-site check: generated schema migrations (0.6.0-beta.1, 2026-10-27)
+
+A client site upgraded from Umbraco 13 to 17 was moved to [generated migrations](code-first-schema.md#generated-migrations)
+the way a developer would.
+
+## Setup
+
+- On a development copy with `Ferry:Schema:Migrations` writing enabled, **Create migration** wrote the adoption
+  migration of the whole schema, then a schema change in the backoffice became a second, change-only migration.
+- A rebuilt fresh install of the same site code, content-only, ran both migrations at startup, then got the whole site
+  from the development copy.
+
+## Fixed while checking
+
+| Finding | Fix |
+| --- | --- |
+| Upgraded sites have properties outside every group; the adoption refused them, and the refusal surfaced as a 500. | `SchemaBuilder` states group-less properties on the type itself, the generator writes them there, and moving a property out of every group is `MovePropertyAsync(type, alias, "")`. A schema Ferry cannot state is a 409 with the reason. |
+| On a fresh install the adoption failed on built-in data types whose keys differ from the upgraded site's (*Content Picker*). | `EnsureDataTypeAsync` with a stated key adopts an unused namesake and re-keys it, as transfers do. |
+| A template whose `Layout` names a plain view (with extension) failed with *MasterTemplateNotFound*. | Such a template is created without a master, keeping its view, also on name changes and renames. |
+| The failed step was not fully taken back: Umbraco rolled back the database, but its caches still served what the step had created, and the template views stayed. | Each step runs in a scope that also covers view files; the caches are cleared when a step fails, and the failure is recorded after the rollback. |
+| Pages that no longer fit their type's root or child rules were refused when their type was already identical on the destination. | They are copied where the source has them when the destination's type is the source's, including unchanged types (content and media). |
+
+## Verified end to end
+
+- The rebuilt site **Applied** both migrations at startup, with no drift.
+- Content-only Get preview: no errors; all **330 schema items Unchanged**.
+- Apply: **2,512 content and media items** completed.
+- Repeat preview: everything **Unchanged**.
+- The development database was restored to its prior state.

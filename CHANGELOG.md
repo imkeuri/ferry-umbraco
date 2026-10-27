@@ -3,6 +3,50 @@
 All notable changes to Ferry. Versions follow [Semantic Versioning](https://semver.org/); while Ferry is pre-1.0,
 minor versions may contain breaking changes.
 
+## 0.6.0-beta.1
+
+### Schema as generated C# migrations
+- **Generated migrations.** With `Ferry:Schema:Migrations` enabled on a development site, schema edits in the
+  backoffice keep a draft migration (`_PendingSchemaChanges.cs`, never compiled) up to date, and **Create migration**
+  (Settings › Ferry › Advanced, or `POST /umbraco/management/api/v1/community-sync/schema/migrations`) turns it into a
+  timestamped `SchemaBuilder` migration and adds it to the generated plan file `FerrySchemaPlan.g.cs`. The first one
+  adopts the site's whole schema; later ones contain only what changed. See
+  [generated migrations](docs/code-first-schema.md#generated-migrations).
+- **Per-environment history.** Every environment runs the listed migrations it has not run yet, in step id order, at
+  startup. A failing migration is rolled back, blocks the later ones, and is shown on the Advanced tab and by the new
+  **Ferry schema migrations** health check; the site keeps running and the next start retries it.
+- **Drift.** Schema changed outside the migrations (for example directly on live) is listed on the Advanced tab and by
+  the health check until it is resolved, across deploys: a migration that changes a drifted item does not hide it.
+  Administrators can **Accept current schema** (Advanced tab, or
+  `POST …/community-sync/schema/migrations/accept`, all items or selected keys) to take the schema as it is there.
+- **Create migration** refuses while the plan lists migrations the database has not run, so a teammate's change is
+  never undone by a diff against a database without it.
+- **New `SchemaBuilder` steps**: `Remove…Async` for every schema kind and for properties, groups, tabs and
+  compositions; `Rename…Async` for document types, media types, templates, properties, groups and tabs;
+  `MovePropertyAsync`. Removals refuse when stored values exist unless you pass `allowDataLoss: true` by hand.
+- `.Folder(...)` in `Ensure…` now moves an existing item into the stated folder (`.Folder("")` = root).
+- Files are written only in the Development environment, outside Umbraco's Production runtime mode, inside
+  `ProjectPath`. Member types are not covered.
+- Sites with a hand-written 0.5 schema plan keep it running; to switch, create a first (adoption) migration and remove
+  the old plan registration in the same commit.
+
+### Breaking
+- `SchemaCodeExport` is created through dependency injection only; its constructor is now internal. Resolve it, or
+  `ISyncSchemaCodeExport`, from the container.
+- `SchemaBuilder` and `UmbracoFullSyncStore` have new optional constructor parameters. Source that calls them
+  compiles unchanged, but code compiled against 0.5 that constructs them directly must be rebuilt (binary break).
+
+### Behaviour changes
+- `EnsureDataTypeAsync` with a stated key adopts an unused data type of the same name (re-keying it), as transfers
+  do, instead of refusing; a namesake in use is still refused.
+- A template whose view's `Layout` names a plain view rather than a template is created without a master template
+  (in `SchemaBuilder` and transfers), instead of failing with *MasterTemplateNotFound*.
+- Pages and media that no longer fit their type's root or child rules are copied where the source has them also when
+  their type is unchanged on the destination; for media, the root and child rules are relaxed the same way as for
+  content.
+- `.Folder(...)` in `Ensure…` moves an existing item into the stated folder; before, it applied only to new items.
+- `UmbracoMediaTransfer.ValidateAsync` has a new overload taking the unchanged schema items; the 0.5 overload is kept.
+
 ## 0.5.0-beta.1
 
 ### Self-contained

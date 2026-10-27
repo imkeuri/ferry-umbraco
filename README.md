@@ -15,6 +15,8 @@ Ferry keeps schema in your code and moves content between sites, such as develop
   references and blocks travel with the content.
 - **Deployment workflow.** A per-user transfer queue, offline `.csync.zip` packages, import at startup, snapshots and
   restore points, and Umbraco user-group permissions for delegated editors.
+- **Schema as generated migrations.** Schema edits in the development backoffice become C# migrations you commit;
+  every environment runs the ones it is missing at startup and reports drift. See [generated migrations](docs/code-first-schema.md#generated-migrations).
 - **Extensible.** Custom property editors and package data (Skybrud redirects, Umbraco Forms, or your own package)
   can join transfers. See [extending Ferry](docs/extending.md).
 - **Safe on real sites.** One operation runs at a time across load-balanced instances (database lease). Indexing and
