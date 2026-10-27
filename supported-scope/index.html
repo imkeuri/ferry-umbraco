@@ -1460,14 +1460,20 @@ capability operation on both peers. Default sites keep protocol 1 and
 <tr>
 <td>Content-only sites</td>
 <td>Off by default; <code>Ferry:Full:ContentOnly</code> on the receiving site</td>
-<td>For sites whose schema is deployed with the code, for example code-first migrations or schema files in source control. Any Push, Pull, package or startup import whose plan would create, update or move a document, media or member type, data type, language, template, media-type variation or relation type is rejected before anything is written. The error lists up to 20 items (kind, alias, key) to deploy first. Unchanged schema prerequisites are accepted, so content whose types already match transfers normally. The check runs on every planned transfer, at review and again at apply. Dictionary items, members and other content-like kinds are not affected.</td>
+<td>For sites whose schema is deployed with the code, for example code-first migrations or schema files in source control. Any Push, Pull, package or startup import whose plan would create, update or move a document, media or member type, data type, language, template, media-type variation or relation type is rejected before anything is written. The error lists up to 20 items (kind, alias, key) to deploy first. Unchanged schema prerequisites are accepted, so content whose types already match transfers normally. A page or media item that no longer fits its type's root or child rules (Umbraco checks them only when an editor creates or moves it) is copied where the source has it when the source's type is in the transfer, including when that type is unchanged. The check runs on every planned transfer, at review and again at apply. Dictionary items, members and other content-like kinds are not affected.</td>
 <td><code>content-only</code> 2/2</td>
 </tr>
 <tr>
 <td>Code-first schema (<code>SchemaBuilder</code>)</td>
 <td>Use <code>SchemaBuilder</code> in your own Umbraco migrations; see <a href="../code-first-schema/">code-first schema</a></td>
-<td><code>Ensure…</code> methods create or converge data types, templates, languages, media types and document types (tabs, groups, folders, templates, variations) and never remove anything. Destructive changes (a property's data type, a data type's editor or storage, variations) are refused. Keys are RFC 4122 v5 UUIDs derived from aliases, so every environment gets identical identities and content-only transfers plan the schema as unchanged. <code>GET …/community-sync/schema/code</code> writes an existing site's schema as one migration that keeps every key.</td>
+<td><code>Ensure…</code> methods create or converge data types, templates, languages, media types and document types (tabs, groups, folders, templates, variations) and never remove anything. Destructive changes (a property's data type, a data type's editor or storage, variations) are refused. Keys are RFC 4122 v5 UUIDs derived from aliases, so every environment gets identical identities and content-only transfers plan the schema as unchanged. <code>Remove…Async</code>, <code>Rename…Async</code> and <code>MovePropertyAsync</code> state removals (refused while stored values exist, unless <code>allowDataLoss: true</code> is written by hand), renames and moves into or out of groups. <code>GET …/community-sync/schema/code</code> writes an existing site's schema as one migration that keeps every key.</td>
 <td><code>schema-migrations</code> 6/6</td>
+</tr>
+<tr>
+<td>Generated schema migrations</td>
+<td>Off by default; <code>Ferry:Schema:Migrations:Enabled</code> everywhere, plus <code>WriteDrafts</code> and <code>ProjectPath</code> on development machines; see <a href="../code-first-schema/#generated-migrations">generated migrations</a></td>
+<td>Backoffice schema edits keep a draft migration; <strong>Create migration</strong> writes a timestamped <code>SchemaBuilder</code> migration and the plan file (the first one adopts the whole schema). Every environment runs the migrations it has not run, in step id order, at startup; a failing one is rolled back with its template views, blocks later ones and is reported on the Advanced tab and by a health check. Drift from the migrations is listed across deploys until resolved or accepted (<strong>Accept current schema</strong>). Member types are not covered. Verified on a real upgraded site: adoption plus a change migration applied on a rebuilt site, all 330 schema items Unchanged on Get, 2,512 items applied.</td>
+<td><code>schema-files</code> 5/5</td>
 </tr>
 <tr>
 <td>Package data</td>

@@ -425,6 +425,93 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#removing-renaming-and-moving" class="md-nav__link">
+    <span class="md-ellipsis">
+      Removing, renaming and moving
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#generated-migrations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Generated migrations
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Generated migrations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      Settings
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-draft" class="md-nav__link">
+    <span class="md-ellipsis">
+      The draft
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-migration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create migration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-happens-at-startup" class="md-nav__link">
+    <span class="md-ellipsis">
+      What happens at startup
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-a-generated-migration-contains" class="md-nav__link">
+    <span class="md-ellipsis">
+      What a generated migration contains
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#drift" class="md-nav__link">
+    <span class="md-ellipsis">
+      Drift
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#moving-from-a-hand-written-05-plan" class="md-nav__link">
+    <span class="md-ellipsis">
+      Moving from a hand-written 0.5 plan
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#guardrails" class="md-nav__link">
     <span class="md-ellipsis">
       Guardrails
@@ -807,6 +894,93 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#removing-renaming-and-moving" class="md-nav__link">
+    <span class="md-ellipsis">
+      Removing, renaming and moving
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#generated-migrations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Generated migrations
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Generated migrations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      Settings
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-draft" class="md-nav__link">
+    <span class="md-ellipsis">
+      The draft
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-migration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create migration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-happens-at-startup" class="md-nav__link">
+    <span class="md-ellipsis">
+      What happens at startup
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-a-generated-migration-contains" class="md-nav__link">
+    <span class="md-ellipsis">
+      What a generated migration contains
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#drift" class="md-nav__link">
+    <span class="md-ellipsis">
+      Drift
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#moving-from-a-hand-written-05-plan" class="md-nav__link">
+    <span class="md-ellipsis">
+      Moving from a hand-written 0.5 plan
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#guardrails" class="md-nav__link">
     <span class="md-ellipsis">
       Guardrails
@@ -867,7 +1041,9 @@ content. A site that receives transfers can enforce that with <code>Ferry:Full:C
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>Register the steps in a plan and run it at startup, as for any Umbraco migration. A working example is
+<p>From 0.6, Ferry can write these migrations for you from the changes you make in the backoffice, and run them on
+every environment: see <a href="#generated-migrations">Generated migrations</a>. You can also write them by hand and register
+the steps in a plan of your own that runs at startup, as for any Umbraco migration. A working example is
 <code>SampleSchemaMigrationComponent</code> in <code>tests/e2e/FixtureSupport/FixtureSupport.cs</code>.</p>
 <div class="highlight"><pre><span></span><code><span class="kt">var</span><span class="w"> </span><span class="n">plan</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">MigrationPlan</span><span class="p">(</span><span class="s">"MySite.Schema"</span><span class="p">)</span>
 <span class="w">    </span><span class="p">.</span><span class="n">From</span><span class="p">(</span><span class="kt">string</span><span class="p">.</span><span class="n">Empty</span><span class="p">)</span>
@@ -927,15 +1103,31 @@ content. A site that receives transfers can enforce that with <code>Ferry:Full:C
   the schema as unchanged.
   <code>.Key(existingKey)</code> adopts an item that was created by hand. On groups, tabs and properties it also re-keys an
   existing one, so built-in media types on an upgraded site can be matched.</li>
+<li><strong>A data type with a stated key adopts an unused namesake.</strong> When no data type has the stated key but one with the
+  same name exists and no property uses it (typically a fresh install's built-in, such as <em>Content Picker</em>, whose key
+  differs from an upgraded site's), <code>EnsureDataTypeAsync</code> re-keys that data type to the stated key and converges it,
+  as transfers do. A namesake that a property uses is refused, because its key cannot change under stored values.</li>
 <li><strong>Data type configuration</strong> is the data type's portable JSON configuration. Data types are written through the same
   serializers that Ferry transfers use. When the configuration is left out, an existing
   data type keeps its configuration.</li>
 <li><strong>Templates use the site's view file.</strong> A new template reads <code>Views/{alias}.cshtml</code> and never changes it. Umbraco
-  takes its layout (master template) from the view's <code>Layout</code>, so create layouts first. If the view is missing, the
-  template gets Umbraco's default view.</li>
+  takes its layout (master template) from the view's <code>Layout</code>, so create layouts first. A <code>Layout</code> that names a plain
+  view rather than a template (for example <code>Layout = "HistoryTimelineLayout.cshtml"</code> with no such template) gives a
+  template without a master, as Umbraco keeps one whose view was edited later, and logs a warning; renaming it or
+  changing its name works the same way. If the view is missing, the template
+  gets Umbraco's default view. Umbraco reads a new template's master from the view file itself, so for such a
+  template Ferry briefly writes a placeholder into the view and then puts the original bytes back. Inside a schema
+  migration step that write is part of the step's scope and is discarded if the step fails. Called outside a migration
+  step (for example from your own code at runtime), there is no such scope: a crash at that moment can leave the
+  placeholder in the view, so call the template methods from migrations.</li>
 <li><strong>Groups and tabs.</strong> <code>Group(...)</code> on a type is a group outside any tab. <code>Tab(...)</code> holds properties and groups. A
   group inside a tab has the alias <code>tab/group</code>. Use <code>.Alias(...)</code> when the stored alias isn't the one Umbraco derives
   from the name, and <code>.SortOrder(...)</code> when the order isn't the declaration order.</li>
+<li><strong>Properties outside any group.</strong> Sites upgraded from older Umbraco versions often have properties in no group or
+  tab. <code>Property(...)</code> and the shortcuts on the type itself state such a property:
+  <code>type.Text("internalRemarks").Tab("Content", …)</code>. A new one is created outside every group. An existing property
+  stays where it is, as for any property: <code>Ensure…</code> never moves one into or out of a group. Use <code>MovePropertyAsync</code>
+  for that.</li>
 <li><strong>Property settings.</strong> <code>Property(alias, dataTypeKey, property =&gt; …)</code> accepts every setting:</li>
 <li><code>Label</code>, <code>Describe</code>, <code>Mandatory</code> (with a message), <code>Validation</code> (with a message), <code>Vary</code>, <code>LabelOnTop</code>, <code>Order</code>, <code>Key</code>.</li>
 <li><strong>Shortcuts use Umbraco's default data types by name:</strong></li>
@@ -968,21 +1160,259 @@ content. A site that receives transfers can enforce that with <code>Ferry:Full:C
 <li>Block editor configuration. Block editors name element types, so these data types are created early without their
    configuration and configured once the element types exist.</li>
 </ol>
-<p>Settings that equal Umbraco's defaults are left out. Member types are not included; Ferry transfers them only with
-people.</p>
+<p>Settings that equal Umbraco's defaults are left out. Properties outside any group are stated on the type itself.
+Member types are not included; Ferry transfers them only with people.</p>
+<p>A schema that <code>SchemaBuilder</code> cannot state (for example a group that contains groups, which Umbraco only allows in
+tabs) is refused: <a href="#create-migration">Create migration</a> answers with a conflict (409) that gives the reason, and
+writes nothing. Change the schema in the backoffice, then try again.</p>
 <p>This was validated on a real client site (165 document types, 463 data types, 28 templates and 9 media types):</p>
 <ul>
 <li>A fresh content-only install ran the generated migration and pulled 6,117 items, with every schema item unchanged.</li>
 <li>Running the migration again changed nothing.</li>
 </ul>
+<h2 id="removing-renaming-and-moving">Removing, renaming and moving<a class="headerlink" href="#removing-renaming-and-moving" title="Permanent link">&para;</a></h2>
+<p><code>Ensure…</code> only adds and converges. These steps state the other changes; each is a no-op when the environment is
+already in the target state, so a migration is safe to run anywhere:</p>
+<ul>
+<li><code>RemoveDocumentTypeAsync</code>, <code>RemoveMediaTypeAsync</code>, <code>RemoveDataTypeAsync</code>, <code>RemoveTemplateAsync</code>,
+  <code>RemoveLanguageAsync</code>, <code>RemoveRelationTypeAsync</code>, <code>RemovePropertyAsync</code>, <code>RemoveGroupAsync</code>, <code>RemoveTabAsync</code>,
+  <code>RemoveCompositionAsync</code>.</li>
+<li><code>RenameDocumentTypeAsync</code>, <code>RenameMediaTypeAsync</code>, <code>RenameTemplateAsync</code>, <code>RenamePropertyAsync</code>,
+  <code>RenameGroupAsync</code>, <code>RenameTabAsync</code>: a no-op when the new alias exists and the old one does not, a refusal when
+  both exist. <code>RenameTabAsync</code> also renames the groups inside the tab (<code>old/x</code> becomes <code>new/x</code>).</li>
+<li><code>MovePropertyAsync(type, property, groupAlias)</code>: an empty <code>groupAlias</code> moves the property out of every group and
+  tab.</li>
+</ul>
+<p>A step that would lose stored values throws, which fails the migration (Umbraco rolls the step back and Ferry reports
+it). The check runs on the environment that deploys, because only it knows whether content holds the values: property
+and composition removals use Umbraco's property usage check, asked of the type that owns each property (for a composition: the composition or nested composition that holds it, which covers every type composed of it), a data type is
+never removed while a property uses it, a type is not removed while content of it exists, and a language is only
+removed freely when no type varies by culture. Element types and a missing usage service count as "may hold values".
+The <code>allowDataLoss: true</code> parameter is for you to write by hand; Ferry never generates it.</p>
+<p>A group or tab is only removed when it is empty (a tab: no properties and no groups). Move or remove its properties
+first. <code>typeAlias</code> resolves a document type first, then a media type.</p>
+<h2 id="generated-migrations">Generated migrations<a class="headerlink" href="#generated-migrations" title="Permanent link">&para;</a></h2>
+<p>You change schema in the backoffice of your development site as usual. Ferry keeps a <strong>draft migration</strong> with what
+changed, and <strong>Create migration</strong> turns it into a named C# migration in your project. You commit it with the code.
+Staging and live run every migration they have not run yet when the site starts. Nothing but the compiled C# carries
+schema between environments; content keeps moving with Send and Get.</p>
+<p>Covered: data types, document types, media types, templates, languages and relation types. <strong>Member types are not
+covered</strong>; Ferry transfers them only with people.</p>
+<h3 id="settings">Settings<a class="headerlink" href="#settings" title="Permanent link">&para;</a></h3>
+<p>Under <code>Ferry:Schema:Migrations</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Enabled</code></td>
+<td><code>false</code></td>
+<td>Run the site's generated migrations at startup and keep track of the schema they produce. Turn it on everywhere.</td>
+</tr>
+<tr>
+<td><code>HistoryName</code></td>
+<td><code>{SiteAssembly}.Schema</code></td>
+<td>Name the history is kept under, so one database can hold more than one site's history. <code>{SiteAssembly}</code> is the site's entry assembly name.</td>
+</tr>
+<tr>
+<td><code>Namespace</code></td>
+<td><code>{SiteAssembly}.Schema</code></td>
+<td>Namespace of the generated classes (from the assembly name, not the project's <code>RootNamespace</code>).</td>
+</tr>
+<tr>
+<td><code>WriteDrafts</code></td>
+<td><code>false</code></td>
+<td>Allow Ferry to write <code>.cs</code> files. Development only.</td>
+</tr>
+<tr>
+<td><code>ProjectPath</code></td>
+<td>none</td>
+<td>Absolute path of the web project folder (the one with the <code>.csproj</code>). Required for writing.</td>
+</tr>
+<tr>
+<td><code>Folder</code></td>
+<td><code>Migrations/Schema</code></td>
+<td>Folder under <code>ProjectPath</code> for the generated files.</td>
+</tr>
+</tbody>
+</table>
+<p>On a development machine, put <code>WriteDrafts</code> and <code>ProjectPath</code> in <code>appsettings.Development.json</code> or user secrets:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span><span class="w"> </span><span class="nt">"Ferry"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"Schema"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"Migrations"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"Enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="nt">"WriteDrafts"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="nt">"ProjectPath"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/src/MySite.Web"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<p>Ferry writes files only when <strong>all</strong> of these hold: <code>WriteDrafts</code> is true, the environment is <code>Development</code>,
+Umbraco's runtime mode is not <code>Production</code>, and <code>ProjectPath</code> exists and contains a <code>.csproj</code>. Every path stays
+inside <code>ProjectPath</code>. Otherwise nothing is written and <strong>Create migration</strong> is hidden. Staging and live never write
+code; they only run it.</p>
+<p>If you change <code>Folder</code>, set the MSBuild property <code>FerrySchemaFolder</code> in your <code>.csproj</code> to the same value. Ferry's
+build files use it to keep the draft out of compilation:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;PropertyGroup&gt;&lt;FerrySchemaFolder&gt;</span>Schema/Generated<span class="nt">&lt;/FerrySchemaFolder&gt;&lt;/PropertyGroup&gt;</span>
+</code></pre></div>
+<h3 id="the-draft">The draft<a class="headerlink" href="#the-draft" title="Permanent link">&para;</a></h3>
+<p>While writing is allowed, every schema save in the backoffice (and every folder move or rename) rewrites
+<code>{Folder}/_PendingSchemaChanges.cs</code>, a few seconds later, with only what differs from the last migration. When
+nothing differs, the file is deleted.</p>
+<ul>
+<li>The draft is <strong>not compiled and not watched</strong>: <code>dotnet watch</code> does not restart for it, and an unfinished draft
+  can never ship. Open it in your IDE to see what the next migration will contain.</li>
+<li><strong>Create your migration before you pull.</strong> When migrations from teammates run on your database at startup and you
+  have a draft, Ferry first sets it aside as <code>_PendingSchemaChanges.before-{time}.cs</code> (also not compiled, kept as a
+  backup) and logs a warning. Your edits are still in your database and still differ from the last migration, so
+  after the teammates' migrations run Ferry writes the draft again with your edits in it. Where a teammate's migration
+  restated an item you had also edited, the draft states what your database holds now; check it before you create
+  your migration.</li>
+</ul>
+<h3 id="create-migration">Create migration<a class="headerlink" href="#create-migration" title="Permanent link">&para;</a></h3>
+<p>As an administrator, open <strong>Settings › Ferry › Advanced</strong>, enter a name such as <code>AddLandingPage</code>, and choose
+<strong>Create migration</strong>. The name becomes the class name: it starts with a capital letter and has only letters and
+digits. Or call:</p>
+<div class="highlight"><pre><span></span><code>POST /umbraco/management/api/v1/community-sync/schema/migrations
+{ "name": "AddLandingPage" }
+</code></pre></div>
+<p><code>GET …/community-sync/schema/migrations/status</code> returns the history, the draft and the drift shown on that tab.</p>
+<ul>
+<li>Ferry writes <code>{Folder}/{yyyyMMddHHmm}_{Name}.cs</code>, adds it to the plan file, deletes the draft, and records the
+  step as already applied on your database (it holds those changes already, so your next restart does not run it).</li>
+<li><strong>The first migration is the adoption migration</strong>: the whole current schema, every key kept (the same code as
+  <a href="#adopting-an-existing-site">Adopting an existing site</a>). Every later migration contains only the changes since the
+  one before it.</li>
+<li>The step id is <code>{yyyyMMddHHmm}-{kebab-name}</code>. A new step always sorts after every step already in the plan: when
+  another migration was created in the same minute, or the plan holds a later time than your clock, Ferry moves the
+  timestamp on a minute at a time, so migrations run everywhere in the order they were created.</li>
+<li><code>{Folder}/FerrySchemaPlan.g.cs</code> lists every migration with its step id. It is
+  generated: <strong>never edit it by hand.</strong> When two branches each add a migration, git shows a conflict in it; keep both
+  lines.</li>
+<li><strong>Create migration refuses while the plan lists migrations your database has not run</strong> (for example a teammate's
+  migration you just pulled, or one that failed here): restart the site so it runs them, then create yours. Otherwise
+  your migration would be a diff against a database without their changes, and would undo them wherever it runs after
+  them.</li>
+<li><strong>Parallel branches.</strong> Two branches can each create a migration from the same starting point. Both run everywhere,
+  in step id order. When both restate the <strong>same item</strong> (each <code>Ensure…</code> states the item's whole definition), the one
+  that runs later wins and the other branch's change to that item is lost. After merging such branches, restart your
+  development site so it runs both, check the item in the backoffice, and create one more migration if it needs
+  fixing.</li>
+</ul>
+<h3 id="what-happens-at-startup">What happens at startup<a class="headerlink" href="#what-happens-at-startup" title="Permanent link">&para;</a></h3>
+<p>Ferry keeps its own history of the migrations each environment has run (not Umbraco's single "last step" state).</p>
+<ul>
+<li>At startup, every listed migration the environment has not run yet runs, in step id order, each as an ordinary
+  Umbraco migration in its own scope. Two branches that each added a migration both run wherever they are missing,
+  whatever order they were merged or deployed in.</li>
+<li>After a migration applies, Ferry refreshes the content type and data type caches and rebuilds the published cache
+  once the site has started (logged as "Ferry refreshed the content type caches…").</li>
+<li><strong>A failing migration does not stop the site.</strong> The whole migration is taken back: Umbraco rolls back its database
+  writes, the view files Umbraco wrote for its templates are discarded, and Ferry clears Umbraco's in-memory caches so
+  nothing it created before failing is still served (a step must therefore derive from <code>AsyncMigrationBase</code>; the plan
+  refuses an <code>UnscopedAsyncMigrationBase</code>, which Umbraco runs outside that scope). Ferry records the failure with its message, and <strong>no later
+  migration runs</strong> until it is fixed, so they never apply out of order. The failure is
+  logged, shown on the Advanced tab and reported by the <strong>Ferry schema migrations</strong> health check. The next start
+  retries it. The fix is a code change: edit the failing migration and deploy again.</li>
+<li><strong>Load-balanced sites:</strong> servers in the subscriber role skip the migrations; they run on the scheduling publisher.
+  Give every server an explicit role: register an <code>IServerRoleAccessor</code> that returns <code>SchedulingPublisher</code> on one
+  server and <code>Subscriber</code> on the others (<code>builder.SetServerRegistrar&lt;T&gt;()</code>, as in Umbraco's load-balancing docs). With
+  Umbraco's default election, every server's role is still <em>Unknown</em> when the migrations run at boot, so every server
+  runs them, and two servers starting together can run the same step at once.</li>
+<li>Each run logs how long it took ("Ferry schema migrations finished in … ms").</li>
+</ul>
+<h3 id="what-a-generated-migration-contains">What a generated migration contains<a class="headerlink" href="#what-a-generated-migration-contains" title="Permanent link">&para;</a></h3>
+<p>Inside <code>MigrateAsync</code>, the steps run in this order:</p>
+<ol>
+<li>Renames (types, templates, properties, tabs, groups).</li>
+<li>Property removals.</li>
+<li><code>Ensure…</code> for every new or changed item, restating its whole current definition, keys included.</li>
+<li>Property moves.</li>
+<li>Group, tab and composition removals.</li>
+<li>Deletions of whole items.</li>
+</ol>
+<p>Ferry checks that the steps cover every difference. Anything it cannot write safely becomes an <code>#error Review: …</code>
+line at the top of <code>MigrateAsync</code>, so <strong>the project does not build</strong> until you handle it and delete the line.</p>
+<p><strong>Changes you write by hand.</strong> These are <code>#error</code> lines, and Ferry does <strong>not</strong> restate the item at all; write that
+item's whole change yourself:</p>
+<ul>
+<li>an existing property's data type or variation;</li>
+<li>a data type's editor or storage;</li>
+<li>the variations of an existing type;</li>
+<li>a template's layout (master template);</li>
+<li>a relation type's alias, what it relates, or its dependency flag;</li>
+<li>aliases swapped or rotated between items, properties, groups or tabs;</li>
+<li>a key changed while the alias stayed the same, or a container changed between group and tab.</li>
+</ul>
+<p>A language's ISO code identifies it, so changing the code is written as removing the old language and adding the new
+one. That removal refuses wherever a type varies by culture; write the change by hand there.</p>
+<p>Your code runs before the renames, so for a renamed item target its <strong>old</strong> alias. If the item also moved into a
+group that is new in this migration, create that group in your code too.</p>
+<p><strong>Removals and stored values.</strong> A removal refuses (and the migration fails on that environment) when stored values
+exist there:</p>
+<ul>
+<li>removing a property, or a composition whose properties hold values;</li>
+<li>deleting a type that has content, or a data type that any property uses (always refused);</li>
+<li>element types and their properties always refuse, because block values are not tracked.</li>
+</ul>
+<p>Pass <code>allowDataLoss: true</code> by hand when you mean it; Ferry never generates it. <code>RemoveGroupAsync</code> and
+<code>RemoveTabAsync</code> refuse while the group or tab still holds properties or groups, which is why removals of contents
+come first.</p>
+<p><strong>Folders.</strong> <code>.Folder("Pages/Landing")</code> in an <code>Ensure…</code> call moves an existing item into that folder (creating the
+folders as needed), also in the adoption migration and in migrations you write. <code>.Folder("")</code> moves it to the root.
+Without <code>.Folder(...)</code>, the item stays where it is.</p>
+<p><strong>Tabs and groups.</strong> <code>RenameTabAsync</code> also renames the groups inside the tab. A <code>RenameGroupAsync</code> in the same
+migration that names the tab's old alias follows it.</p>
+<h3 id="drift">Drift<a class="headerlink" href="#drift" title="Permanent link">&para;</a></h3>
+<p>Ferry remembers the schema its migrations produced on each environment. Anything different, such as an edit made
+directly on live, is <strong>drift</strong>: it is listed on the Advanced tab and by the <strong>Ferry schema migrations</strong> health check,
+and it stays listed through later deploys until it is resolved. A deploy never hides it: when a migration changes an
+item that had already drifted, Ferry does not take the result as the migrations' schema, so the item stays listed
+(unless the migration happens to put it back exactly as the migrations had it).</p>
+<p>To resolve drift, either:</p>
+<ul>
+<li>make the same change on a development machine and <strong>Create migration</strong>, so every environment gets it; or</li>
+<li>keep the schema as it is on this environment: as an administrator, choose <strong>Accept current schema</strong> on the Advanced
+  tab. Ferry then treats the current schema as the migrations' schema here and the list clears. It works on any
+  environment, including staging and live where no migration can be written. The API also accepts only some items:</li>
+</ul>
+<div class="highlight"><pre><span></span><code>POST /umbraco/management/api/v1/community-sync/schema/migrations/accept
+{ "keys": ["&lt;item key&gt;", "..."] }
+</code></pre></div>
+<p>Without <code>keys</code> (or with an empty list) the whole current schema is accepted. It returns the status afterwards.</p>
+<p>On a development machine that writes drafts, nothing is listed as drift: what differs from the last migration is your
+draft.</p>
+<p>Schema that arrives through a Ferry transfer is part of the migrations' schema only on a development site that writes
+drafts (it then shows in your draft). Anywhere else it shows as drift. Use <code>Ferry:Full:ContentOnly</code> on environments
+that receive transfers.</p>
+<h3 id="moving-from-a-hand-written-05-plan">Moving from a hand-written 0.5 plan<a class="headerlink" href="#moving-from-a-hand-written-05-plan" title="Permanent link">&para;</a></h3>
+<p>Sites that followed the 0.5 docs have their own <code>MigrationPlan</code> with an adoption migration. 0.6 leaves that plan as
+it is. To switch:</p>
+<ol>
+<li>On your development site, enable the settings above and choose <strong>Create migration</strong>. With no history and no plan
+   file, the first migration is an adoption migration of the current schema, recorded as applied on your database.</li>
+<li>In the <strong>same commit</strong>, remove the registration of your old plan (the component or code that runs it).</li>
+<li>Deploy. Each environment runs the adoption migration once; it converges what is already there and changes nothing
+   on a site whose schema already matches.</li>
+</ol>
+<p>Ferry never reads or rewrites another plan's state.</p>
 <h2 id="guardrails">Guardrails<a class="headerlink" href="#guardrails" title="Permanent link">&para;</a></h2>
 <ul>
-<li>Set <code>Ferry:Full:ContentOnly</code> on every environment that receives transfers, so schema arrives only through
-  migrations.</li>
+<li>
+<p><strong>ImageSharp advisory (GHSA-v76p-62qx-wwq2).</strong> Umbraco 17 depends on SixLabors.ImageSharp 3.1.x, which a security
+  audit of your site reports (a heap out-of-bounds write, fixed in 3.2.0). Ferry itself does not reference ImageSharp.
+  ImageSharp 3.2.0 refuses Release builds without a Six Labors license key, so updating it is your decision as the site
+  owner: reference 3.2.0 directly when you have a license, or record the advisory as accepted until Umbraco moves on.</p>
+</li>
+<li>
+<p>Set <code>Ferry:Full:ContentOnly</code> on every environment that receives transfers, so schema arrives only through
+  migrations.</p>
+</li>
 <li>If one environment runs a newer migration than another, their schema differs, and a content-only transfer is
   rejected with the items to deploy first.</li>
 <li>The <code>schema-migrations</code> E2E suite runs the sample migration on two real sites and checks the generated code:
   <code>python3 scripts/e2e/run.py --mode Full --suite schema-migrations</code>.</li>
+<li>The <code>schema-files</code> E2E suite creates migrations on a development site, builds a release with them, runs it on a
+  second site, and checks content-only transfers, restarts, a folder move, a property with values moved out of its
+  group, drift and Accept current schema, and a failing removal:
+  <code>python3 scripts/e2e/run.py --mode Full --suite schema-files</code>.</li>
 </ul>
 
 

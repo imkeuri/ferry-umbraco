@@ -1070,6 +1070,8 @@
   references and blocks travel with the content.</li>
 <li><strong>Deployment workflow.</strong> A per-user transfer queue, offline <code>.csync.zip</code> packages, import at startup, snapshots and
   restore points, and Umbraco user-group permissions for delegated editors.</li>
+<li><strong>Schema as generated migrations.</strong> Schema edits in the development backoffice become C# migrations you commit;
+  every environment runs the ones it is missing at startup and reports drift. See <a href="code-first-schema/#generated-migrations">generated migrations</a>.</li>
 <li><strong>Extensible.</strong> Custom property editors and package data (Skybrud redirects, Umbraco Forms, or your own package)
   can join transfers. See <a href="extending/">extending Ferry</a>.</li>
 <li><strong>Safe on real sites.</strong> One operation runs at a time across load-balanced instances (database lease). Indexing and

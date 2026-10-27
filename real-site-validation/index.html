@@ -1105,6 +1105,55 @@ way round: a fresh install <strong>got</strong> the whole site from a copy of it
 <li>Running the migration a second time converged all 694 items and created nothing; the preview stayed unchanged.</li>
 <li>The source database was restored to its prior state, and the trial copy was deleted.</li>
 </ul>
+<h1 id="real-site-check-generated-schema-migrations-060-beta1-2026-10-27">Real-site check: generated schema migrations (0.6.0-beta.1, 2026-10-27)<a class="headerlink" href="#real-site-check-generated-schema-migrations-060-beta1-2026-10-27" title="Permanent link">&para;</a></h1>
+<p>A client site upgraded from Umbraco 13 to 17 was moved to <a href="../code-first-schema/#generated-migrations">generated migrations</a>
+the way a developer would.</p>
+<h2 id="setup_3">Setup<a class="headerlink" href="#setup_3" title="Permanent link">&para;</a></h2>
+<ul>
+<li>On a development copy with <code>Ferry:Schema:Migrations</code> writing enabled, <strong>Create migration</strong> wrote the adoption
+  migration of the whole schema, then a schema change in the backoffice became a second, change-only migration.</li>
+<li>A rebuilt fresh install of the same site code, content-only, ran both migrations at startup, then got the whole site
+  from the development copy.</li>
+</ul>
+<h2 id="fixed-while-checking">Fixed while checking<a class="headerlink" href="#fixed-while-checking" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Finding</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Upgraded sites have properties outside every group; the adoption refused them, and the refusal surfaced as a 500.</td>
+<td><code>SchemaBuilder</code> states group-less properties on the type itself, the generator writes them there, and moving a property out of every group is <code>MovePropertyAsync(type, alias, "")</code>. A schema Ferry cannot state is a 409 with the reason.</td>
+</tr>
+<tr>
+<td>On a fresh install the adoption failed on built-in data types whose keys differ from the upgraded site's (<em>Content Picker</em>).</td>
+<td><code>EnsureDataTypeAsync</code> with a stated key adopts an unused namesake and re-keys it, as transfers do.</td>
+</tr>
+<tr>
+<td>A template whose <code>Layout</code> names a plain view (with extension) failed with <em>MasterTemplateNotFound</em>.</td>
+<td>Such a template is created without a master, keeping its view, also on name changes and renames.</td>
+</tr>
+<tr>
+<td>The failed step was not fully taken back: Umbraco rolled back the database, but its caches still served what the step had created, and the template views stayed.</td>
+<td>Each step runs in a scope that also covers view files; the caches are cleared when a step fails, and the failure is recorded after the rollback.</td>
+</tr>
+<tr>
+<td>Pages that no longer fit their type's root or child rules were refused when their type was already identical on the destination.</td>
+<td>They are copied where the source has them when the destination's type is the source's, including unchanged types (content and media).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="verified-end-to-end_3">Verified end to end<a class="headerlink" href="#verified-end-to-end_3" title="Permanent link">&para;</a></h2>
+<ul>
+<li>The rebuilt site <strong>Applied</strong> both migrations at startup, with no drift.</li>
+<li>Content-only Get preview: no errors; all <strong>330 schema items Unchanged</strong>.</li>
+<li>Apply: <strong>2,512 content and media items</strong> completed.</li>
+<li>Repeat preview: everything <strong>Unchanged</strong>.</li>
+<li>The development database was restored to its prior state.</li>
+</ul>
 
 
 

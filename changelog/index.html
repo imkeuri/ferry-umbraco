@@ -664,6 +664,48 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#060-beta1" class="md-nav__link">
+    <span class="md-ellipsis">
+      0.6.0-beta.1
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.6.0-beta.1">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#schema-as-generated-c-migrations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Schema as generated C# migrations
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#breaking" class="md-nav__link">
+    <span class="md-ellipsis">
+      Breaking
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#behaviour-changes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Behaviour changes
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#050-beta1" class="md-nav__link">
     <span class="md-ellipsis">
       0.5.0-beta.1
@@ -910,6 +952,48 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#060-beta1" class="md-nav__link">
+    <span class="md-ellipsis">
+      0.6.0-beta.1
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.6.0-beta.1">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#schema-as-generated-c-migrations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Schema as generated C# migrations
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#breaking" class="md-nav__link">
+    <span class="md-ellipsis">
+      Breaking
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#behaviour-changes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Behaviour changes
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#050-beta1" class="md-nav__link">
     <span class="md-ellipsis">
       0.5.0-beta.1
@@ -1096,6 +1180,52 @@
 <h1 id="changelog">Changelog<a class="headerlink" href="#changelog" title="Permanent link">&para;</a></h1>
 <p>All notable changes to Ferry. Versions follow <a href="https://semver.org/">Semantic Versioning</a>; while Ferry is pre-1.0,
 minor versions may contain breaking changes.</p>
+<h2 id="060-beta1">0.6.0-beta.1<a class="headerlink" href="#060-beta1" title="Permanent link">&para;</a></h2>
+<h3 id="schema-as-generated-c-migrations">Schema as generated C# migrations<a class="headerlink" href="#schema-as-generated-c-migrations" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Generated migrations.</strong> With <code>Ferry:Schema:Migrations</code> enabled on a development site, schema edits in the
+  backoffice keep a draft migration (<code>_PendingSchemaChanges.cs</code>, never compiled) up to date, and <strong>Create migration</strong>
+  (Settings › Ferry › Advanced, or <code>POST /umbraco/management/api/v1/community-sync/schema/migrations</code>) turns it into a
+  timestamped <code>SchemaBuilder</code> migration and adds it to the generated plan file <code>FerrySchemaPlan.g.cs</code>. The first one
+  adopts the site's whole schema; later ones contain only what changed. See
+  <a href="../code-first-schema/#generated-migrations">generated migrations</a>.</li>
+<li><strong>Per-environment history.</strong> Every environment runs the listed migrations it has not run yet, in step id order, at
+  startup. A failing migration is rolled back, blocks the later ones, and is shown on the Advanced tab and by the new
+  <strong>Ferry schema migrations</strong> health check; the site keeps running and the next start retries it.</li>
+<li><strong>Drift.</strong> Schema changed outside the migrations (for example directly on live) is listed on the Advanced tab and by
+  the health check until it is resolved, across deploys: a migration that changes a drifted item does not hide it.
+  Administrators can <strong>Accept current schema</strong> (Advanced tab, or
+  <code>POST …/community-sync/schema/migrations/accept</code>, all items or selected keys) to take the schema as it is there.</li>
+<li><strong>Create migration</strong> refuses while the plan lists migrations the database has not run, so a teammate's change is
+  never undone by a diff against a database without it.</li>
+<li><strong>New <code>SchemaBuilder</code> steps</strong>: <code>Remove…Async</code> for every schema kind and for properties, groups, tabs and
+  compositions; <code>Rename…Async</code> for document types, media types, templates, properties, groups and tabs;
+  <code>MovePropertyAsync</code>. Removals refuse when stored values exist unless you pass <code>allowDataLoss: true</code> by hand.</li>
+<li><code>.Folder(...)</code> in <code>Ensure…</code> now moves an existing item into the stated folder (<code>.Folder("")</code> = root).</li>
+<li>Files are written only in the Development environment, outside Umbraco's Production runtime mode, inside
+  <code>ProjectPath</code>. Member types are not covered.</li>
+<li>Sites with a hand-written 0.5 schema plan keep it running; to switch, create a first (adoption) migration and remove
+  the old plan registration in the same commit.</li>
+</ul>
+<h3 id="breaking">Breaking<a class="headerlink" href="#breaking" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>SchemaCodeExport</code> is created through dependency injection only; its constructor is now internal. Resolve it, or
+  <code>ISyncSchemaCodeExport</code>, from the container.</li>
+<li><code>SchemaBuilder</code> and <code>UmbracoFullSyncStore</code> have new optional constructor parameters. Source that calls them
+  compiles unchanged, but code compiled against 0.5 that constructs them directly must be rebuilt (binary break).</li>
+</ul>
+<h3 id="behaviour-changes">Behaviour changes<a class="headerlink" href="#behaviour-changes" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>EnsureDataTypeAsync</code> with a stated key adopts an unused data type of the same name (re-keying it), as transfers
+  do, instead of refusing; a namesake in use is still refused.</li>
+<li>A template whose view's <code>Layout</code> names a plain view rather than a template is created without a master template
+  (in <code>SchemaBuilder</code> and transfers), instead of failing with <em>MasterTemplateNotFound</em>.</li>
+<li>Pages and media that no longer fit their type's root or child rules are copied where the source has them also when
+  their type is unchanged on the destination; for media, the root and child rules are relaxed the same way as for
+  content.</li>
+<li><code>.Folder(...)</code> in <code>Ensure…</code> moves an existing item into the stated folder; before, it applied only to new items.</li>
+<li><code>UmbracoMediaTransfer.ValidateAsync</code> has a new overload taking the unchanged schema items; the 0.5 overload is kept.</li>
+</ul>
 <h2 id="050-beta1">0.5.0-beta.1<a class="headerlink" href="#050-beta1" title="Permanent link">&para;</a></h2>
 <h3 id="self-contained">Self-contained<a class="headerlink" href="#self-contained" title="Permanent link">&para;</a></h3>
 <ul>
