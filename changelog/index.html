@@ -664,6 +664,30 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#060-beta2" class="md-nav__link">
+    <span class="md-ellipsis">
+      0.6.0-beta.2
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.6.0-beta.2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#security" class="md-nav__link">
+    <span class="md-ellipsis">
+      Security
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#060-beta1" class="md-nav__link">
     <span class="md-ellipsis">
       0.6.0-beta.1
@@ -952,6 +976,30 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#060-beta2" class="md-nav__link">
+    <span class="md-ellipsis">
+      0.6.0-beta.2
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.6.0-beta.2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#security" class="md-nav__link">
+    <span class="md-ellipsis">
+      Security
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#060-beta1" class="md-nav__link">
     <span class="md-ellipsis">
       0.6.0-beta.1
@@ -1180,6 +1228,17 @@
 <h1 id="changelog">Changelog<a class="headerlink" href="#changelog" title="Permanent link">&para;</a></h1>
 <p>All notable changes to Ferry. Versions follow <a href="https://semver.org/">Semantic Versioning</a>; while Ferry is pre-1.0,
 minor versions may contain breaking changes.</p>
+<h2 id="060-beta2">0.6.0-beta.2<a class="headerlink" href="#060-beta2" title="Permanent link">&para;</a></h2>
+<h3 id="security">Security<a class="headerlink" href="#security" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Umbraco Forms file settings.</strong> Forms transfers refuse a view path outside the Forms email template folder
+  (<code>Forms/Emails/</code>), and a <em>Save as an XML file</em> workflow whose <code>Extension</code> is not <code>xml</code>, <code>txt</code> or <code>csv</code>. Before, any
+  relative <code>.cshtml</code> path and any extension that did not look like a server file were accepted (behaviour change).</li>
+<li><strong>Managed server access keys.</strong> Changing a managed server's address (scheme, host or port) now requires entering its
+  access key again, so a stored key is never sent to a different host. Saving the same address keeps the stored key.</li>
+<li><strong>Redirect conflicts.</strong> The Skybrud redirects conflict error no longer includes the receiving site's own redirect
+  key, which a peer with only Preview permission could read.</li>
+</ul>
 <h2 id="060-beta1">0.6.0-beta.1<a class="headerlink" href="#060-beta1" title="Permanent link">&para;</a></h2>
 <h3 id="schema-as-generated-c-migrations">Schema as generated C# migrations<a class="headerlink" href="#schema-as-generated-c-migrations" title="Permanent link">&para;</a></h3>
 <ul>

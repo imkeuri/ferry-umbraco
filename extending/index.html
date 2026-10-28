@@ -1029,8 +1029,9 @@ provider lets that data travel in the same transfer as the pages and media it po
 <span class="n">builder</span><span class="p">.</span><span class="n">AddFerrySkybrudRedirects</span><span class="p">();</span>
 <span class="n">builder</span><span class="p">.</span><span class="n">AddFerryUmbracoForms</span><span class="p">();</span>
 </code></pre></div>
-<p>Forms workflows act on the server, so every workflow and field setting is checked: a view path must stay inside the
-site's views, and an address must be an http or https URL to a public host. Ferry checks the address as written; it
+<p>Forms workflows act on the server, so every workflow and field setting is checked: a view path must be a Razor view
+in the Forms email template folder (<code>Forms/Emails/</code>), and an address must be an http or https URL to a public host. A
+<em>Save as an XML file</em> workflow may only write <code>xml</code>, <code>txt</code> or <code>csv</code> files. Ferry checks the address as written; it
 cannot see what a host name resolves to when Umbraco Forms later calls it.</p>
 <h3 id="turning-it-on">Turning it on<a class="headerlink" href="#turning-it-on" title="Permanent link">&para;</a></h3>
 <p>Package data is off by default, because a provider writes to tables Ferry does not otherwise touch. Turn it on on
