@@ -30,8 +30,8 @@ Ferry keeps schema in your code and moves content between sites, such as develop
 ## Quick start
 
 ```sh
-dotnet add package Ferry.Umbraco
-dotnet add package Ferry.Backoffice
+dotnet add package Ferry.Umbraco --prerelease
+dotnet add package Ferry.Backoffice --prerelease
 ```
 
 ```csharp
