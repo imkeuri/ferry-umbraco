@@ -1,0 +1,105 @@
+/* Ferry "Harbour" palette for MkDocs Material. */
+:root {
+  --fy-ink: #0B1F3A;
+  --fy-teal: #0E7C86;
+  --fy-teal-light: #2BB3BF;
+  --fy-coral: #FF6B4A;
+  --fy-sand: #F6F1E7;
+}
+
+[data-md-color-primary="custom"] {
+  --md-primary-fg-color: var(--fy-ink);
+  --md-primary-fg-color--light: #1B3358;
+  --md-primary-fg-color--dark: #07152A;
+}
+[data-md-color-accent="custom"] {
+  --md-accent-fg-color: var(--fy-coral);
+  --md-accent-fg-color--transparent: rgba(255, 107, 74, .1);
+}
+[data-md-color-scheme="default"] {
+  --md-typeset-a-color: var(--fy-teal);
+  --fy-tint: var(--fy-sand);
+  --fy-card: #FFFFFF;
+  --fy-border: rgba(11, 31, 58, .10);
+}
+[data-md-color-scheme="slate"] {
+  --md-typeset-a-color: var(--fy-teal-light);
+  --md-default-bg-color: #0F1726;
+  --fy-tint: #142034;
+  --fy-card: #17243A;
+  --fy-border: rgba(255, 255, 255, .08);
+}
+
+.md-typeset .md-button--primary {
+  background-color: var(--fy-coral);
+  border-color: var(--fy-coral);
+  color: #FFFFFF;
+}
+.md-typeset .md-button--primary:hover { background-color: #F05532; border-color: #F05532; }
+
+/* Landing page */
+.md-main__inner:has(.fy-hero) { margin-top: 0; }
+.md-content__inner:has(.fy-hero) { margin-top: 0; padding-top: 0; }
+.md-content__inner:has(.fy-hero)::before { display: none; }
+.md-content__inner:has(.fy-hero) > h1:first-child { display: none; }
+
+.fy-hero {
+  margin: 0 -1.2rem 2rem;
+  padding: 4rem 1.2rem 3.5rem;
+  background: radial-gradient(circle at 20% 10%, #1B3A6B 0, var(--fy-ink) 60%);
+  color: #FFFFFF;
+  text-align: center;
+  border-radius: 0 0 1.2rem 1.2rem;
+}
+.fy-hero__inner { max-width: 46rem; margin: 0 auto; }
+.fy-hero__logo { display: block; margin: 0 auto 1rem; filter: drop-shadow(0 8px 24px rgba(0, 0, 0, .35)); }
+.md-typeset .fy-hero__title { color: #FFFFFF; font-size: 3.2rem; font-weight: 800; letter-spacing: -.03em; margin: 0; }
+.md-typeset .fy-hero__tagline { font-size: 1.35rem; line-height: 1.4; margin: .8rem 0 .4rem; }
+.md-typeset .fy-hero__sub { opacity: .8; margin: 0 0 1.6rem; }
+.fy-hero__actions { display: flex; gap: .6rem; justify-content: center; flex-wrap: wrap; }
+.md-typeset .fy-hero .md-button:not(.md-button--primary) { color: #FFFFFF; border-color: rgba(255, 255, 255, .55); }
+.md-typeset .fy-hero .md-button:not(.md-button--primary):hover { background: rgba(255, 255, 255, .1); }
+.md-typeset pre.fy-hero__install { display: inline-block; max-width: 100%; text-align: left; margin: 1.6rem auto 0; overflow-x: auto; }
+.md-typeset pre.fy-hero__install > code { background: rgba(0, 0, 0, .35); color: #E6F6F7; border-radius: .5rem; padding: .8rem 1.1rem; }
+
+.fy-section { padding: 1.5rem 0 2rem; }
+.fy-section--tint { background: var(--fy-tint); margin: 0 -1.2rem; padding: 2.2rem 1.2rem 2.4rem; border-radius: 1rem; }
+.md-typeset .fy-heading { text-align: center; margin: 0 0 .6rem; font-weight: 700; }
+.md-typeset .fy-lead, .fy-center { text-align: center; }
+.md-typeset .fy-lead { opacity: .8; margin-bottom: 1.4rem; }
+
+.fy-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+@media (max-width: 60em) { .fy-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 36em) { .fy-grid { grid-template-columns: 1fr; } }
+.fy-card {
+  background: var(--fy-card);
+  border: 1px solid var(--fy-border);
+  border-top: 3px solid var(--fy-teal);
+  border-radius: .8rem;
+  padding: 1.1rem 1.2rem;
+}
+.md-typeset .fy-card h3 { margin: 0 0 .4rem; font-size: 1rem; }
+.md-typeset .fy-card p { margin: 0; font-size: .78rem; }
+
+.fy-video { display: block; width: 100%; max-width: 60rem; margin: 0 auto; border-radius: .8rem; box-shadow: 0 16px 40px rgba(11, 31, 58, .25); }
+
+.fy-shots { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 1.2rem; }
+.md-typeset .fy-shots figure { margin: 0; }
+.md-typeset .fy-shots img { border-radius: .6rem; border: 1px solid var(--fy-border); box-shadow: 0 8px 20px rgba(11, 31, 58, .12); }
+.md-typeset .fy-shots figcaption { font-size: .75rem; margin-top: .5rem; text-align: left; max-width: none; }
+
+.fy-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); gap: 1.2rem; margin-bottom: 1.4rem; }
+.md-typeset .fy-step pre > code { font-size: .68rem; white-space: pre-wrap; word-break: break-word; }
+.fy-step { position: relative; background: var(--fy-card); border: 1px solid var(--fy-border); border-radius: .8rem; padding: 1.2rem 1.2rem .6rem; }
+.fy-step__n {
+  position: absolute; top: -.8rem; left: 1rem;
+  width: 1.7rem; height: 1.7rem; border-radius: 50%;
+  background: var(--fy-coral); color: #FFFFFF; font-weight: 700;
+  display: grid; place-items: center; font-size: .8rem;
+}
+
+/* Secondary buttons stay visible in dark mode. */
+[data-md-color-scheme="slate"] .md-typeset .md-button:not(.md-button--primary) {
+  color: var(--fy-teal-light);
+  border-color: var(--fy-teal-light);
+}

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the documentation site into site/ (MkDocs Material). The README becomes the home page."""
+"""Build the documentation site into site/ (MkDocs Material). site-src/ holds the landing page and branding; the README becomes the overview page."""
 import pathlib
 import re
 import shutil
@@ -9,7 +9,7 @@ import sys
 ROOT = pathlib.Path(__file__).resolve().parent
 BUILD = ROOT / "build" / "docs"
 # Root files and where they live in the site.
-ROOT_PAGES = {"README.md": "index.md", "CHANGELOG.md": "changelog.md", "THIRD-PARTY-NOTICES.md": "third-party-notices.md", "LICENSE": "license.md"}
+ROOT_PAGES = {"README.md": "overview.md", "CHANGELOG.md": "changelog.md", "THIRD-PARTY-NOTICES.md": "third-party-notices.md", "LICENSE": "license.md"}
 # README sections about building Ferry from source, which is not public.
 PRIVATE_SECTIONS = ("Build and test",)
 
@@ -40,6 +40,7 @@ def without_sections(text, titles):
 def main():
     shutil.rmtree(ROOT / "build", ignore_errors=True)
     shutil.copytree(ROOT / "docs", BUILD)
+    shutil.copytree(ROOT / "site-src", BUILD, dirs_exist_ok=True)
     for path in BUILD.rglob("*.md"):
         path.write_text(relink(path.read_text(encoding="utf-8"), len(path.relative_to(BUILD).parts) - 1), encoding="utf-8")
     for source, page in ROOT_PAGES.items():

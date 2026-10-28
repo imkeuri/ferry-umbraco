@@ -9,6 +9,8 @@ site_dir: site
 copyright: Copyright &copy; 2026 Keuri Castillo. Free to use under the Ferry Freeware License.
 theme:
   name: material
+  logo: assets/logo.svg
+  favicon: assets/logo.svg
   features:
     - navigation.sections
     - navigation.top
@@ -19,13 +21,27 @@ theme:
   palette:
     - media: "(prefers-color-scheme: light)"
       scheme: default
-      primary: indigo
+      primary: custom
+      accent: custom
       toggle: { icon: material/weather-night, name: Dark mode }
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
-      primary: indigo
+      primary: custom
+      accent: custom
       toggle: { icon: material/weather-sunny, name: Light mode }
+extra_css:
+  - stylesheets/ferry.css
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/imkeuri/ferry-umbraco
+      name: Ferry on GitHub
+    - icon: fontawesome/solid/cube
+      link: https://www.nuget.org/packages/Ferry.Umbraco
+      name: Ferry on NuGet
 markdown_extensions:
+  - attr_list
+  - md_in_html
   - admonition
   - tables
   - toc: { permalink: true }
@@ -34,6 +50,7 @@ markdown_extensions:
   - pymdownx.details
 nav:
   - Home: index.md
+  - Overview: overview.md
   - Guides:
       - Supported scope: supported-scope.md
       - Code-first schema: code-first-schema.md

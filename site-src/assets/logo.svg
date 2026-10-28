@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Ferry">
+  <rect width="64" height="64" rx="14" fill="#0B1F3A"/>
+  <path d="M30 11v9" stroke="#FF6B4A" stroke-width="2.4" stroke-linecap="round"/>
+  <path d="M31 11.5l7 3-7 3z" fill="#FF6B4A"/>
+  <rect x="21" y="20" width="19" height="10" rx="2.5" fill="#FFFFFF"/>
+  <circle cx="26" cy="25" r="1.6" fill="#0B1F3A"/>
+  <circle cx="31" cy="25" r="1.6" fill="#0B1F3A"/>
+  <circle cx="36" cy="25" r="1.6" fill="#0B1F3A"/>
+  <path d="M9 32h47l-8.5 11H15z" fill="#FFFFFF"/>
+  <path d="M8 48c4-3.2 8-3.2 12 0s8 3.2 12 0 8-3.2 12 0 8 3.2 12 0" fill="none" stroke="#2BB3BF" stroke-width="3" stroke-linecap="round"/>
+  <path d="M14 55c4-2.6 8-2.6 12 0s8 2.6 12 0 8-2.6 12 0" fill="none" stroke="#0E7C86" stroke-width="2.6" stroke-linecap="round"/>
+</svg>
