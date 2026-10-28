@@ -1,8 +1,7 @@
 # Extending Ferry
 
-Ferry refuses what it does not understand. A property editor it has no contract for, or data a package keeps in its own
-tables, blocks the transfer with a message instead of being copied half-right. This guide shows the three ways to teach
-Ferry about a package:
+Ferry refuses what it does not understand: a property editor without a contract, or data a package keeps in its own
+tables, blocks the transfer with a message rather than being copied half-right. To teach Ferry about a package:
 
 | What the package adds | What to do | Section |
 |---|---|---|
@@ -11,43 +10,33 @@ Ferry about a package:
 | Data stored outside content (redirects, forms, settings rows, …) | Write a Ferry **package provider** | [Package providers](#package-providers) |
 | Media files of a type Ferry does not allow | List the extension | [Media file types](#media-file-types) |
 
-Whatever you add, register it the same way on **every** site that sends or receives it.
+Register everything the same way on **every** site that sends or receives it.
 
 ## Scalar editors
 
-A scalar value is copied exactly as stored. Use this only when the value contains no site-local ids, file paths or
-entity references: plain text, numbers, colours, a JSON object of settings.
+Scalar values are copied exactly as stored. Use only for values with no site-local ids, file paths or entity
+references (text, numbers, colours, a JSON settings object). A page or media key in a scalar value is copied without
+its dependency; use a mapped editor instead.
 
 ```csharp
-builder.AddFerryUmbracoFull(options =>
-{
-    options.ScalarEditors.Add("Our.ColorPicker");
-});
+builder.AddFerryUmbracoFull(options => options.ScalarEditors.Add("Our.ColorPicker"));
 ```
 
-or in configuration:
+or:
 
 ```json
 "Ferry": { "Editors": { "ScalarEditors": [ "Our.ColorPicker" ] } }
 ```
 
-If the value holds a page or media key, a scalar contract copies it without the dependency, so the page may not exist
-on the destination. Use a mapped editor instead.
-
 ## Mapped editors
 
-A mapped editor's values are converted by a value mapper that
+A value mapper returns the value to send and the value to store, and reports every page and media item the value
+points at, so they travel with the page and show in the review. Keys match on both sites after a transfer, so values
+storing keys or `umb://` UDIs can usually be copied unchanged; the mapper's main job is reporting references. Ferry
+checks the round trip and declared references before saving.
 
-- returns the value to send and the value to store on the destination;
-- reports every page and media item the value points at, so they travel with the page and the review shows them.
-
-Keys are the same on both sites after a Ferry transfer, so a value that stores keys or `umb://` UDIs can usually be
-copied unchanged; the mapper's job is to report the references. Ferry checks the round trip and the declared references
-before saving content.
-
-Ferry includes mappers for Umbraco's own editors (pickers, Multi URL Picker, rich text, Block List, Block Grid and
-Single Block) and for Contentment and MetaMomentum. For your own editor, implement `IFerryValueMapper`
-(namespace `Ferry.Umbraco.Values`):
+Built-in mappers cover Umbraco's pickers, Multi URL Picker, rich text, Block List, Block Grid, Single Block,
+Contentment and MetaMomentum. For your own editor, implement `IFerryValueMapper` (`Ferry.Umbraco.Values`):
 
 ```csharp
 public sealed class LinkCardMapper : IFerryValueMapper
@@ -67,31 +56,26 @@ public sealed class LinkCardMapper : IFerryValueMapper
 }
 ```
 
-Register it on every site that sends or receives the editor; that also opts the editor in:
+Registering it also opts the editor in:
 
 ```csharp
 builder.AddFerryValueMapper<LinkCardMapper>();
 ```
 
-`FerryValueContext.Values` maps values nested inside yours, for example the properties of a block.
-
-Declaring an alias in `MappedEditors` without a registered mapper does not make the editor transferable: content
-using it is still refused.
-
-Test the editor on two disposable sites whose local ids differ: create content on one, Send it, and check that a second
-review plans it as unchanged.
+- `FerryValueContext.Values` maps nested values, such as a block's properties.
+- An alias in `MappedEditors` without a registered mapper is still refused.
+- Test on two disposable sites with different local ids: create content, Send it, and check a second review plans it
+  as unchanged.
 
 ## Package providers
 
-Some packages keep data outside content, in their own tables: redirects, form definitions, banners, settings. A package
-provider lets that data travel in the same transfer as the pages and media it points at.
-
-Ferry ships two:
+A package provider carries data a package keeps in its own tables (redirects, forms, banners, settings) in the same
+transfer as the pages and media it points at. Ferry ships two:
 
 | Package | Provider | What travels |
 |---|---|---|
 | [Skybrud.Umbraco.Redirects](https://github.com/skybrud/Skybrud.Umbraco.Redirects) | `Ferry.Skybrud.Redirects`, `builder.AddFerrySkybrudRedirects()` | Redirects with their root page and destination page or media. Destination URLs must be site paths or http(s) URLs. |
-| Umbraco Forms | `Ferry.Umbraco.Forms`, `builder.AddFerryUmbracoForms()` | Form definitions with their workflows, and the page a form goes to after submit. The form and theme pickers are accepted as plain values. Records, folders, prevalue sources and data sources are not transferred; a form that uses a prevalue or data source needs it on the destination first. |
+| Umbraco Forms | `Ferry.Umbraco.Forms`, `builder.AddFerryUmbracoForms()` | Form definitions with workflows and the page shown after submit. Form and theme pickers travel as plain values. Records, folders, prevalue sources and data sources are not transferred; a form using a prevalue or data source needs it on the destination first. |
 
 ```csharp
 builder.AddFerryUmbracoFull();
@@ -106,46 +90,43 @@ cannot see what a host name resolves to when Umbraco Forms later calls it.
 
 ### Turning it on
 
-Package data is off by default, because a provider writes to tables Ferry does not otherwise touch. Turn it on on
-**both** sites:
+Off by default, because providers write to tables Ferry otherwise leaves alone. Enable on **both** sites:
 
 ```json
 "Ferry": { "Full": { "AllowPackageItemTransfer": true } }
 ```
 
-Each site advertises its providers. A site that receives items for a provider it does not have refuses the transfer
-before anything is written, with a message that names the provider.
+A site receiving items for a provider it lacks refuses the transfer before writing anything, naming the provider.
 
 ### What a transfer does
 
-- A **whole-site** transfer carries every item of every provider.
-- A **selected** transfer carries the items whose pages and media are all in the selection. An item that points at
-  nothing, such as a form with no page after submit, travels only in a whole-site transfer.
-- Each item keeps its key on every site, shows in the review as "*ItemName*: *name*" with its changed fields, and is
-  written after the pages and media it points at, inside the same apply.
-- An item that points at a page or media item that is missing or in the recycle bin is left out of the export and
-  logged: it is already broken on the source.
+- **Whole-site** transfers carry every item of every provider.
+- **Selected** transfers carry items whose pages and media are all selected. Items pointing at nothing (e.g. a form
+  with no after-submit page) travel only in whole-site transfers.
+- Items keep their key, show in the review as "*ItemName*: *name*" with changed fields, and are written after the pages
+  and media they point at, in the same apply.
+- Items pointing at missing or recycled pages or media are left out of the export and logged.
 - Items are created or updated, never deleted.
 
 ### Writing a provider
 
-Implement `IFerryPackageProvider` (namespace `Ferry.Umbraco.Packages`):
+Implement `IFerryPackageProvider` (`Ferry.Umbraco.Packages`):
 
 | Member | What it does |
 |---|---|
-| `Alias` | Stable id, lowercase letters, digits and dashes, for example `our-banners`. Never change it. |
-| `ItemName` | What one item is called in the review, for example `Banner`. |
+| `Alias` | Stable id: lowercase letters, digits, dashes, e.g. `our-banners`. Never change it. |
+| `ItemName` | What one item is called in the review, e.g. `Banner`. |
 | `ExportAllAsync` | Every item on this site. |
-| `ExportAsync(key)` | One item, or null. Ferry compares it with the incoming item. |
+| `ExportAsync(key)` | One item or null; compared with the incoming item. |
 | `ValidateAsync(item)` | Checks an incoming item before anything is written; throw `InvalidOperationException` or `NotSupportedException` with a message for the reviewer. |
 | `ApplyAsync(item)` | Creates or updates the item, keeping its key. |
 
 Each item is a `FerryPackageItem(Key, Name, Data, References)`:
 
-- `Data` is a JSON object with the item's portable settings. Leave out local integer ids, dates and anything derived,
-  so an unchanged item compares equal on both sites. Ferry sorts object properties, so field order does not matter.
-- `References` lists the pages (`FerryReferenceKind.Document`) and media (`FerryReferenceKind.Media`) the item needs,
-  by key. Ferry checks they exist on the destination or come in the same transfer.
+- `Data`: JSON object of portable settings. Omit local integer ids, dates and derived values so unchanged items compare
+  equal. Property order does not matter.
+- `References`: pages (`FerryReferenceKind.Document`) and media (`FerryReferenceKind.Media`) the item needs, by key.
+  They must exist on the destination or come in the same transfer.
 
 ```csharp
 public sealed class BannerProvider(IBannerService banners) : IFerryPackageProvider
@@ -177,7 +158,7 @@ public sealed class BannerProvider(IBannerService banners) : IFerryPackageProvid
 }
 ```
 
-Register it on both sites:
+Register on both sites:
 
 ```csharp
 builder.AddFerryPackageProvider<BannerProvider>();
@@ -185,32 +166,29 @@ builder.AddFerryPackageProvider<BannerProvider>();
 
 Guidelines:
 
-- **Treat incoming data as untrusted.** It came from another site. Validate every field in `ValidateAsync` and again in
-  `ApplyAsync`: lengths, enums, and above all URLs (the Skybrud provider accepts only site paths and http(s) URLs).
-- **Keep the key.** If the package's API gives new items a random key, set the source's key after creating it (the
-  Skybrud provider updates its row in the apply's scope).
-- **Map local ids.** If the package stores a page's integer id, store the key in `Data` and look up the local id when
-  applying.
-- **Clash with a different local item** (same URL, same alias, other key): refuse it in `ValidateAsync` with a message
-  that names both.
-- Payloads are limited to 256 KiB per item and 32 providers per site.
+- **Treat incoming data as untrusted.** Validate every field in `ValidateAsync` and again in `ApplyAsync`: lengths,
+  enums, and especially URLs (the Skybrud provider accepts only site paths and http(s) URLs).
+- **Keep the key.** If the package assigns random keys, set the source key after creating (the Skybrud provider
+  updates its row in the apply's scope).
+- **Map local ids.** Store page keys in `Data` and look up the local id when applying.
+- **Refuse clashes** with a different local item (same URL or alias, other key) in `ValidateAsync`, naming both.
+- Limits: 256 KiB per item, 32 providers per site.
 
-`SkybrudRedirectsProvider` in `src/Ferry.Skybrud.Redirects` is the reference implementation.
+Reference implementation: `SkybrudRedirectsProvider` in `src/Ferry.Skybrud.Redirects`.
 
 ## Media file types
 
-Ferry allows common image, document, audio, video and font types. To carry another static type, list it on both sites:
+Ferry allows common image, document, audio, video and font types. Add others on both sites:
 
 ```json
 "Ferry": { "Full": { "AdditionalMediaExtensions": [ ".pdn" ] } }
 ```
 
-Types a browser or the server can run (`.html`, `.js`, `.svgz`, `.cshtml`, `.exe` and similar) are refused at startup.
+Types a browser or server can run (`.html`, `.js`, `.svgz`, `.cshtml`, `.exe` and similar) are refused at startup.
 
 ## SQLite and large transfers
 
-On SQLite, Umbraco's relation tracking reads and then writes after each save without taking a write lock. A commit
-from another connection in between, such as one of Umbraco's background jobs, which run every few seconds, fails it
-with "database is locked" after minutes of retries. Ferry keeps its own background writes out of that gap. For a large
-first transfer into a SQLite site, set `Umbraco:CMS:DistributedJobs:Delay` to a few hours on the receiving site for the
-transfer, or use SQL Server.
+On SQLite, Umbraco's relation tracking reads then writes after each save without a write lock, so a commit from
+another connection in between (e.g. Umbraco's background jobs, every few seconds) fails it with "database is locked"
+after minutes of retries. Ferry keeps its own background writes out of that gap. For a large first transfer into a
+SQLite site, set `Umbraco:CMS:DistributedJobs:Delay` to a few hours on the receiving site, or use SQL Server.

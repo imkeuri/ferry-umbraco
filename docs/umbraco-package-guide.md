@@ -1,30 +1,21 @@
 # Umbraco package integration decisions
 
-Documentation reviewed on 2026-09-17. Some older `/extending` and `/reference`
-documentation links now redirect or return a suggested replacement path.
+Based on Umbraco documentation reviewed on 2026-09-17; some older `/extending` and `/reference` links now redirect.
 
 ## Package layout and registration
 
-Umbraco recommends NuGet distribution and keeping a package library, tests and an
-example website in the repository. Ferry follows that layout with an
-explicit .NET 10 / Umbraco 17.6.2 adapter project. Shared package metadata marks the
-code under the Ferry Freeware License (free to use, closed source).
+Ferry uses Umbraco's recommended layout (NuGet distribution; library, tests and example website in one repository)
+with a .NET 10 / Umbraco 17.6.2 adapter project, under the Ferry Freeware License (free to use, closed source).
 
-The opt-in `AddFerryUmbraco()` extension registers the constrained text store through
-`IUmbracoBuilder.Services`. It does not enable network endpoints or install a
-credential. The example website registers the transport separately and maps its
-endpoints only when `Ferry:Enabled` is true. This avoids changing installed
-sites merely because they reference the library. Scoped store instances allow the
-adapter to use request-scoped Umbraco dependencies without a singleton capturing them.
+Referencing a package changes nothing by itself:
 
-`AddFerryUmbracoFull()` opts into the staged schema/language/content/media
-adapter. Referencing the package alone does not select
-this adapter. The backoffice package adds the Ferry workspace under Settings › Synchronisation
-(Overview, Sites, Packages and Advanced tabs), Send/Get actions and a top-bar queue for editors, and a
-Management API; enable it with `Ferry:Backoffice:Enabled` and configure named
-HTTPS destinations on the server. Neither destination credentials nor transfer
-payloads are sent to the browser. The workspace's generated client uses the Umbraco
-17.6 authentication context and native refresh/interceptor configuration.
+- `AddFerryUmbraco()` registers the constrained text store (scoped, through `IUmbracoBuilder.Services`). No endpoints,
+  no credential.
+- `AddFerryUmbracoFull()` selects the staged schema/language/content/media adapter.
+- The example website maps endpoints only when `Ferry:Enabled` is true.
+- `Ferry:Backoffice:Enabled` turns on the backoffice workspace, actions, queue and Management API. Destinations are
+  configured on the server; credentials and payloads never reach the browser. The client uses Umbraco 17.6's
+  authentication context.
 
 Sources: [Creating a Package](https://docs.umbraco.com/umbraco-cms/extend-your-project/packages/creating-a-package),
 [Example Package Repository](https://docs.umbraco.com/umbraco-cms/extending/packages/example-package-repository),
@@ -33,36 +24,25 @@ Sources: [Creating a Package](https://docs.umbraco.com/umbraco-cms/extend-your-p
 
 ## Draft persistence
 
-The initial adapter uses `IContentService.Save`, not a generic import pipeline.
-It never calls publication, unpublication or schedule-writing methods. The native
-save result is checked. Existing target items with schedules are blocked because
-their changed draft could otherwise be published by a future scheduled operation.
+The adapter saves with `IContentService.Save` and checks the result. It never publishes, unpublishes or schedules,
+and payloads carry no schedules. Target items that already have schedules are blocked, since a scheduled operation
+could publish the changed draft. Sort order and schema/media changes can still affect the live site.
 
-The pinned service implementation has a separate save path and accepts a nullable
-schedule argument. Keeping schedule changes out of the payload is intentional.
-This does not promise zero live-site impact: sort order and later schema/media
-changes may affect rendering independently of content publication.
-
-Historical API research used [Umbraco 17.3.2 ContentService](https://github.com/umbraco/Umbraco-CMS/blob/release-17.3.2/src/Umbraco.Core/Services/ContentService.cs).
-The build and tests now target 17.6.2; that historical source link is not a compatibility claim for all 17.x versions.
+API research used [Umbraco 17.3.2 ContentService](https://github.com/umbraco/Umbraco-CMS/blob/release-17.3.2/src/Umbraco.Core/Services/ContentService.cs);
+the build targets 17.6.2. This is not a compatibility claim for all 17.x versions.
 
 ## Current capability boundary
 
-The constrained adapter remains available for invariant text properties on existing
-matching document/data types. The optional full adapter implements staged schema and
-language transfer, variant draft content, mapper-based references and media support.
-Those implementations are distinct from acceptance: real-site fixture results and
-explicit editor coverage determine what can be claimed as working. Template code,
-arbitrary custom editors and unsupported tree operations must not be silently
-dropped. Check current adapter validation and the verification record before deployment.
+- Constrained adapter: invariant text properties on existing matching document/data types.
+- Full adapter: staged schema and language transfer, variant draft content, mapper-based references and media.
+- Only real-site fixture results and explicit editor coverage count as verified. Template code, arbitrary custom
+  editors and unsupported tree operations must never be dropped silently. Check the verification record before
+  deploying.
 
-Both preview and apply run the adapter's whole-manifest preflight before any writes.
-Preflight checks are repeated at write boundaries. Backoffice source export shares
-the transport operation gate for snapshot and local asset staging, then releases it
-before remote requests. Process-local serialization
-and these checks are not a distributed transaction: external editors or another
-application node can still race the operation. Real database integration and locking
-must be established before a production release.
+Preview and apply run a whole-manifest preflight before writing, repeated at write boundaries. Backoffice export holds
+the operation gate for snapshot and asset staging, then releases it before remote requests. This is process-local,
+not a distributed transaction: external editors or another node can still race an operation. Database integration and
+locking must be established before a production release.
 
-See the example website for an explicitly scoped acceptance
-fixture and verification for tests actually executed.
+See the example website for an acceptance fixture and verification for
+the tests run.
