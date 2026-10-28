@@ -324,18 +324,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#upgrading-from-communitysync" class="md-nav__link">
+  <a href="#supported-and-limits" class="md-nav__link">
     <span class="md-ellipsis">
-      Upgrading from CommunitySync
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#evidence-summary" class="md-nav__link">
-    <span class="md-ellipsis">
-      Evidence summary
+      Supported and limits
     </span>
   </a>
   
@@ -633,7 +624,7 @@
   
   
   <span class="md-ellipsis">
-    Evidence
+    Design notes
     
   </span>
   
@@ -643,125 +634,6 @@
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3">
-            <span class="md-nav__icon md-icon"></span>
-            Evidence
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="real-site-validation/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Real-site validation
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="validation-record/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Validation record
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="acceptance-checklist/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Acceptance checklist
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-    
-    
-      
-        
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
-        
-          
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
-            
-  
-  
-  <span class="md-ellipsis">
-    Design notes
-    
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             Design notes
           </label>
@@ -908,18 +780,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#upgrading-from-communitysync" class="md-nav__link">
+  <a href="#supported-and-limits" class="md-nav__link">
     <span class="md-ellipsis">
-      Upgrading from CommunitySync
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#evidence-summary" class="md-nav__link">
-    <span class="md-ellipsis">
-      Evidence summary
+      Supported and limits
     </span>
   </a>
   
@@ -1068,7 +931,7 @@
   lists what to deploy first.</li>
 <li><strong>Reviewed transfers.</strong> Send and Get (Push and Pull in the API) list every create, update and move and need an
   owner-bound approval before applying. Schema, media, references and blocks travel with the content.</li>
-<li><strong>Deployment workflow.</strong> Per-user queue, offline <code>.csync.zip</code> packages, import at startup, snapshots and restore
+<li><strong>Deployment workflow.</strong> Per-user queue, offline <code>.ferry.zip</code> packages, import at startup, snapshots and restore
   points, user-group permissions for delegated editors.</li>
 <li><strong>Extensible.</strong> Custom property editors and package data (Skybrud redirects, Umbraco Forms, your own package) can
   join transfers. See <a href="extending/">extending Ferry</a>.</li>
@@ -1080,8 +943,7 @@
 <p><strong>Free to use, closed source.</strong> Free for any site, including commercial work, under the
 <a href="license/">Ferry Freeware License</a>.</p>
 </blockquote>
-<p><strong>Status: experimental, pre-1.0.</strong> Tested on Umbraco <strong>17.6.2</strong> and .NET 10. See <a href="supported-scope/">supported scope</a>
-and the <a href="validation-record/">validation record</a>.</p>
+<p><strong>Status: experimental, pre-1.0.</strong> Tested on Umbraco <strong>17.6.2</strong> and .NET 10. See <a href="supported-scope/">supported scope</a>.</p>
 <h2 id="quick-start">Quick start<a class="headerlink" href="#quick-start" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code>dotnet<span class="w"> </span>add<span class="w"> </span>package<span class="w"> </span>Ferry.Umbraco
 dotnet<span class="w"> </span>add<span class="w"> </span>package<span class="w"> </span>Ferry.Backoffice
@@ -1114,7 +976,7 @@ dotnet<span class="w"> </span>add<span class="w"> </span>package<span class="w">
 </tr>
 <tr>
 <td><strong>Packages</strong></td>
-<td>Export a <code>.csync.zip</code> (chosen pages and media, or whole site), import one by dropping it on the page, create or restore snapshots.</td>
+<td>Export a <code>.ferry.zip</code> (chosen pages and media, or whole site), import one by dropping it on the page, create or restore snapshots.</td>
 </tr>
 <tr>
 <td><strong>Advanced</strong></td>
@@ -1127,36 +989,19 @@ site…</em>, each ending in a review ("4 new pages, 1 updated page", schema, mo
 Items always arrive as drafts. The top-bar <strong>Ferry</strong> button opens the queue (send all or download as a package) and
 recent activity. The <em>Send with Ferry</em> and <em>Get with Ferry</em> group permissions control access, on top of
 <a href="#delegated-editor-push">delegated-editor grants</a>.</p>
-<h2 id="upgrading-from-communitysync">Upgrading from CommunitySync<a class="headerlink" href="#upgrading-from-communitysync" title="Permanent link">&para;</a></h2>
-<p>Ferry was released as <strong>CommunitySync</strong>. Upgrading is a rename; site data is kept.</p>
-<ul>
-<li><strong>Packages:</strong> <code>CommunitySync.*</code> becomes <code>Ferry.*</code> (<code>Ferry.Core</code>, <code>Ferry.Transport</code>, <code>Ferry.Umbraco</code>,
-  <code>Ferry.Backoffice</code>).</li>
-<li><strong>Code:</strong> replace <code>CommunitySync</code> with <code>Ferry</code> in namespaces and names, for example <code>AddCommunitySyncUmbracoFull()</code>
-  becomes <code>AddFerryUmbracoFull()</code>, <code>CommunitySyncFullOptions</code> becomes <code>FerryFullOptions</code>.</li>
-<li><strong>Configuration:</strong> rename the <code>CommunitySync</code> section to <code>Ferry</code> when convenient. Without a <code>Ferry</code> section, the
-  site keeps reading <code>CommunitySync</code>; it never uses both.</li>
-<li><strong>Unchanged:</strong> database tables (<code>cmsCommunitySync*</code>), migration state, protected connection secrets, permission
-  verbs <code>CommunitySync.Push</code> / <code>CommunitySync.Pull</code>, the wire protocol (<code>/community-sync/v1</code>, formats, headers, so
-  Ferry and CommunitySync sites interoperate) and the <code>.csync.zip</code> format.</li>
-</ul>
-<h2 id="evidence-summary">Evidence summary<a class="headerlink" href="#evidence-summary" title="Permanent link">&para;</a></h2>
-<p>668 .NET tests plus real two-site E2E suites per module, listed per capability in the
-<a href="supported-scope/">supported scope</a>. Earlier checkpoints (Full v5: 433/433 tests, exact-NuGet install and
-two-site runs on SQLite and SQL Server; Backoffice browser suites 19/19) are local evidence in ignored <code>artifacts/</code>,
-not remote CI; the <a href="validation-record/">validation record</a> has paths and commands.</p>
-<p><strong>Verified:</strong> invariant Content, Content variants and segments, selected MediaPicker3 references, segment-varying
+<h2 id="supported-and-limits">Supported and limits<a class="headerlink" href="#supported-and-limits" title="Permanent link">&para;</a></h2>
+<p><strong>Supported:</strong> invariant Content, Content variants and segments, selected MediaPicker3 references, segment-varying
 scalar Media values, Content <code>UploadField</code> assets (draft with hash and byte checks; published as immutable
-publish-time snapshots, failing closed when the snapshot is missing, corrupt or mismatched).</p>
+publish-time snapshots, failing closed when the snapshot is missing, corrupt or mismatched). Each capability and its
+limits are listed in the <a href="supported-scope/">supported scope</a>.</p>
 <p><strong>Limits:</strong></p>
 <ul>
-<li>Pending: arbitrary <code>UploadField</code>/editor configurations, multi-node hosting, hosted CI, cross-browser, accessibility
-  and production-topology testing.</li>
+<li>Not yet covered: arbitrary <code>UploadField</code>/editor configurations, multi-node hosting, cross-browser, accessibility
+  and production topologies.</li>
 <li>Unsupported: unknown/custom editors, user/member references. Not every Umbraco editor is supported.</li>
 <li>Templates must already exist at the destination; schema changes needing storage migration are blocked.</li>
 <li>Jobs and approvals are process-local; multi-node needs affinity and external coordination.</li>
 </ul>
-<p>See the <a href="acceptance-checklist/">acceptance checklist</a> for exact boundaries.</p>
 <h2 id="transfer-model">Transfer model<a class="headerlink" href="#transfer-model" title="Permanent link">&para;</a></h2>
 <ul>
 <li>Stable GUID identities across sites; local numeric IDs may differ.</li>
@@ -1212,7 +1057,7 @@ example <code>Ferry__Peers__0__Tokens__0</code>). See the <a href="research/peer
 those needs no token or placeholder peer: <code>AddFerryTransportFromConfiguration</code> (or <code>AddFerryTransport</code>) accepts an
 empty <code>Ferry</code> section when an <code>ISyncManagedPeerSource</code> is registered. With neither, the host refuses to start.</p>
 <h3 id="getting-past-host-authentication">Getting past host authentication<a class="headerlink" href="#getting-past-host-authentication" title="Permanent link">&para;</a></h3>
-<p><code>/community-sync/v1</code> does its own authentication. Basic auth or an IP/SSO gateway in front will block it. For
+<p><code>/ferry/v1</code> does its own authentication. Basic auth or an IP/SSO gateway in front will block it. For
 Umbraco basic auth, add the shared-secret header (<code>Umbraco:CMS:BasicAuth:SharedSecret</code>) to requests on that path
 before <code>UseUmbraco()</code>; otherwise exclude the path in the gateway.</p>
 <h3 id="tls-terminated-by-a-proxy">TLS terminated by a proxy<a class="headerlink" href="#tls-terminated-by-a-proxy" title="Permanent link">&para;</a></h3>
@@ -1239,8 +1084,8 @@ forward the scheme:</p>
 <tbody>
 <tr>
 <td>Servers and access keys</td>
-<td><code>cmsCommunitySyncServer</code>, <code>cmsCommunitySyncAccessKey</code></td>
-<td>Yes. A 0.1.1-or-earlier <code>connections.json</code> is imported once.</td>
+<td><code>cmsFerryServer</code>, <code>cmsFerryAccessKey</code></td>
+<td>Yes.</td>
 </tr>
 <tr>
 <td>Secrets in those rows</td>
@@ -1254,8 +1099,8 @@ forward the scheme:</p>
 </tr>
 <tr>
 <td>Operation history, submissions, snapshots, restore points</td>
-<td><code>cmsCommunitySyncOperation</code>, <code>cmsCommunitySyncSubmission</code>, <code>cmsCommunitySyncSnapshot</code></td>
-<td>Yes. 0.1.1-or-earlier <code>App_Data/CommunitySync</code> folders are imported once.</td>
+<td><code>cmsFerryOperation</code>, <code>cmsFerrySubmission</code>, <code>cmsFerrySnapshot</code></td>
+<td>Yes.</td>
 </tr>
 <tr>
 <td>Previews and batch sessions</td>
@@ -1274,10 +1119,10 @@ forward the scheme:</p>
 </tr>
 </tbody>
 </table>
-<p><code>cmsCommunitySync*</code> tables are created whenever the packages are installed, even with <code>Ferry:Enabled</code> or
+<p><code>cmsFerry*</code> tables are created whenever the packages are installed, even with <code>Ferry:Enabled</code> or
 <code>Ferry:Backoffice:Enabled</code> <code>false</code>. To remove Ferry: uninstall the packages, drop the
-<code>cmsCommunitySync*</code> tables, and delete <code>umbracoKeyValue</code> rows whose key starts with <code>CommunitySync.</code> or
-<code>Umbraco.Core.Upgrader.State+CommunitySync.</code>.</p>
+<code>cmsFerry*</code> tables, and delete <code>umbracoKeyValue</code> rows whose key starts with <code>Ferry.</code> or
+<code>Umbraco.Core.Upgrader.State+Ferry.</code>.</p>
 <h3 id="hosting-requirements">Hosting requirements<a class="headerlink" href="#hosting-requirements" title="Permanent link">&para;</a></h3>
 <p><strong>Database.</strong> Use SQL Server for production receivers. On SQLite with the default <code>Cache=Shared</code>, a burst of writes
 (such as a large apply) can deadlock Umbraco's cache write with its background jobs, and every later request hangs. If
@@ -1291,7 +1136,7 @@ in memory and are lost on restart, scale-to-zero or a different instance. Both s
 </ul>
 <p>Otherwise apply returns <code>410 Gone</code> ("This preview has expired") and changes nothing.</p>
 <h2 id="protocol">Protocol<a class="headerlink" href="#protocol" title="Permanent link">&para;</a></h2>
-<p>Endpoints under <code>/community-sync/v1</code> require HTTPS and bearer authentication; responses are not cached.</p>
+<p>Endpoints under <code>/ferry/v1</code> require HTTPS and bearer authentication; responses are not cached.</p>
 <table>
 <thead>
 <tr>
@@ -1365,7 +1210,7 @@ assets and previews; <code>ApplyAsync()</code> is separate and rechecks the peer
 peers.</p>
 <h2 id="administrator-pull">Administrator pull<a class="headerlink" href="#administrator-pull" title="Permanent link">&para;</a></h2>
 <p>Requires <code>AllowPull: true</code> on the server-side connection. Endpoints under
-<code>/umbraco/management/api/v1/community-sync/pull</code>:</p>
+<code>/umbraco/management/api/v1/ferry/pull</code>:</p>
 <table>
 <thead>
 <tr>

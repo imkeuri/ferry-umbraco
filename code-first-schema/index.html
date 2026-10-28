@@ -610,7 +610,7 @@
   
   
   <span class="md-ellipsis">
-    Evidence
+    Design notes
     
   </span>
   
@@ -620,125 +620,6 @@
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3">
-            <span class="md-nav__icon md-icon"></span>
-            Evidence
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../real-site-validation/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Real-site validation
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../validation-record/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Validation record
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../acceptance-checklist/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Acceptance checklist
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-    
-    
-      
-        
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
-        
-          
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
-            
-  
-  
-  <span class="md-ellipsis">
-    Design notes
-    
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             Design notes
           </label>
@@ -1034,8 +915,7 @@ media. Existing sites can switch in one step: <a href="#adopting-an-existing-sit
 <span class="p">}</span>
 </code></pre></div>
 <p>From 0.6 Ferry can <a href="#generated-migrations">generate these migrations</a> from backoffice changes. Hand-written ones go
-in your own plan, run at startup like any Umbraco migration (example: <code>SampleSchemaMigrationComponent</code> in
-<code>tests/e2e/FixtureSupport/FixtureSupport.cs</code>):</p>
+in your own plan, run at startup like any Umbraco migration:</p>
 <div class="highlight"><pre><span></span><code><span class="kt">var</span><span class="w"> </span><span class="n">plan</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">MigrationPlan</span><span class="p">(</span><span class="s">"MySite.Schema"</span><span class="p">)</span>
 <span class="w">    </span><span class="p">.</span><span class="n">From</span><span class="p">(</span><span class="kt">string</span><span class="p">.</span><span class="n">Empty</span><span class="p">)</span>
 <span class="w">    </span><span class="p">.</span><span class="n">To</span><span class="o">&lt;</span><span class="n">AddSeoComposition</span><span class="o">&gt;</span><span class="p">(</span><span class="s">"add-seo-composition"</span><span class="p">)</span>
@@ -1116,7 +996,7 @@ in your own plan, run at startup like any Umbraco migration (example: <code>Samp
 <ol>
 <li>As an administrator, choose <strong>Settings › Ferry › Advanced › Download schema as code</strong>, or call:</li>
 </ol>
-<div class="highlight"><pre><span></span><code>GET /umbraco/management/api/v1/community-sync/schema/code?namespace=MySite.Schema&amp;className=AdoptSchema
+<div class="highlight"><pre><span></span><code>GET /umbraco/management/api/v1/ferry/schema/code?namespace=MySite.Schema&amp;className=AdoptSchema
 </code></pre></div>
 <p>This returns a zip of partial-class files: <code>AdoptSchema.cs</code> (the migration) plus <code>AdoptSchema.DataTypes.cs</code>,
    <code>AdoptSchema.DocumentTypes.cs</code> etc., one per schema kind. <code>format=cs</code> returns one file. In code,
@@ -1129,8 +1009,6 @@ without configuration). Default-valued settings are omitted; ungrouped propertie
 are not included (Ferry transfers them only with people).</p>
 <p>Schema <code>SchemaBuilder</code> cannot state (e.g. a group containing groups outside a tab) is refused:
 <a href="#create-migration">Create migration</a> returns 409 with the reason and writes nothing.</p>
-<p>Validated on a real site (165 document types, 463 data types, 28 templates, 9 media types): a fresh content-only
-install ran it and pulled 6,117 items with all schema unchanged; a rerun changed nothing.</p>
 <h2 id="removing-renaming-and-moving">Removing, renaming and moving<a class="headerlink" href="#removing-renaming-and-moving" title="Permanent link">&para;</a></h2>
 <p>Each step is a no-op when already in the target state:</p>
 <ul>
@@ -1224,10 +1102,10 @@ state; check it.</p>
 <h3 id="create-migration">Create migration<a class="headerlink" href="#create-migration" title="Permanent link">&para;</a></h3>
 <p>As an administrator, enter a name such as <code>AddLandingPage</code> on <strong>Settings › Ferry › Advanced</strong> and choose <strong>Create
 migration</strong> (class name: capital first letter, letters and digits only), or:</p>
-<div class="highlight"><pre><span></span><code>POST /umbraco/management/api/v1/community-sync/schema/migrations
+<div class="highlight"><pre><span></span><code>POST /umbraco/management/api/v1/ferry/schema/migrations
 { "name": "AddLandingPage" }
 </code></pre></div>
-<p><code>GET …/community-sync/schema/migrations/status</code> returns history, draft and drift.</p>
+<p><code>GET …/ferry/schema/migrations/status</code> returns history, draft and drift.</p>
 <ul>
 <li>Writes <code>{Folder}/{yyyyMMddHHmm}_{Name}.cs</code>, adds it to the plan, deletes the draft, and marks it applied on your
   database.</li>
@@ -1284,7 +1162,7 @@ unless the result matches exactly. Resolve by either:</p>
 <li>choosing <strong>Accept current schema</strong> (administrator, any environment). The API can accept specific items; no or empty
   <code>keys</code> accepts everything. It returns the new status.</li>
 </ul>
-<div class="highlight"><pre><span></span><code>POST /umbraco/management/api/v1/community-sync/schema/migrations/accept
+<div class="highlight"><pre><span></span><code>POST /umbraco/management/api/v1/ferry/schema/migrations/accept
 { "keys": ["&lt;item key&gt;", "..."] }
 </code></pre></div>
 <p>Development sites that write drafts show no drift (differences are the draft). Schema arriving by Ferry transfer is
@@ -1305,10 +1183,6 @@ drift everywhere else, hence <code>Ferry:Full:ContentOnly</code> on receiving en
   license key, so reference 3.2.0 if licensed, or record the advisory as accepted.</li>
 <li>Environments on different migrations have different schema; content-only transfers between them are rejected with
   the items to deploy first.</li>
-<li>E2E suites (<code>python3 scripts/e2e/run.py --mode Full --suite &lt;name&gt;</code>): <code>schema-migrations</code> runs the sample migration
-  on two sites and checks generated code; <code>schema-files</code> generates migrations, ships a release to a second site, and
-  checks content-only transfers, restarts, a folder move, moving a property with values, drift, Accept current schema
-  and a failing removal.</li>
 </ul>
 
 

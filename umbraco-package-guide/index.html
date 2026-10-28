@@ -16,7 +16,7 @@
         <link rel="prev" href="../extending/">
       
       
-        <link rel="next" href="../real-site-validation/">
+        <link rel="next" href="../research/peer-policy-design/">
       
       
       <link rel="icon" href="../assets/images/favicon.png">
@@ -514,7 +514,7 @@
   
   
   <span class="md-ellipsis">
-    Evidence
+    Design notes
     
   </span>
   
@@ -524,125 +524,6 @@
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3">
-            <span class="md-nav__icon md-icon"></span>
-            Evidence
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../real-site-validation/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Real-site validation
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../validation-record/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Validation record
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../acceptance-checklist/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Acceptance checklist
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-    
-    
-      
-        
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
-        
-          
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
-            
-  
-  
-  <span class="md-ellipsis">
-    Design notes
-    
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             Design notes
           </label>
@@ -842,16 +723,13 @@ the build targets 17.6.2. This is not a compatibility claim for all 17.x version
 <ul>
 <li>Constrained adapter: invariant text properties on existing matching document/data types.</li>
 <li>Full adapter: staged schema and language transfer, variant draft content, mapper-based references and media.</li>
-<li>Only real-site fixture results and explicit editor coverage count as verified. Template code, arbitrary custom
-  editors and unsupported tree operations must never be dropped silently. Check the verification record before
-  deploying.</li>
+<li>Template code, arbitrary custom editors and unsupported tree operations must never be dropped silently.</li>
 </ul>
 <p>Preview and apply run a whole-manifest preflight before writing, repeated at write boundaries. Backoffice export holds
 the operation gate for snapshot and asset staging, then releases it before remote requests. This is process-local,
 not a distributed transaction: external editors or another node can still race an operation. Database integration and
 locking must be established before a production release.</p>
-<p>See the example website for an acceptance fixture and verification for
-the tests run.</p>
+<p>See the example website for a two-site sample.</p>
 
 
 
@@ -904,13 +782,13 @@ the tests run.</p>
         
         
           
-          <a href="../real-site-validation/" class="md-footer__link md-footer__link--next" aria-label="Next: Real-site validation">
+          <a href="../research/peer-policy-design/" class="md-footer__link md-footer__link--next" aria-label="Next: Peer policies">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Real-site validation
+                Peer policies
               </div>
             </div>
             <div class="md-footer__button md-icon">
