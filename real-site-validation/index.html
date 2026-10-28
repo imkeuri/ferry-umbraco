@@ -517,15 +517,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#setup" class="md-nav__link">
-    <span class="md-ellipsis">
-      Setup
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#fixed" class="md-nav__link">
     <span class="md-ellipsis">
       Fixed
@@ -544,18 +535,18 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#remaining-observations" class="md-nav__link">
+  <a href="#verified-end-to-end" class="md-nav__link">
     <span class="md-ellipsis">
-      Remaining observations
+      Verified end to end
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#verified-end-to-end" class="md-nav__link">
+  <a href="#remaining-observations" class="md-nav__link">
     <span class="md-ellipsis">
-      Verified end to end
+      Remaining observations
     </span>
   </a>
   
@@ -789,15 +780,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#setup" class="md-nav__link">
-    <span class="md-ellipsis">
-      Setup
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#fixed" class="md-nav__link">
     <span class="md-ellipsis">
       Fixed
@@ -816,18 +798,18 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#remaining-observations" class="md-nav__link">
+  <a href="#verified-end-to-end" class="md-nav__link">
     <span class="md-ellipsis">
-      Remaining observations
+      Verified end to end
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#verified-end-to-end" class="md-nav__link">
+  <a href="#remaining-observations" class="md-nav__link">
     <span class="md-ellipsis">
-      Verified end to end
+      Remaining observations
     </span>
   </a>
   
@@ -850,20 +832,12 @@
 
 
 <h1 id="real-site-validation-2026-09-28">Real-site validation (2026-09-28)<a class="headerlink" href="#real-site-validation-2026-09-28" title="Permanent link">&para;</a></h1>
-<p>Ferry was installed into a copy of a production client site and exercised between two local
-instances. This records what a real site exposed that the synthetic E2E fixtures did not.</p>
-<h2 id="setup">Setup<a class="headerlink" href="#setup" title="Permanent link">&para;</a></h2>
-<ul>
-<li>Site: an agency client site on Umbraco 17.5.3 with Contentment, Block List, MetaMomentum and
-  Google Maps editors; Azure Blob media storage.</li>
-<li>Source: fresh SQL Server database seeded from the site's own schema and content export — 9,182 documents, 5,168 media,
-  299 document types, 496 data types, 45 templates. Media files replaced by placeholders in Azurite.</li>
-<li>Target: fresh SQL Server database; schema imported from the same export (as a deployment would),
-  content and media pushed with Ferry.</li>
-<li>Installing Ferry required Umbraco 17.6.2 and EF Core 10.0.10 (the site pinned
-  17.5.3 / 17.0.2 / 10.0.6).</li>
-<li>Driver: <code>tests/e2e/realsite.spec.ts</code> (<code>COMMUNITY_SYNC_SUITE=realsite</code>, manual only).</li>
-</ul>
+<p>Ferry was run between two local copies of a production client site to find what synthetic E2E fixtures miss.</p>
+<p><strong>Setup.</strong> Umbraco 17.5.3 with Contentment, Block List, MetaMomentum, Google Maps and Azure Blob media. Source: fresh
+SQL Server database seeded from the site's export — 9,182 documents, 5,168 media, 299 document types, 496 data types,
+45 templates; media files replaced by Azurite placeholders. Target: fresh SQL Server database with the same schema
+imported; content and media pushed with Ferry. Driver: <code>tests/e2e/realsite.spec.ts</code>
+(<code>COMMUNITY_SYNC_SUITE=realsite</code>, manual only).</p>
 <h2 id="fixed">Fixed<a class="headerlink" href="#fixed" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -874,28 +848,28 @@ instances. This records what a real site exposed that the synthetic E2E fixtures
 </thead>
 <tbody>
 <tr>
-<td>A media record whose file is missing from Azure storage made preview return an opaque <strong>500</strong> (the provider throws <code>RequestFailedException</code>).</td>
-<td><code>MediaStorageFiles.Open</code> turns any storage failure into an error naming the item; preview returns 400 with that detail.</td>
+<td>Missing Azure media file made preview return an opaque 500.</td>
+<td>Error names the item; preview returns 400.</td>
 </tr>
 <tr>
-<td>An unsupported media file (e.g. <code>.svg</code>) failed with no item named.</td>
-<td>The error names the item and file.</td>
+<td>Unsupported media file (e.g. <code>.svg</code>) failed without naming the item.</td>
+<td>Error names item and file.</td>
 </tr>
 <tr>
-<td>Selection errors returned a generic 400 and were not logged.</td>
-<td>Logged; administrators see the detail, delegated editors keep the generic message.</td>
+<td>Selection errors were generic and unlogged.</td>
+<td>Logged; administrators see detail, delegated editors the generic message.</td>
 </tr>
 <tr>
-<td><strong>Dangling references blocked pushes.</strong> Content referenced deleted documents and media; 8 of 9 tried subtrees failed.</td>
-<td>Soft references to missing or recycle-bin items are skipped at the source and reported as grouped review warnings. Roots and hard dependencies still fail closed. On apply, every produced reference must still be approved; an approved one may be absent only when its target is neither in the transfer nor on the destination.</td>
+<td><strong>Dangling references blocked pushes</strong> (8 of 9 subtrees).</td>
+<td>Soft references to missing or recycled items are skipped with grouped warnings; roots and hard dependencies still fail closed. On apply, an approved reference may be absent only if its target is in neither the transfer nor the destination.</td>
 </tr>
 <tr>
-<td><strong>Full-site push exceeded the 8 MB manifest limit</strong> (and the size check ran only after a 5-minute export).</td>
-<td>Oversized administrator pushes are split into dependency-ordered batches (at most 4 MB and 250 items each), exported once, and reviewed and applied batch by batch (<code>preview/batches/{id}/next</code>).</td>
+<td><strong>Full-site push exceeded the 8 MB manifest limit</strong>, found after a 5-minute export.</td>
+<td>Administrator pushes split into dependency-ordered batches (≤ 4 MB, ≤ 250 items), exported once, reviewed and applied in turn (<code>preview/batches/{id}/next</code>).</td>
 </tr>
 <tr>
-<td>One batch of 392 media updates outlived the remote client's 2-minute timeout.</td>
-<td>Batches are capped at 250 items and the remote client allows 10 minutes per request, like the asset client.</td>
+<td>A 392-item batch outlived the 2-minute client timeout.</td>
+<td>250-item cap; 10-minute request timeout.</td>
 </tr>
 </tbody>
 </table>
@@ -909,94 +883,104 @@ instances. This records what a real site exposed that the synthetic E2E fixtures
 </thead>
 <tbody>
 <tr>
-<td>The packages pinned exactly Umbraco 17.6.2.</td>
-<td>Range <code>[17.5.0, 18.0.0)</code>; the real site installs on its own Umbraco 17.5.3. <code>Microsoft.OpenApi</code> is pinned to the patched 2.9.0.</td>
+<td>Packages required exactly Umbraco 17.6.2 and EF Core 10.0.10 (the site pinned 17.5.3 / 10.0.6).</td>
+<td>Range <code>[17.5.0, 18.0.0)</code>; <code>Microsoft.OpenApi</code> pinned to patched 2.9.0.</td>
 </tr>
 <tr>
-<td>Pushing schema into a fresh install collided with its built-in data types.</td>
-<td>Data types may be renamed; renames run before new data types are allocated; a name may move from a destination data type renamed in the same transfer or unused there. Apply still verifies every key.</td>
+<td>Schema push collided with a fresh install's built-in data types.</td>
+<td>Data types may be renamed before new ones are allocated; every key is still verified.</td>
 </tr>
 <tr>
-<td>Template Razor already shipped with the site's code blocked template creation.</td>
-<td>A Views file identical to the incoming Razor is adopted. Razor is compared as Umbraco stores it (no BOM, no trailing whitespace), so adopted templates stay Unchanged.</td>
+<td>Site-shipped template Razor blocked template creation.</td>
+<td>An identical Views file is adopted (compared without BOM or trailing whitespace).</td>
 </tr>
 <tr>
-<td>Batching spread a site's schema across batches, losing allowed child types.</td>
-<td>Schema comes first and does not count toward the 250-item batch cap.</td>
+<td>Batching lost allowed child types.</td>
+<td>Schema goes first, outside the batch cap.</td>
 </tr>
 <tr>
-<td>SVG media were not transferable.</td>
-<td>Static SVGs transfer after a strict safety check on export and again on the destination (no script, event handlers, foreignObject, external links or DTDs).</td>
+<td>SVG media not transferable.</td>
+<td>Static SVGs pass a strict check on both sides (no script, handlers, foreignObject, external links, DTDs).</td>
 </tr>
 <tr>
-<td>Contentment Data List / Data Picker had to be opted in as untracked scalars.</td>
-<td>A Ferry mapper keeps the value, reports its <code>umb://</code> references and exports compact JSON so repeats compare equal. Value-only editors can be opted in through <code>Ferry:Editors:ScalarEditors</code>.</td>
+<td>Contentment Data List / Data Picker needed opting in.</td>
+<td>Built-in mapper keeps values and <code>umb://</code> references; other value-only editors via <code>Ferry:Editors:ScalarEditors</code>.</td>
 </tr>
 <tr>
-<td>Upload autofill values (<code>umbracoBytes</code> etc.) made repeat pushes report Updates.</td>
-<td>Media differing only in autofilled values is Unchanged.</td>
+<td>Upload autofill values made repeats report Updates.</td>
+<td>Ignored in comparison.</td>
 </tr>
 <tr>
-<td>The eye-dropper colour picker was refused.</td>
+<td>Eye-dropper colour picker refused.</td>
 <td><code>Umbraco.ColorPicker.EyeDropper</code> and <code>Umbraco.EmailAddress</code> are built-in scalars.</td>
 </tr>
 <tr>
 <td>Pull and package imports kept the 8 MB limit.</td>
-<td>Bounded by <code>Ferry:Backoffice:MaximumPackageBytes</code> (default 256 MB); the transport request limit is not applied to local applies.</td>
+<td><code>Ferry:Backoffice:MaximumPackageBytes</code> (default 256 MB).</td>
 </tr>
 <tr>
 <td>A large batch exceeded the 64 MB recovery record limit.</td>
-<td>Default raised to 256 MB (a record keeps the before-state of everything a batch touches).</td>
+<td>Default 256 MB.</td>
 </tr>
 <tr>
-<td>Durable pushes could not continue batched transfers; slow sites got no guidance.</td>
-<td>'Review next batch' after a durable job completes; interrupted applies suggest durable transfer.</td>
+<td>Durable pushes could not continue batches.</td>
+<td>'Review next batch' after a durable job; interrupted applies suggest durable transfer.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="verified-end-to-end">Verified end to end<a class="headerlink" href="#verified-end-to-end" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Seed preflight</td>
+<td>v6 peers compatible, shared features and empty destination detected.</td>
+</tr>
+<tr>
+<td>Media folder, 84 items</td>
+<td>82/82 applied in 5.9 s, incl. recovery from an earlier storage-error stop.</td>
+</tr>
+<tr>
+<td>Selected tree, 13.6 MB, 1,300+ entities</td>
+<td>8 batches, 466 content created, warnings instead of failures.</td>
+</tr>
+<tr>
+<td>Full site, 123 MB (15x old limit)</td>
+<td>64 batches, 14,105 changes (8,380 content, 4,720 media), 1,301 reference warnings; ~10 min preview, 62 min apply. Repeat: 9,011 of 9,182 Unchanged.</td>
+</tr>
+<tr>
+<td>Unauthenticated transport request</td>
+<td>401.</td>
+</tr>
+<tr>
+<td>Fresh 17.5.3 install, no schema import, 114 MB</td>
+<td>43 batches: 166 data types, 236 document types, 39 templates, 1,635 media, 8,426 documents. Repeat: all but 137 documents Unchanged.</td>
+</tr>
+<tr>
+<td>Existing target, Settings tree, 115 MB</td>
+<td>43 batches incl. SVGs and recycle-bin references; repeat: all 1,722 media Unchanged.</td>
 </tr>
 </tbody>
 </table>
 <h2 id="remaining-observations">Remaining observations<a class="headerlink" href="#remaining-observations" title="Permanent link">&para;</a></h2>
 <ol>
-<li><strong>Site behaviour, not Ferry:</strong> the client site's save handlers add reciprocal links (lawyers,
-   insights, location, practices, awards) and re-sort Insights year/month folders on every save, so about
-   200 of ~8,500 documents differ again after each push. Its handlers also resolve nodes by production
-   integer ids (<code>GetById(2906)</code>), which fails on any other database; the test copy uses the node key.</li>
-<li>Durable transfer jobs remain the answer for destinations whose saves are slower than ~2 s per item.</li>
+<li><strong>Site behaviour:</strong> the site's save handlers add reciprocal links and re-sort year/month folders, so ~200
+   documents differ after each push. They also look up nodes by production integer id (<code>GetById(2906)</code>).</li>
+<li>Destinations slower than ~2 s per saved item should use durable transfer jobs.</li>
 </ol>
-<h2 id="verified-end-to-end">Verified end to end<a class="headerlink" href="#verified-end-to-end" title="Permanent link">&para;</a></h2>
-<ul>
-<li>Seed preflight: compatible v6 peers, shared Templates and Domains features, empty destination detected.</li>
-<li>A real media folder (84 items): preview, apply 82/82 in 5.9 s, including recovery from an earlier apply
-  that stopped on a storage error (restore point captured first).</li>
-<li>Selected tree (Practices, 13.6 MB, 1,300+ entities with references): 8 batches, every batch previewed
-  without errors and applied (466 content created), with unresolved-reference warnings instead of failures.</li>
-<li>Full site (123 MB manifest, 15x the old limit): split into 64 batches; every batch previewed without errors
-  and every batch with changes applied Completed — 14,105 changes including 8,380 content and 4,720 media
-  created, with 1,301 unresolved-reference warnings. About 10 minutes of previews and 62 minutes of applies.
-  A repeat previewed 9,011 of 9,182 documents as Unchanged; the rest are open finding 4.</li>
-<li>Unauthenticated transport requests are rejected (401).</li>
-<li>Fresh Umbraco 17.5.3 install, no schema import (package floor): a selected tree whose references reach most
-  of the site (114 MB) pushed schema and content in 43 batches — 166 data types, 236 document types, 39
-  templates, 1,635 media and 8,426 documents. A repeat previewed all schema, templates and media and 8,289
-  of 8,426 documents as Unchanged (the rest is remaining observation 1).</li>
-<li>Existing target: the Settings tree (115 MB, 43 batches) with restored SVG media and references to
-  recycle-bin items — every batch applied; 10 SVG files created; a repeat previewed all 1,722 media as
-  Unchanged.</li>
-</ul>
-<h1 id="second-real-site-a-whole-site-get-2026-10-24">Second real site: a whole-site Get (2026-10-24)<a class="headerlink" href="#second-real-site-a-whole-site-get-2026-10-24" title="Permanent link">&para;</a></h1>
-<p>A second agency client site, an accounting firm's site upgraded from Umbraco 13, exercised Ferry 0.2.0 the other
-way round: a fresh install <strong>got</strong> the whole site from a copy of it.</p>
-<h2 id="setup_1">Setup<a class="headerlink" href="#setup_1" title="Permanent link">&para;</a></h2>
-<ul>
-<li>Site: Umbraco 17.7.1 with Umbraco Forms, Umbraco Engage, Azure Blob media, Azure SSO, 2FA, Skybrud
-  Redirects, MetaMomentum, Google Maps and Block List.</li>
-<li>Source: the site's local development database (SQL Server) with <strong>2,076 documents, 4,041 media, 165 document types,
-  472 data types and 28 templates</strong>. Its file export holds schema only, so the content came from the database. Media
-  files were replaced by placeholders on local disk (the development storage account was not reachable).</li>
-<li>Target: a fresh install on <strong>SQLite</strong>, with Engage removed (it refuses SQLite). The target ran
-  <code>POST pull/preview</code> (<code>fullSite: true</code>) and <code>pull/{id}/apply</code> against the source over the peer protocol, so no
-  backoffice account was needed on the source.</li>
-<li>Ferry's own tables and migration keys were dropped from the source database afterwards; it matches its prior state.</li>
-</ul>
+<h1 id="second-real-site-whole-site-get-2026-10-24">Second real site: whole-site Get (2026-10-24)<a class="headerlink" href="#second-real-site-whole-site-get-2026-10-24" title="Permanent link">&para;</a></h1>
+<p>A second client site, upgraded from Umbraco 13, ran Ferry 0.2.0 in the other direction: a fresh install <strong>got</strong> the
+whole site.</p>
+<p><strong>Setup.</strong> Umbraco 17.7.1 with Forms, Engage, Azure Blob media, Azure SSO, 2FA, Skybrud Redirects, MetaMomentum,
+Google Maps and Block List. Source: the development SQL Server database — 2,076 documents, 4,041 media, 165
+document types, 472 data types, 28 templates; media files as local placeholders. Target: fresh <strong>SQLite</strong> install
+without Engage (it refuses SQLite), calling <code>pull/preview</code> (<code>fullSite: true</code>) and <code>pull/{id}/apply</code> over the peer
+protocol. Ferry's tables were removed from the source afterwards.</p>
 <h2 id="fixed_1">Fixed<a class="headerlink" href="#fixed_1" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -1007,72 +991,52 @@ way round: a fresh install <strong>got</strong> the whole site from a copy of it
 </thead>
 <tbody>
 <tr>
-<td><code>.jfif</code> (22 files) and <code>.heic</code> were not allowed media extensions; one such file blocked the whole transfer.</td>
-<td><code>.jfif</code>, <code>.jpe</code>, <code>.heic</code> and <code>.heif</code> are allowed static image files.</td>
+<td><code>.jfif</code> and <code>.heic</code> files blocked the transfer.</td>
+<td><code>.jfif</code>, <code>.jpe</code>, <code>.heic</code>, <code>.heif</code> allowed.</td>
 </tr>
 <tr>
-<td>A stored value whose segment the property no longer varies by (an old A/B-test variant left after an upgrade) failed the plan: <em>Property culture/segment does not match schema variations.</em></td>
-<td>Export skips values Umbraco never reads (culture or segment not matching the property's variation) and logs each one on the source.</td>
+<td>Values for a segment the property no longer varies by failed the plan.</td>
+<td>Export skips and logs values Umbraco never reads.</td>
 </tr>
 <tr>
-<td>A template whose Razor declares <code>Layout = "Master.cshtml"</code> but whose database row records no master was created before its master: <em>MasterTemplateNotFound</em>.</td>
-<td>Export takes the parent from the Razor layout, as Umbraco does when it creates the template; a layout that is not a template on the site is refused with a clear message.</td>
+<td>Template with <code>Layout = "Master.cshtml"</code> but no stored master: <em>MasterTemplateNotFound</em>.</td>
+<td>Parent taken from the Razor layout, as Umbraco does.</td>
 </tr>
 <tr>
-<td>A template with no view file has empty Razor; Umbraco writes its default view on create, so the template then never matched and, being create-only, blocked every later transfer.</td>
-<td>Export sends the default view Umbraco would create. After creating a template, Ferry also checks that the stored Razor equals the approved bytes.</td>
+<td>Template with no view file never matched after create and blocked later transfers.</td>
+<td>Export sends Umbraco's default view; created Razor is checked against approved bytes.</td>
 </tr>
 <tr>
-<td>The site's save handlers looked nodes up by production integer ids and created year/month folders on save, so the import failed on a null node.</td>
-<td><code>FerryImport.IsActive</code> is true while Ferry applies a transfer; site handlers can skip work the transfer already carries.</td>
+<td>Site save handlers failed during import.</td>
+<td><code>FerryImport.IsActive</code> lets handlers skip work during an apply.</td>
 </tr>
 <tr>
-<td>Block List values never re-saved since the upgrade from 13 (713 of 732) keep <code>contentUdi</code>/<code>udi</code> beside the keys; the import check saw <code>contentUdi</code> become null and blocked: <em>Portable mapping … would lose or change data</em>.</td>
-<td>The check treats a legacy block UDI and its key as the same block when they agree. The error now names the first differing JSON path and both values.</td>
+<td>Block List values with legacy <code>contentUdi</code>/<code>udi</code> (713 of 732) were blocked as data loss.</td>
+<td>Matching legacy UDI and key count as the same block; errors name the first differing JSON path.</td>
 </tr>
 <tr>
-<td><strong>Every page below the root lost its template</strong> on a full-site transfer: the export walked the tree with Umbraco's <code>loadTemplates: false</code>, and the destination snapshot used the same walk, so a repeat preview did not notice.</td>
-<td>The full-site walk loads templates. 1,685 of 2,076 pages carry a template on both sides.</td>
+<td><strong>Pages below the root lost their template</strong> on full-site transfer, unseen by repeat preview.</td>
+<td>Full-site walk loads templates (1,685 of 2,076 pages have one).</td>
 </tr>
 <tr>
-<td>A repeat preview reported 1,064 of 2,076 documents as Updates although nothing had changed: dates carried a <code>Z</code> from SQL Server but not from SQLite, Umbraco 17 adds an empty <code>blocks</code> object to rich text, and an empty picker is an explicit null on one side and absent on the other.</td>
-<td>Dates are exported as wall-clock time. Content comparison uses canonical values: legacy block identities, empty rich-text blocks and empty values compare as unchanged.</td>
+<td>Repeat preview showed 1,064 false Updates (date <code>Z</code>, empty rich-text <code>blocks</code>, null vs absent).</td>
+<td>Wall-clock dates; canonical comparison.</td>
 </tr>
 </tbody>
 </table>
-<h2 id="verified-end-to-end_1">Verified end to end<a class="headerlink" href="#verified-end-to-end_1" title="Permanent link">&para;</a></h2>
-<ul>
-<li>Preview: 6,801 operations, no errors or warnings, 77 s (export included).</li>
-<li>Apply: <strong>Completed, 6,776 of 6,776</strong> in 71 s, restore point captured.</li>
-<li>Repeat preview: all documents, document types, data types, templates and 4,040 of 4,041 media <strong>Unchanged</strong>.</li>
-</ul>
-<h2 id="remaining-observations-resolved">Remaining observations, resolved<a class="headerlink" href="#remaining-observations-resolved" title="Permanent link">&para;</a></h2>
+<p><strong>Verified:</strong> preview 6,801 operations, no errors, 77 s; apply <strong>6,776 of 6,776</strong> in 71 s with a restore point;
+repeat preview all <strong>Unchanged</strong> except 1 of 4,041 media.</p>
+<p><strong>Remaining observations, resolved:</strong></p>
 <ol>
-<li><strong>Duplicate sibling name.</strong> The source holds two root media folders named "Engage"; Umbraco makes sibling names
-   unique, so the target stores the second as "Engage (1)" and each repeat planned an Update. Fixed in #32: an item
-   that Umbraco renamed because a destination sibling holds its source name plans as unchanged.</li>
-<li><strong>SVG media type Update.</strong> It did not recur in the code-first run below, where every media type planned as
-   unchanged.</li>
-<li><strong>Tables with the backoffice disabled.</strong> This is by design: the transport uses the lease table, and the full adapter
-   has its own tables. The README explains how to remove them (#32).</li>
-<li><strong>Code-first schema.</strong> <code>SchemaBuilder</code> now covers tabs, templates, variations and data types, and the site adopted
-   code-first schema (#30). See the next section.</li>
+<li>Duplicate sibling media folder names re-planned an Update each time; fixed in #32.</li>
+<li>An SVG media type Update did not recur in the code-first run.</li>
+<li>Ferry tables with the backoffice disabled are by design; the README explains removal (#32).</li>
+<li>Code-first schema: <code>SchemaBuilder</code> covers tabs, templates, variations and data types; adopted in #30.</li>
 </ol>
 <h1 id="second-real-site-adopting-code-first-schema-2026-10-24">Second real site: adopting code-first schema (2026-10-24)<a class="headerlink" href="#second-real-site-adopting-code-first-schema-2026-10-24" title="Permanent link">&para;</a></h1>
-<p>The same site moved its backoffice-made schema to code with <code>SchemaBuilder</code>.</p>
-<h2 id="setup_2">Setup<a class="headerlink" href="#setup_2" title="Permanent link">&para;</a></h2>
-<ul>
-<li>Ferry wrote the source site's schema as one migration that keeps every key. It came to 11,600 lines:</li>
-<li>1 language;</li>
-<li>463 data types (block editors configured after their element types);</li>
-<li>28 templates, layouts first;</li>
-<li>9 media types;</li>
-<li>165 document types with 81 tabs and 129 groups, compositions first;</li>
-<li>allowed children.</li>
-<li>A fresh SQLite install of the same site code ran that migration at startup, with <code>Ferry:Full:ContentOnly</code> on, then
-  got the whole site from the source as before.</li>
-</ul>
-<h2 id="fixed-while-adopting">Fixed while adopting<a class="headerlink" href="#fixed-while-adopting" title="Permanent link">&para;</a></h2>
+<p>Ferry wrote the site's backoffice schema as one key-preserving <code>SchemaBuilder</code> migration (11,600 lines: 1 language,
+463 data types, 28 templates, 9 media types, 165 document types, dependencies first). A fresh SQLite install ran it
+at startup with <code>Ferry:Full:ContentOnly</code>, then got the site.</p>
 <table>
 <thead>
 <tr>
@@ -1082,40 +1046,25 @@ way round: a fresh install <strong>got</strong> the whole site from a copy of it
 </thead>
 <tbody>
 <tr>
-<td>Templates were created in database-master order, but Umbraco takes a new template's master from its view: <em>MasterTemplateNotFound</em>.</td>
-<td>The generator orders templates by their views' <code>Layout</code>.</td>
+<td>Templates ordered by database master: <em>MasterTemplateNotFound</em>.</td>
+<td>Ordered by views' <code>Layout</code>.</td>
 </tr>
 <tr>
-<td>A group named "404" has no alias Umbraco can derive (aliases cannot start with a digit).</td>
-<td>The generator writes the stored alias whenever it differs from the derived one.</td>
+<td>Group "404" has no derivable alias.</td>
+<td>Stored alias written when it differs.</td>
 </tr>
 <tr>
-<td>The site was upgraded from an old version, so its built-in media types carry legacy property keys (<code>00000009-…</code>); a fresh install has others, and all six built-in media types differed.</td>
-<td>An explicit key on a group or property also re-keys an existing one.</td>
+<td>Legacy property keys on built-in media types.</td>
+<td>Explicit keys re-key existing groups and properties.</td>
 </tr>
 </tbody>
 </table>
-<h2 id="verified-end-to-end_2">Verified end to end<a class="headerlink" href="#verified-end-to-end_2" title="Permanent link">&para;</a></h2>
-<ul>
-<li>The migration created every schema item on the fresh install, with no errors.</li>
-<li>Content-only Get preview: no errors; all <strong>684 schema items Unchanged</strong> (472 data types, 165 document types, 9 media
-  types, 9 media type variations, 28 templates and 1 language).</li>
-<li>Apply: <strong>Completed, 6,117 of 6,117</strong>.</li>
-<li>Repeat preview: everything <strong>Unchanged</strong> except the duplicate-name media item, which #32 later fixed.</li>
-<li>Running the migration a second time converged all 694 items and created nothing; the preview stayed unchanged.</li>
-<li>The source database was restored to its prior state, and the trial copy was deleted.</li>
-</ul>
-<h1 id="real-site-check-generated-schema-migrations-060-beta1-2026-10-27">Real-site check: generated schema migrations (0.6.0-beta.1, 2026-10-27)<a class="headerlink" href="#real-site-check-generated-schema-migrations-060-beta1-2026-10-27" title="Permanent link">&para;</a></h1>
-<p>A client site upgraded from Umbraco 13 to 17 was moved to <a href="../code-first-schema/#generated-migrations">generated migrations</a>
-the way a developer would.</p>
-<h2 id="setup_3">Setup<a class="headerlink" href="#setup_3" title="Permanent link">&para;</a></h2>
-<ul>
-<li>On a development copy with <code>Ferry:Schema:Migrations</code> writing enabled, <strong>Create migration</strong> wrote the adoption
-  migration of the whole schema, then a schema change in the backoffice became a second, change-only migration.</li>
-<li>A rebuilt fresh install of the same site code, content-only, ran both migrations at startup, then got the whole site
-  from the development copy.</li>
-</ul>
-<h2 id="fixed-while-checking">Fixed while checking<a class="headerlink" href="#fixed-while-checking" title="Permanent link">&para;</a></h2>
+<p><strong>Verified:</strong> all <strong>684 schema items Unchanged</strong> in preview; apply <strong>6,117 of 6,117</strong>; repeat all Unchanged except
+the duplicate-name item (later fixed); a second migration run created nothing. Source restored, trial copy deleted.</p>
+<h1 id="generated-schema-migrations-060-beta1-2026-10-27">Generated schema migrations (0.6.0-beta.1, 2026-10-27)<a class="headerlink" href="#generated-schema-migrations-060-beta1-2026-10-27" title="Permanent link">&para;</a></h1>
+<p>A site upgraded from Umbraco 13 moved to <a href="../code-first-schema/#generated-migrations">generated migrations</a>: <strong>Create
+migration</strong> wrote the adoption migration, then a backoffice change produced a change-only one. A fresh content-only
+install ran both, then got the site.</p>
 <table>
 <thead>
 <tr>
@@ -1125,35 +1074,29 @@ the way a developer would.</p>
 </thead>
 <tbody>
 <tr>
-<td>Upgraded sites have properties outside every group; the adoption refused them, and the refusal surfaced as a 500.</td>
-<td><code>SchemaBuilder</code> states group-less properties on the type itself, the generator writes them there, and moving a property out of every group is <code>MovePropertyAsync(type, alias, "")</code>. A schema Ferry cannot state is a 409 with the reason.</td>
+<td>Group-less properties refused, as a 500.</td>
+<td>Stated on the type; <code>MovePropertyAsync(type, alias, "")</code>; unstatable schema is a 409.</td>
 </tr>
 <tr>
-<td>On a fresh install the adoption failed on built-in data types whose keys differ from the upgraded site's (<em>Content Picker</em>).</td>
-<td><code>EnsureDataTypeAsync</code> with a stated key adopts an unused namesake and re-keys it, as transfers do.</td>
+<td>Built-in data types with other keys (<em>Content Picker</em>).</td>
+<td><code>EnsureDataTypeAsync</code> adopts and re-keys an unused namesake.</td>
 </tr>
 <tr>
-<td>A template whose <code>Layout</code> names a plain view (with extension) failed with <em>MasterTemplateNotFound</em>.</td>
-<td>Such a template is created without a master, keeping its view, also on name changes and renames.</td>
+<td><code>Layout</code> naming a plain view: <em>MasterTemplateNotFound</em>.</td>
+<td>Created without a master.</td>
 </tr>
 <tr>
-<td>The failed step was not fully taken back: Umbraco rolled back the database, but its caches still served what the step had created, and the template views stayed.</td>
-<td>Each step runs in a scope that also covers view files; the caches are cleared when a step fails, and the failure is recorded after the rollback.</td>
+<td>Failed step left caches and views behind.</td>
+<td>Step scope covers views; caches cleared on failure.</td>
 </tr>
 <tr>
-<td>Pages that no longer fit their type's root or child rules were refused when their type was already identical on the destination.</td>
-<td>They are copied where the source has them when the destination's type is the source's, including unchanged types (content and media).</td>
+<td>Pages breaking root/child rules refused on an identical type.</td>
+<td>Copied as on the source.</td>
 </tr>
 </tbody>
 </table>
-<h2 id="verified-end-to-end_3">Verified end to end<a class="headerlink" href="#verified-end-to-end_3" title="Permanent link">&para;</a></h2>
-<ul>
-<li>The rebuilt site <strong>Applied</strong> both migrations at startup, with no drift.</li>
-<li>Content-only Get preview: no errors; all <strong>330 schema items Unchanged</strong>.</li>
-<li>Apply: <strong>2,512 content and media items</strong> completed.</li>
-<li>Repeat preview: everything <strong>Unchanged</strong>.</li>
-<li>The development database was restored to its prior state.</li>
-</ul>
+<p><strong>Verified:</strong> both migrations applied with no drift; <strong>330 schema items Unchanged</strong>; <strong>2,512 items</strong> applied; repeat
+all Unchanged. Development database restored.</p>
 
 
 

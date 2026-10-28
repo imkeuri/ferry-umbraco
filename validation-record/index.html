@@ -499,6 +499,19 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Validation record
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -510,6 +523,34 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#rerunning" class="md-nav__link">
+    <span class="md-ellipsis">
+      Rerunning
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -705,6 +746,23 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#rerunning" class="md-nav__link">
+    <span class="md-ellipsis">
+      Rerunning
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -720,79 +778,95 @@
 
 
 <h1 id="local-validation-record">Local validation record<a class="headerlink" href="#local-validation-record" title="Permanent link">&para;</a></h1>
-<p>Recorded local results for the experimental v5 Umbraco 17.6.2 / .NET 10 baseline:</p>
+<p>Local results for the experimental v5 baseline (Umbraco 17.6.2, .NET 10). Evidence lives in ignored <code>artifacts/</code>,
+so it is not in the repository or CI; no remote CI run is claimed.</p>
+<table>
+<thead>
+<tr>
+<th>Check</th>
+<th>Result</th>
+<th>Evidence (<code>artifacts/…</code>)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>.NET tests</td>
+<td>433/433 (Core 45, Transport 147, Backoffice 116, Umbraco 125)</td>
+<td></td>
+</tr>
+<tr>
+<td>Exact-NuGet fixture-consumer install, isolated Docker SDK 10.0</td>
+<td>Passed</td>
+<td><code>package-install/native-published-docker-20260925/result.json</code></td>
+</tr>
+<tr>
+<td><code>dotnet pack … --no-restore -c Release</code></td>
+<td><code>Ferry.Umbraco.0.1.0-alpha.1.nupkg</code></td>
+<td><code>package-install/native-pack-no-restore-20260925/</code></td>
+</tr>
+<tr>
+<td>Full transfer/publication</td>
+<td>22/22</td>
+<td><code>e2e/run-b5b2c4780302/results.json</code></td>
+</tr>
+<tr>
+<td>Source-version Content UploadField</td>
+<td>6/6</td>
+<td><code>e2e/run-8fdee911be35/results.json</code></td>
+</tr>
+<tr>
+<td>SQL Server source-version</td>
+<td>4/4</td>
+<td><code>e2e/run-148ef4ea5e5e/results.json</code></td>
+</tr>
+<tr>
+<td>SQL Server target culture-Media</td>
+<td>2/2</td>
+<td><code>e2e/run-923dbb295bb3/results.json</code></td>
+</tr>
+<tr>
+<td>Clean fixture host, culture-Media Push and Pull</td>
+<td>2/2</td>
+<td><code>e2e/run-d96fcf3e9db4/results.json</code></td>
+</tr>
+<tr>
+<td>SQL Server target culture-Media restart</td>
+<td>2/2</td>
+<td><code>e2e/run-7cc1d7cd178d/results.json</code></td>
+</tr>
+<tr>
+<td>Backoffice browser flows (Playwright container)</td>
+<td>19/19, earlier package</td>
+<td><code>e2e/browser-snapshot-final/results.json</code></td>
+</tr>
+<tr>
+<td>Native culture-Media name read</td>
+<td>Umbraco reads <code>null</code>; Ferry keeps the names</td>
+<td><code>e2e/run-de0c9af7479d/results.json</code></td>
+</tr>
+</tbody>
+</table>
 <ul>
-<li>.NET: 433/433 ordinary tests (Core 45, Transport 147, Backoffice 116, Umbraco 125).</li>
-<li>Fresh exact-NuGet fixture-consumer package install passed with an isolated Docker
-  SDK 10.0 after the host sandbox denied restore access to
-  <code>~/.dotnet/sdk/10.0.201/trustedroots/codesignctl.pem</code>:
-  <code>artifacts/package-install/native-published-docker-20260925/result.json</code>.
-  This is current local package evidence; it does not establish hosted CI.</li>
-<li><code>dotnet pack src/Ferry.Umbraco/Ferry.Umbraco.csproj --no-restore -c Release</code>
-  succeeded and created the local package
-  <code>artifacts/package-install/native-pack-no-restore-20260925/Ferry.Umbraco.0.1.0-alpha.1.nupkg</code>.</li>
-<li>Exact-package Full transfer/publication: 22/22
-  (<code>artifacts/e2e/run-b5b2c4780302/results.json</code>), including the new greenfield
-  template-rejection case. Executable template transfer remains unsupported.</li>
-<li>Exact-package two-site source-version Content UploadField: 6/6
-  (<code>artifacts/e2e/run-8fdee911be35/results.json</code>). It verifies immutable
-  publish-time snapshot export when Umbraco's deterministic same-name UploadField
-  path is later overwritten with draft B, so Published transfers A while Draft
-  transfers B; it also verifies repeat <code>Unchanged</code> and missing-snapshot preview
-  failure before a target write. It also verifies native new-content <code>SaveAndPublish</code>:
-  pre-version immutable bytes bind to the assigned <code>PublishedVersionId</code>, transfer
-  exactly, and replay unchanged. Preexisting publications without a snapshot fail
-  closed on Published export. The same run also
-  verifies an en-US-only partial republish carries an untouched immutable fr-FR
-  snapshot forward after the mutable fr-FR file path is overwritten. Arbitrary
-  culture-varying UploadField configurations remain untested.</li>
-<li>Astra review of this production change found no P1 or P2 issues.</li>
-<li>Exact-package SQL Server source-version E2E: 4/4
-  (<code>artifacts/e2e/run-148ef4ea5e5e/results.json</code>). The source database contains one
-  <code>cmsCommunitySyncPublishedContentAsset</code> row and
-  <code>PK_cmsCommunitySyncPublishedContentAsset</code>, proving the bounded saved-source
-  snapshot write/schema path.</li>
-<li>Exact-package SQL Server target culture-Media Push/Pull: 2/2
-  (<code>artifacts/e2e/run-923dbb295bb3/results.json</code>). The target database created the
-  snapshot table and primary key, with zero rows as expected because this scenario
-  has no Published-source UploadField capture. Culture-varying UploadField,
-  multi-node hosting, hosted CI, and production topology are untested.</li>
-<li>Clean exact-NuGet fixture host with culture-varying Media: Push and administrator
-  Pull 2/2 (<code>artifacts/e2e/run-d96fcf3e9db4/results.json</code>), after a clean fixture
-  consumer package installation at
-  <code>artifacts/package-install/e2e-fixture-consumer-clean-20260925/result.json</code>.
-  Push verifies distinct en-US/fr-FR PNG bytes, captions, durable culture names,
-  unchanged replay, and a target process restart. Pull verifies the same transfer
-  values and bytes but does not restart the target.</li>
-<li>Package-installed SQL Server-target culture-Media restart suite: 2/2
-  (<code>artifacts/e2e/run-7cc1d7cd178d/results.json</code>).</li>
-<li>Packaged native Backoffice browser flow: three suites passed 19/19 against two
-  disposable Umbraco sites in a Playwright MCP image container using a browse peer
-  policy (<code>artifacts/e2e/browser-snapshot-final/results.json</code>). This earlier-package
-  exact-package result predates the current production commit. The earlier macOS Chrome abort and a pull-only 17/19 fixture
-  run were harness outcomes, not the final browser result. This is local Chromium-container evidence, not hosted CI,
-  cross-browser, accessibility, or production-topology validation.</li>
-<li>Native Umbraco 17.6.2 reads culture-varying Media names as <code>null</code> after a fresh
-  Media read (<code>artifacts/e2e/run-de0c9af7479d/results.json</code>). Ferry's
-  migration-owned store preserves those names for transfer; native API/Backoffice
-  display is not claimed.</li>
+<li><strong>UploadField:</strong> Published sends the immutable publish-time snapshot while Draft sends the overwritten file;
+  repeats are <code>Unchanged</code>; a missing snapshot fails before target writes; new-content <code>SaveAndPublish</code> binds to its
+  <code>PublishedVersionId</code>; an en-US-only republish carries the fr-FR snapshot forward.</li>
+<li><strong>SQL Server:</strong> source run writes one snapshot row; target run creates the table with zero rows, as expected.</li>
+<li><strong>Culture-Media:</strong> distinct en-US/fr-FR bytes, captions and names, unchanged replay; Push also restarts the target.</li>
+<li><strong>Browser:</strong> predates the current commit; local Chromium only, not CI, cross-browser or accessibility evidence.</li>
+<li>Independent code review found no P1 or P2 issues.</li>
+<li>Untested: arbitrary culture-varying UploadField setups, multi-node hosting, hosted CI, production topology.
+  Executable template transfer is unsupported.</li>
 </ul>
-<p>The evidence files are under ignored <code>artifacts/</code> and are not committed or available
-to CI. No remote CI run is claimed here.</p>
-<p>From the repository root, the tracked test commands are:</p>
+<h2 id="rerunning">Rerunning<a class="headerlink" href="#rerunning" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code>dotnet<span class="w"> </span><span class="nb">test</span><span class="w"> </span>Ferry.slnx<span class="w"> </span>-m:1
 node<span class="w"> </span>--test<span class="w"> </span>src/Ferry.Backoffice/Client/*.test.mjs
 </code></pre></div>
-<p>The installed-package E2E launcher requires Python <code>cryptography</code>, .NET 10, Node,
-and the E2E npm dependencies. With the retained ignored package outputs, rerun the
-v5 scenarios with:</p>
+<p>Package E2E needs Python <code>cryptography</code>, .NET 10, Node and the E2E npm dependencies:</p>
 <div class="highlight"><pre><span></span><code>python3<span class="w"> </span>scripts/e2e/run.py<span class="w"> </span>--skip-build<span class="w"> </span>--published-output<span class="w"> </span>artifacts/package-install/run-full-v5-culture-store-20260925/published<span class="w"> </span>--mode<span class="w"> </span>Full<span class="w"> </span>--publication<span class="w"> </span>--suite<span class="w"> </span>transfer
 python3<span class="w"> </span>scripts/e2e/run.py<span class="w"> </span>--skip-build<span class="w"> </span>--published-output<span class="w"> </span>artifacts/package-install/e2e-fixture-consumer-clean-20260925/e2e-fixture-published<span class="w"> </span>--mode<span class="w"> </span>Full<span class="w"> </span>--suite<span class="w"> </span>push-media-culture-v5
 </code></pre></div>
-<p>These commands reuse local published consumers and create fresh disposable sites;
-they do not reproduce a clean package build. <code>artifacts/</code> is ignored, may be absent
-on another machine, and can contain disposable fixture data. The culture fixture
-host is intentionally test-only; production consumers exclude fixture support.</p>
+<p>These reuse local published outputs (absent on other machines) and do not rebuild the package. The culture fixture
+host is test-only.</p>
 
 
 

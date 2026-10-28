@@ -916,9 +916,8 @@
 
 
 <h1 id="extending-ferry">Extending Ferry<a class="headerlink" href="#extending-ferry" title="Permanent link">&para;</a></h1>
-<p>Ferry refuses what it does not understand. A property editor it has no contract for, or data a package keeps in its own
-tables, blocks the transfer with a message instead of being copied half-right. This guide shows the three ways to teach
-Ferry about a package:</p>
+<p>Ferry refuses what it does not understand: a property editor without a contract, or data a package keeps in its own
+tables, blocks the transfer with a message rather than being copied half-right. To teach Ferry about a package:</p>
 <table>
 <thead>
 <tr>
@@ -950,32 +949,23 @@ Ferry about a package:</p>
 </tr>
 </tbody>
 </table>
-<p>Whatever you add, register it the same way on <strong>every</strong> site that sends or receives it.</p>
+<p>Register everything the same way on <strong>every</strong> site that sends or receives it.</p>
 <h2 id="scalar-editors">Scalar editors<a class="headerlink" href="#scalar-editors" title="Permanent link">&para;</a></h2>
-<p>A scalar value is copied exactly as stored. Use this only when the value contains no site-local ids, file paths or
-entity references: plain text, numbers, colours, a JSON object of settings.</p>
-<div class="highlight"><pre><span></span><code><span class="n">builder</span><span class="p">.</span><span class="n">AddFerryUmbracoFull</span><span class="p">(</span><span class="n">options</span><span class="w"> </span><span class="o">=&gt;</span>
-<span class="p">{</span>
-<span class="w">    </span><span class="n">options</span><span class="p">.</span><span class="n">ScalarEditors</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="s">"Our.ColorPicker"</span><span class="p">);</span>
-<span class="p">});</span>
+<p>Scalar values are copied exactly as stored. Use only for values with no site-local ids, file paths or entity
+references (text, numbers, colours, a JSON settings object). A page or media key in a scalar value is copied without
+its dependency; use a mapped editor instead.</p>
+<div class="highlight"><pre><span></span><code><span class="n">builder</span><span class="p">.</span><span class="n">AddFerryUmbracoFull</span><span class="p">(</span><span class="n">options</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">options</span><span class="p">.</span><span class="n">ScalarEditors</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="s">"Our.ColorPicker"</span><span class="p">));</span>
 </code></pre></div>
-<p>or in configuration:</p>
+<p>or:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">"Ferry"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"Editors"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"ScalarEditors"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Our.ColorPicker"</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
 </code></pre></div>
-<p>If the value holds a page or media key, a scalar contract copies it without the dependency, so the page may not exist
-on the destination. Use a mapped editor instead.</p>
 <h2 id="mapped-editors">Mapped editors<a class="headerlink" href="#mapped-editors" title="Permanent link">&para;</a></h2>
-<p>A mapped editor's values are converted by a value mapper that</p>
-<ul>
-<li>returns the value to send and the value to store on the destination;</li>
-<li>reports every page and media item the value points at, so they travel with the page and the review shows them.</li>
-</ul>
-<p>Keys are the same on both sites after a Ferry transfer, so a value that stores keys or <code>umb://</code> UDIs can usually be
-copied unchanged; the mapper's job is to report the references. Ferry checks the round trip and the declared references
-before saving content.</p>
-<p>Ferry includes mappers for Umbraco's own editors (pickers, Multi URL Picker, rich text, Block List, Block Grid and
-Single Block) and for Contentment and MetaMomentum. For your own editor, implement <code>IFerryValueMapper</code>
-(namespace <code>Ferry.Umbraco.Values</code>):</p>
+<p>A value mapper returns the value to send and the value to store, and reports every page and media item the value
+points at, so they travel with the page and show in the review. Keys match on both sites after a transfer, so values
+storing keys or <code>umb://</code> UDIs can usually be copied unchanged; the mapper's main job is reporting references. Ferry
+checks the round trip and declared references before saving.</p>
+<p>Built-in mappers cover Umbraco's pickers, Multi URL Picker, rich text, Block List, Block Grid, Single Block,
+Contentment and MetaMomentum. For your own editor, implement <code>IFerryValueMapper</code> (<code>Ferry.Umbraco.Values</code>):</p>
 <div class="highlight"><pre><span></span><code><span class="k">public</span><span class="w"> </span><span class="k">sealed</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">LinkCardMapper</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">IFerryValueMapper</span>
 <span class="p">{</span>
 <span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="n">IReadOnlyCollection</span><span class="o">&lt;</span><span class="kt">string</span><span class="o">&gt;</span><span class="w"> </span><span class="n">Editors</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">get</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s">"Our.LinkCard"</span><span class="p">];</span>
@@ -992,18 +982,18 @@ Single Block) and for Contentment and MetaMomentum. For your own editor, impleme
 <span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="k">static</span><span class="w"> </span><span class="n">IEnumerable</span><span class="o">&lt;</span><span class="n">Guid</span><span class="o">&gt;</span><span class="w"> </span><span class="n">PageKeys</span><span class="p">(</span><span class="kt">string?</span><span class="w"> </span><span class="k">value</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="cm">/* read the keys out of your stored JSON */</span><span class="w"> </span><span class="p">[];</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>Register it on every site that sends or receives the editor; that also opts the editor in:</p>
+<p>Registering it also opts the editor in:</p>
 <div class="highlight"><pre><span></span><code><span class="n">builder</span><span class="p">.</span><span class="n">AddFerryValueMapper</span><span class="o">&lt;</span><span class="n">LinkCardMapper</span><span class="o">&gt;</span><span class="p">();</span>
 </code></pre></div>
-<p><code>FerryValueContext.Values</code> maps values nested inside yours, for example the properties of a block.</p>
-<p>Declaring an alias in <code>MappedEditors</code> without a registered mapper does not make the editor transferable: content
-using it is still refused.</p>
-<p>Test the editor on two disposable sites whose local ids differ: create content on one, Send it, and check that a second
-review plans it as unchanged.</p>
+<ul>
+<li><code>FerryValueContext.Values</code> maps nested values, such as a block's properties.</li>
+<li>An alias in <code>MappedEditors</code> without a registered mapper is still refused.</li>
+<li>Test on two disposable sites with different local ids: create content, Send it, and check a second review plans it
+  as unchanged.</li>
+</ul>
 <h2 id="package-providers">Package providers<a class="headerlink" href="#package-providers" title="Permanent link">&para;</a></h2>
-<p>Some packages keep data outside content, in their own tables: redirects, form definitions, banners, settings. A package
-provider lets that data travel in the same transfer as the pages and media it points at.</p>
-<p>Ferry ships two:</p>
+<p>A package provider carries data a package keeps in its own tables (redirects, forms, banners, settings) in the same
+transfer as the pages and media it points at. Ferry ships two:</p>
 <table>
 <thead>
 <tr>
@@ -1021,7 +1011,7 @@ provider lets that data travel in the same transfer as the pages and media it po
 <tr>
 <td>Umbraco Forms</td>
 <td><code>Ferry.Umbraco.Forms</code>, <code>builder.AddFerryUmbracoForms()</code></td>
-<td>Form definitions with their workflows, and the page a form goes to after submit. The form and theme pickers are accepted as plain values. Records, folders, prevalue sources and data sources are not transferred; a form that uses a prevalue or data source needs it on the destination first.</td>
+<td>Form definitions with workflows and the page shown after submit. Form and theme pickers travel as plain values. Records, folders, prevalue sources and data sources are not transferred; a form using a prevalue or data source needs it on the destination first.</td>
 </tr>
 </tbody>
 </table>
@@ -1034,25 +1024,22 @@ in the Forms email template folder (<code>Forms/Emails/</code>), and an address 
 <em>Save as an XML file</em> workflow may only write <code>xml</code>, <code>txt</code> or <code>csv</code> files. Ferry checks the address as written; it
 cannot see what a host name resolves to when Umbraco Forms later calls it.</p>
 <h3 id="turning-it-on">Turning it on<a class="headerlink" href="#turning-it-on" title="Permanent link">&para;</a></h3>
-<p>Package data is off by default, because a provider writes to tables Ferry does not otherwise touch. Turn it on on
-<strong>both</strong> sites:</p>
+<p>Off by default, because providers write to tables Ferry otherwise leaves alone. Enable on <strong>both</strong> sites:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">"Ferry"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"Full"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"AllowPackageItemTransfer"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
 </code></pre></div>
-<p>Each site advertises its providers. A site that receives items for a provider it does not have refuses the transfer
-before anything is written, with a message that names the provider.</p>
+<p>A site receiving items for a provider it lacks refuses the transfer before writing anything, naming the provider.</p>
 <h3 id="what-a-transfer-does">What a transfer does<a class="headerlink" href="#what-a-transfer-does" title="Permanent link">&para;</a></h3>
 <ul>
-<li>A <strong>whole-site</strong> transfer carries every item of every provider.</li>
-<li>A <strong>selected</strong> transfer carries the items whose pages and media are all in the selection. An item that points at
-  nothing, such as a form with no page after submit, travels only in a whole-site transfer.</li>
-<li>Each item keeps its key on every site, shows in the review as "<em>ItemName</em>: <em>name</em>" with its changed fields, and is
-  written after the pages and media it points at, inside the same apply.</li>
-<li>An item that points at a page or media item that is missing or in the recycle bin is left out of the export and
-  logged: it is already broken on the source.</li>
+<li><strong>Whole-site</strong> transfers carry every item of every provider.</li>
+<li><strong>Selected</strong> transfers carry items whose pages and media are all selected. Items pointing at nothing (e.g. a form
+  with no after-submit page) travel only in whole-site transfers.</li>
+<li>Items keep their key, show in the review as "<em>ItemName</em>: <em>name</em>" with changed fields, and are written after the pages
+  and media they point at, in the same apply.</li>
+<li>Items pointing at missing or recycled pages or media are left out of the export and logged.</li>
 <li>Items are created or updated, never deleted.</li>
 </ul>
 <h3 id="writing-a-provider">Writing a provider<a class="headerlink" href="#writing-a-provider" title="Permanent link">&para;</a></h3>
-<p>Implement <code>IFerryPackageProvider</code> (namespace <code>Ferry.Umbraco.Packages</code>):</p>
+<p>Implement <code>IFerryPackageProvider</code> (<code>Ferry.Umbraco.Packages</code>):</p>
 <table>
 <thead>
 <tr>
@@ -1063,11 +1050,11 @@ before anything is written, with a message that names the provider.</p>
 <tbody>
 <tr>
 <td><code>Alias</code></td>
-<td>Stable id, lowercase letters, digits and dashes, for example <code>our-banners</code>. Never change it.</td>
+<td>Stable id: lowercase letters, digits, dashes, e.g. <code>our-banners</code>. Never change it.</td>
 </tr>
 <tr>
 <td><code>ItemName</code></td>
-<td>What one item is called in the review, for example <code>Banner</code>.</td>
+<td>What one item is called in the review, e.g. <code>Banner</code>.</td>
 </tr>
 <tr>
 <td><code>ExportAllAsync</code></td>
@@ -1075,7 +1062,7 @@ before anything is written, with a message that names the provider.</p>
 </tr>
 <tr>
 <td><code>ExportAsync(key)</code></td>
-<td>One item, or null. Ferry compares it with the incoming item.</td>
+<td>One item or null; compared with the incoming item.</td>
 </tr>
 <tr>
 <td><code>ValidateAsync(item)</code></td>
@@ -1089,10 +1076,10 @@ before anything is written, with a message that names the provider.</p>
 </table>
 <p>Each item is a <code>FerryPackageItem(Key, Name, Data, References)</code>:</p>
 <ul>
-<li><code>Data</code> is a JSON object with the item's portable settings. Leave out local integer ids, dates and anything derived,
-  so an unchanged item compares equal on both sites. Ferry sorts object properties, so field order does not matter.</li>
-<li><code>References</code> lists the pages (<code>FerryReferenceKind.Document</code>) and media (<code>FerryReferenceKind.Media</code>) the item needs,
-  by key. Ferry checks they exist on the destination or come in the same transfer.</li>
+<li><code>Data</code>: JSON object of portable settings. Omit local integer ids, dates and derived values so unchanged items compare
+  equal. Property order does not matter.</li>
+<li><code>References</code>: pages (<code>FerryReferenceKind.Document</code>) and media (<code>FerryReferenceKind.Media</code>) the item needs, by key.
+  They must exist on the destination or come in the same transfer.</li>
 </ul>
 <div class="highlight"><pre><span></span><code><span class="k">public</span><span class="w"> </span><span class="k">sealed</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nf">BannerProvider</span><span class="p">(</span><span class="n">IBannerService</span><span class="w"> </span><span class="n">banners</span><span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">IFerryPackageProvider</span>
 <span class="p">{</span>
@@ -1122,33 +1109,30 @@ before anything is written, with a message that names the provider.</p>
 <span class="w">        </span><span class="n">banner</span><span class="p">.</span><span class="n">ImageKey</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="n">image</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="p">[</span><span class="k">new</span><span class="p">(</span><span class="n">FerryReferenceKind</span><span class="p">.</span><span class="n">Media</span><span class="p">,</span><span class="w"> </span><span class="n">image</span><span class="p">)]</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[]);</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>Register it on both sites:</p>
+<p>Register on both sites:</p>
 <div class="highlight"><pre><span></span><code><span class="n">builder</span><span class="p">.</span><span class="n">AddFerryPackageProvider</span><span class="o">&lt;</span><span class="n">BannerProvider</span><span class="o">&gt;</span><span class="p">();</span>
 </code></pre></div>
 <p>Guidelines:</p>
 <ul>
-<li><strong>Treat incoming data as untrusted.</strong> It came from another site. Validate every field in <code>ValidateAsync</code> and again in
-  <code>ApplyAsync</code>: lengths, enums, and above all URLs (the Skybrud provider accepts only site paths and http(s) URLs).</li>
-<li><strong>Keep the key.</strong> If the package's API gives new items a random key, set the source's key after creating it (the
-  Skybrud provider updates its row in the apply's scope).</li>
-<li><strong>Map local ids.</strong> If the package stores a page's integer id, store the key in <code>Data</code> and look up the local id when
-  applying.</li>
-<li><strong>Clash with a different local item</strong> (same URL, same alias, other key): refuse it in <code>ValidateAsync</code> with a message
-  that names both.</li>
-<li>Payloads are limited to 256 KiB per item and 32 providers per site.</li>
+<li><strong>Treat incoming data as untrusted.</strong> Validate every field in <code>ValidateAsync</code> and again in <code>ApplyAsync</code>: lengths,
+  enums, and especially URLs (the Skybrud provider accepts only site paths and http(s) URLs).</li>
+<li><strong>Keep the key.</strong> If the package assigns random keys, set the source key after creating (the Skybrud provider
+  updates its row in the apply's scope).</li>
+<li><strong>Map local ids.</strong> Store page keys in <code>Data</code> and look up the local id when applying.</li>
+<li><strong>Refuse clashes</strong> with a different local item (same URL or alias, other key) in <code>ValidateAsync</code>, naming both.</li>
+<li>Limits: 256 KiB per item, 32 providers per site.</li>
 </ul>
-<p><code>SkybrudRedirectsProvider</code> in <code>src/Ferry.Skybrud.Redirects</code> is the reference implementation.</p>
+<p>Reference implementation: <code>SkybrudRedirectsProvider</code> in <code>src/Ferry.Skybrud.Redirects</code>.</p>
 <h2 id="media-file-types">Media file types<a class="headerlink" href="#media-file-types" title="Permanent link">&para;</a></h2>
-<p>Ferry allows common image, document, audio, video and font types. To carry another static type, list it on both sites:</p>
+<p>Ferry allows common image, document, audio, video and font types. Add others on both sites:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">"Ferry"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"Full"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"AdditionalMediaExtensions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">".pdn"</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
 </code></pre></div>
-<p>Types a browser or the server can run (<code>.html</code>, <code>.js</code>, <code>.svgz</code>, <code>.cshtml</code>, <code>.exe</code> and similar) are refused at startup.</p>
+<p>Types a browser or server can run (<code>.html</code>, <code>.js</code>, <code>.svgz</code>, <code>.cshtml</code>, <code>.exe</code> and similar) are refused at startup.</p>
 <h2 id="sqlite-and-large-transfers">SQLite and large transfers<a class="headerlink" href="#sqlite-and-large-transfers" title="Permanent link">&para;</a></h2>
-<p>On SQLite, Umbraco's relation tracking reads and then writes after each save without taking a write lock. A commit
-from another connection in between, such as one of Umbraco's background jobs, which run every few seconds, fails it
-with "database is locked" after minutes of retries. Ferry keeps its own background writes out of that gap. For a large
-first transfer into a SQLite site, set <code>Umbraco:CMS:DistributedJobs:Delay</code> to a few hours on the receiving site for the
-transfer, or use SQL Server.</p>
+<p>On SQLite, Umbraco's relation tracking reads then writes after each save without a write lock, so a commit from
+another connection in between (e.g. Umbraco's background jobs, every few seconds) fails it with "database is locked"
+after minutes of retries. Ferry keeps its own background writes out of that gap. For a large first transfer into a
+SQLite site, set <code>Umbraco:CMS:DistributedJobs:Delay</code> to a few hours on the receiving site, or use SQL Server.</p>
 
 
 

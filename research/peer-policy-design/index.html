@@ -636,9 +636,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#implemented-receiver-contract" class="md-nav__link">
+  <a href="#receiver-contract" class="md-nav__link">
     <span class="md-ellipsis">
-      Implemented receiver contract
+      Receiver contract
     </span>
   </a>
   
@@ -771,9 +771,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#implemented-receiver-contract" class="md-nav__link">
+  <a href="#receiver-contract" class="md-nav__link">
     <span class="md-ellipsis">
-      Implemented receiver contract
+      Receiver contract
     </span>
   </a>
   
@@ -814,25 +814,45 @@
 
 
 <h1 id="named-receiver-peer-policies">Named receiver peer policies<a class="headerlink" href="#named-receiver-peer-policies" title="Permanent link">&para;</a></h1>
-<h2 id="implemented-receiver-contract">Implemented receiver contract<a class="headerlink" href="#implemented-receiver-contract" title="Permanent link">&para;</a></h2>
-<p>The receiver can authorize either an optional legacy <code>BearerToken</code> or named peers.
-A named peer has a stable <code>Id</code>, one to eight rotation <code>Tokens</code>, an <code>Enabled</code> flag,
-a <code>Revision</code>, and an explicit list of allowed operations. The allowed names are
-<code>Capabilities</code>, <code>Export</code>, <code>Preview</code>, <code>Apply</code>, <code>AssetRead</code>, <code>AssetWrite</code>,
-<code>PublicationPreview</code>, <code>PublicationApply</code>, and <code>RecoveryRead</code>. An empty list grants
-no receiver operation.</p>
-<p>The optional legacy token remains available for existing deployments and grants all
-receiver operations. A named peer is the appropriate choice when a receiver needs
-separate machine identities or operation scopes. This is receiver authorization only:
-it does not grant Umbraco user-group, content-root, or culture permissions.</p>
-<p>Use the host's secret provider and register the configuration section directly. For
-example, the host may populate <code>Ferry__Peers__0__Tokens__0</code> through its
-secret-provider integration before the application is built:</p>
+<h2 id="receiver-contract">Receiver contract<a class="headerlink" href="#receiver-contract" title="Permanent link">&para;</a></h2>
+<p>The receiver accepts an optional legacy <code>BearerToken</code>, which grants every operation, or named peers with their own
+identity and operation scope. Either only authorizes receiver calls; neither grants Umbraco user, root or culture
+permissions.</p>
+<table>
+<thead>
+<tr>
+<th>Peer field</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Id</code></td>
+<td>Stable identity.</td>
+</tr>
+<tr>
+<td><code>Tokens</code></td>
+<td>One to eight rotation tokens.</td>
+</tr>
+<tr>
+<td><code>Enabled</code></td>
+<td>On/off.</td>
+</tr>
+<tr>
+<td><code>Revision</code></td>
+<td>Policy version; advance on every change.</td>
+</tr>
+<tr>
+<td><code>AllowedOperations</code></td>
+<td><code>Capabilities</code>, <code>Export</code>, <code>Preview</code>, <code>Apply</code>, <code>AssetRead</code>, <code>AssetWrite</code>, <code>PublicationPreview</code>, <code>PublicationApply</code>, <code>RecoveryRead</code>. Empty grants nothing.</td>
+</tr>
+</tbody>
+</table>
+<p>Tokens come from the host's secret provider (e.g. <code>Ferry__Peers__0__Tokens__0</code>), never source control:</p>
 <div class="highlight"><pre><span></span><code><span class="n">builder</span><span class="p">.</span><span class="n">Configuration</span><span class="p">.</span><span class="n">AddEnvironmentVariables</span><span class="p">();</span><span class="w"> </span><span class="c1">// or the host's managed secret provider</span>
 <span class="n">builder</span><span class="p">.</span><span class="n">Services</span><span class="p">.</span><span class="n">AddFerryTransportFromConfiguration</span><span class="p">(</span>
 <span class="w">    </span><span class="n">builder</span><span class="p">.</span><span class="n">Configuration</span><span class="p">.</span><span class="n">GetRequiredSection</span><span class="p">(</span><span class="s">"Ferry"</span><span class="p">));</span>
 </code></pre></div>
-<p>The corresponding non-secret configuration can contain peer identity and scope:</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">"Ferry"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">"Peers"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
@@ -846,59 +866,55 @@ secret-provider integration before the application is built:</p>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>Do not put a token value in source-controlled configuration. Each peer object accepts
-only <code>Id</code>, <code>Tokens</code>, <code>Enabled</code>, <code>AllowedOperations</code>, and <code>Revision</code>; unknown fields,
-invalid operation names, comma-combined names, numeric enum values, and malformed
-scalar/list shapes are rejected. Startup rejects invalid configuration. With
-<code>AddFerryTransportFromConfiguration</code>, peer policy is read for each request
-after the host has published a configuration reload. An invalid current policy value
-fails closed and a corrected published configuration takes effect on the next
-request. This does not detect a configuration-source parse failure or a missed host
-reload notification; those are host configuration concerns. Request and asset limits
-remain startup values; peer credentials and permissions, including the optional
-legacy bearer token, are live-reloaded.</p>
-<p>Every HTTPS request that reaches receiver authentication sends <code>Cache-Control: no-store</code>.
-A missing, unknown, disabled, or revoked token returns <code>401</code> with
-<code>WWW-Authenticate: Bearer</code>.
-A recognized peer without the requested operation returns <code>403</code>. Protected work
-reauthorizes after it enters the receiver's operation gate and before it reads a
-snapshot, starts a journal record, publishes, or writes. A queued request therefore
-observes permission or token revocation before it can access receiver state.</p>
+<ul>
+<li><strong>Strict binding:</strong> unknown fields, bad or comma-combined operation names, numeric enums and malformed shapes fail
+  startup.</li>
+<li><strong>Live reload:</strong> peers and the legacy token are re-read per request after a host reload; an invalid value fails
+  closed. Parse failures and missed reloads are host concerns. Request and asset limits are startup-only.</li>
+<li><strong>Responses:</strong> <code>Cache-Control: no-store</code> on every request reaching authentication; bad or revoked token <code>401</code>
+  (<code>WWW-Authenticate: Bearer</code>); missing operation <code>403</code>.</li>
+<li><strong>Reauthorization</strong> happens inside the operation gate before any read or write, so queued requests see revocation.</li>
+</ul>
 <h2 id="capabilities-and-approvals">Capabilities and approvals<a class="headerlink" href="#capabilities-and-approvals" title="Permanent link">&para;</a></h2>
-<p>Named peers receive the adapter declaration intersected with their allowed operations.
-Asset read and asset write are independently represented; a legacy combined asset
-capability is expanded only into directions the named peer is allowed to use. The
-capability response includes a non-secret policy fingerprint and its approval-token
-limit. Legacy peers retain the existing adapter declaration.</p>
-<p>For named peers, transfer and publication previews return an opaque approval envelope
-instead of the raw planner or publisher fingerprint. The envelope binds the raw
-fingerprint to the peer id, the canonical hash of its id/revision/operations, the
-purpose (<code>transfer</code> or <code>publication</code>), and a 15-minute expiry. It is protected by an
-HMAC-SHA256 key generated for the receiver process. Apply validates the current
-peer, policy hash, purpose, expiry, and MAC before any journal, store, publisher, or
-write access. Bad or stale envelopes return <code>410 Gone</code> ProblemDetails ("This approval has expired"); a policy
-denial remains <code>403</code>.
-Legacy peers continue to use raw approval fingerprints.</p>
-<p>The approval key is process-local. Restarting the receiver invalidates named-peer
-approvals. Multi-node deployments need preview/apply affinity until a durable shared
-approval protector exists. Envelopes are not single-use and do not provide a replay
-ledger; the existing backoffice prepared-transfer store retains its separate
-single-use behavior. Token rotation that preserves id, revision, and operations
-retains an unexpired envelope. Operators must advance <code>Revision</code> for every policy
-change: restoring the same id, revision, and operation set can make an unexpired
-envelope valid again.</p>
-<p>The additional capability fields can cause strict older clients to reject a new
-receiver declaration. Upgrade both peers when adopting named policies; this is
-deliberately fail-closed rather than a claim of wire compatibility with older strict
-clients.</p>
+<ul>
+<li>Named peers see the adapter declaration narrowed to their operations, with asset read and write separate, plus a
+  policy fingerprint and approval-token limit.</li>
+<li>Their previews return an opaque envelope binding the fingerprint to peer id, policy hash, purpose (<code>transfer</code> or
+  <code>publication</code>) and a 15-minute expiry, signed with a process-generated HMAC-SHA256 key.</li>
+<li>Apply checks all of these before any journal, store or write. Bad or stale envelopes return <code>410 Gone</code>; policy
+  denials <code>403</code>. Legacy peers keep raw fingerprints.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Decision</th>
+<th>Consequence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Process-local key</td>
+<td>Restart invalidates approvals; multi-node needs preview/apply affinity.</td>
+</tr>
+<tr>
+<td>No replay ledger</td>
+<td>Envelopes are not single-use; the backoffice prepared-transfer store stays single-use.</td>
+</tr>
+<tr>
+<td>Revision in the hash</td>
+<td>Token rotation keeps envelopes valid; reusing an old revision can revive one, so always advance it.</td>
+</tr>
+<tr>
+<td>Fail closed over compatibility</td>
+<td>Strict older clients may reject the new fields; upgrade both peers.</td>
+</tr>
+</tbody>
+</table>
 <h2 id="verification">Verification<a class="headerlink" href="#verification" title="Permanent link">&para;</a></h2>
-<p>The ordinary .NET suite currently has 191 passing tests: 74 Transport, 42 Core, 8
-Backoffice, and 67 Umbraco adapter. The peer-policy coverage includes strict startup
-and reload binding, exact expiry, queued permission and token revocation, envelope
-purpose and policy-drift rejection before I/O, and directional asset capabilities.
-The current real-site E2E set has 30 scenarios: 19 final-package consumer cases, 4
-named-policy cases, 4 coexistence cases, 1 scoped-export case, and 2 legacy-capability
-cases. Their run records and scope are in verification.</p>
+<p>At the time of this design: 191 .NET tests (Transport 74, Core 42, Backoffice 8, Umbraco 67) covering binding,
+expiry, revocation, envelope rejection before I/O and directional asset capabilities, and 30 real-site E2E
+scenarios (19 consumer, 4 named-policy, 4 coexistence, 1 scoped-export, 2 legacy). See
+verification.</p>
 
 
 

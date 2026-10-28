@@ -1059,32 +1059,29 @@
 <p><strong>Code-first schema and safe content deployment for Umbraco 17.</strong></p>
 <p>Ferry keeps schema in your code and moves content between sites, such as development, staging and live:</p>
 <ul>
-<li><strong>Code-first schema.</strong> <code>SchemaBuilder</code> lets you state data types, templates, media types and document types in
-  ordinary Umbraco migrations. Each migration runs once per environment and is reviewed like any other code. Keys are
-  derived from aliases, so every environment gets identical schema. An existing site can adopt code-first by
-  downloading its schema as one migration that keeps every key. See <a href="code-first-schema/">code-first schema</a>.</li>
-<li><strong>Content-only sites.</strong> With <code>Ferry:Full:ContentOnly</code> set, a site accepts content and rejects any transfer that would
-  change its schema, and the error lists what to deploy first.</li>
-<li><strong>Reviewed transfers.</strong> Send and Get (Push and Pull in the API) show a summary and every create, update and move
-  before anything is applied, and nothing is applied without an owner-bound approval. Schema, media files,
-  references and blocks travel with the content.</li>
-<li><strong>Deployment workflow.</strong> A per-user transfer queue, offline <code>.csync.zip</code> packages, import at startup, snapshots and
-  restore points, and Umbraco user-group permissions for delegated editors.</li>
-<li><strong>Schema as generated migrations.</strong> Schema edits in the development backoffice become C# migrations you commit;
-  every environment runs the ones it is missing at startup and reports drift. See <a href="code-first-schema/#generated-migrations">generated migrations</a>.</li>
-<li><strong>Extensible.</strong> Custom property editors and package data (Skybrud redirects, Umbraco Forms, or your own package)
-  can join transfers. See <a href="extending/">extending Ferry</a>.</li>
-<li><strong>Safe on real sites.</strong> One operation runs at a time across load-balanced instances (database lease). Indexing and
-  caches pause during large imports. Each apply writes a recovery journal.</li>
+<li><strong>Code-first schema.</strong> <code>SchemaBuilder</code> declares data types, templates, media types and document types in Umbraco
+  migrations, run once per environment. Keys derive from aliases, so schema is identical everywhere. An existing site
+  can download its schema as one key-preserving migration. See <a href="code-first-schema/">code-first schema</a>.</li>
+<li><strong>Generated migrations.</strong> Development backoffice schema edits become C# migrations you commit; other environments
+  run them at startup and report drift. See <a href="code-first-schema/#generated-migrations">generated migrations</a>.</li>
+<li><strong>Content-only sites.</strong> With <code>Ferry:Full:ContentOnly</code>, a site rejects any transfer that would change its schema and
+  lists what to deploy first.</li>
+<li><strong>Reviewed transfers.</strong> Send and Get (Push and Pull in the API) list every create, update and move and need an
+  owner-bound approval before applying. Schema, media, references and blocks travel with the content.</li>
+<li><strong>Deployment workflow.</strong> Per-user queue, offline <code>.csync.zip</code> packages, import at startup, snapshots and restore
+  points, user-group permissions for delegated editors.</li>
+<li><strong>Extensible.</strong> Custom property editors and package data (Skybrud redirects, Umbraco Forms, your own package) can
+  join transfers. See <a href="extending/">extending Ferry</a>.</li>
+<li><strong>Safe on real sites.</strong> One operation at a time across load-balanced instances (database lease). Indexing and caches
+  pause during large imports. Each apply writes a recovery journal.</li>
 </ul>
-<p><strong>Documentation:</strong> <a href="https://imkeuri.github.io/ferry-umbraco/">https://imkeuri.github.io/ferry-umbraco/</a></p>
-<p>Ferry is a self-contained package: it needs no other synchronisation tool or file export.</p>
+<p><strong>Documentation:</strong> <a href="https://imkeuri.github.io/ferry-umbraco/">https://imkeuri.github.io/ferry-umbraco/</a>. Ferry needs no other synchronisation tool or file export.</p>
 <blockquote>
-<p><strong>Free to use, closed source.</strong> Ferry is free for any site, including commercial work, under the
-<a href="license/">Ferry Freeware License</a>; its source is not published.</p>
+<p><strong>Free to use, closed source.</strong> Free for any site, including commercial work, under the
+<a href="license/">Ferry Freeware License</a>.</p>
 </blockquote>
 <p><strong>Status: experimental, pre-1.0.</strong> Tested on Umbraco <strong>17.6.2</strong> and .NET 10. See <a href="supported-scope/">supported scope</a>
-for exactly what is verified and the <a href="validation-record/">validation record</a> for evidence.</p>
+and the <a href="validation-record/">validation record</a>.</p>
 <h2 id="quick-start">Quick start<a class="headerlink" href="#quick-start" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code>dotnet<span class="w"> </span>add<span class="w"> </span>package<span class="w"> </span>Ferry.Umbraco
 dotnet<span class="w"> </span>add<span class="w"> </span>package<span class="w"> </span>Ferry.Backoffice
@@ -1096,162 +1093,99 @@ dotnet<span class="w"> </span>add<span class="w"> </span>package<span class="w">
 <span class="w">    </span><span class="p">.</span><span class="n">AddFerryUmbracoFull</span><span class="p">()</span>
 <span class="w">    </span><span class="p">.</span><span class="n">Build</span><span class="p">();</span>
 </code></pre></div>
-<p>Configuration lives under a <code>Ferry</code> section in <code>appsettings.json</code>; <a href="#host-integration">Host integration</a> covers
-transport, connections and options.</p>
+<p>Configuration goes in a <code>Ferry</code> section of <code>appsettings.json</code>; see <a href="#host-integration">Host integration</a>.</p>
 <h2 id="using-the-backoffice">Using the backoffice<a class="headerlink" href="#using-the-backoffice" title="Permanent link">&para;</a></h2>
 <p>Ferry.Backoffice adds a <strong>Ferry</strong> workspace under <strong>Settings › Synchronisation</strong>:</p>
 <table>
 <thead>
 <tr>
 <th>Tab</th>
-<th>What it is for</th>
+<th>Use</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><strong>Overview</strong></td>
-<td>Your connected sites and their last activity, <em>Send to another site</em> and <em>Get from another site</em> (whole site or chosen pages), and recent activity. With no site connected it offers <em>Connect your first site</em>.</td>
+<td>Connected sites, <em>Send to another site</em>, <em>Get from another site</em> (whole site or chosen pages), recent activity. <em>Connect your first site</em> when none is connected.</td>
 </tr>
 <tr>
 <td><strong>Sites</strong></td>
-<td>Connected sites with a status check, the <em>Connect a site</em> wizard (paste a pairing code), and <em>Sites that can connect to this one</em>, where you create pairing codes and revoke access.</td>
+<td>Site status, the <em>Connect a site</em> wizard (paste a pairing code), and <em>Sites that can connect to this one</em> (create pairing codes, revoke access).</td>
 </tr>
 <tr>
 <td><strong>Packages</strong></td>
-<td>Export a <code>.csync.zip</code> for chosen pages and media or the whole site, import one by dropping it on the page, and create or restore snapshots.</td>
+<td>Export a <code>.csync.zip</code> (chosen pages and media, or whole site), import one by dropping it on the page, create or restore snapshots.</td>
 </tr>
 <tr>
 <td><strong>Advanced</strong></td>
-<td><em>Publish on another site</em>, and a danger zone with <em>Move to recycle bin on another site</em> and <em>Seed another site</em>.</td>
+<td><em>Publish on another site</em>; danger zone with <em>Move to recycle bin on another site</em> and <em>Seed another site</em>.</td>
 </tr>
 </tbody>
 </table>
-<p>Editors work from the content tree. <strong>Actions</strong> on a page or media item offer <em>Send to…</em>, <em>Get from…</em>, <em>Add to queue</em> and
-(for administrators) <em>Publish on another site…</em>. Each opens a side panel that ends in a review: a summary such as
-"4 new pages, 1 updated page", callouts for schema changes, moves and templates, and the full list behind <em>Show
-details</em>. Items always arrive as drafts. The <strong>Ferry</strong> button in the top bar opens the queue (send everything together
-or download it as a package) and your recent activity.</p>
-<p>Who may send or get is set per user group with the <em>Send with Ferry</em> and <em>Get with Ferry</em> permissions, on top of the
-delegated-editor grants described below.</p>
+<p>Content tree <strong>Actions</strong> offer <em>Send to…</em>, <em>Get from…</em>, <em>Add to queue</em> and (administrators) <em>Publish on another
+site…</em>, each ending in a review ("4 new pages, 1 updated page", schema, move and template callouts, <em>Show details</em>).
+Items always arrive as drafts. The top-bar <strong>Ferry</strong> button opens the queue (send all or download as a package) and
+recent activity. The <em>Send with Ferry</em> and <em>Get with Ferry</em> group permissions control access, on top of
+<a href="#delegated-editor-push">delegated-editor grants</a>.</p>
 <h2 id="upgrading-from-communitysync">Upgrading from CommunitySync<a class="headerlink" href="#upgrading-from-communitysync" title="Permanent link">&para;</a></h2>
-<p>Ferry was released as <strong>CommunitySync</strong>. Upgrading is a rename, and site data is kept:</p>
+<p>Ferry was released as <strong>CommunitySync</strong>. Upgrading is a rename; site data is kept.</p>
 <ul>
 <li><strong>Packages:</strong> <code>CommunitySync.*</code> becomes <code>Ferry.*</code> (<code>Ferry.Core</code>, <code>Ferry.Transport</code>, <code>Ferry.Umbraco</code>,
   <code>Ferry.Backoffice</code>).</li>
-<li><strong>Code:</strong> namespaces <code>CommunitySync.*</code> become <code>Ferry.*</code>, and type and method names drop the prefix in the same way,
-  for example <code>AddCommunitySyncUmbracoFull()</code> becomes <code>AddFerryUmbracoFull()</code> and <code>CommunitySyncFullOptions</code> becomes
-  <code>FerryFullOptions</code>. A search and replace of <code>CommunitySync</code> with <code>Ferry</code> in your host code is enough.</li>
-<li><strong>Configuration:</strong> rename the <code>CommunitySync</code> section to <code>Ferry</code> when convenient. Until then, a site without a
-  <code>Ferry</code> section keeps reading <code>CommunitySync</code>; a site never uses both.</li>
-<li><strong>Unchanged:</strong></li>
-<li>database tables (<code>cmsCommunitySync*</code>), migration state and protected connection secrets</li>
-<li>the user-group permission verbs <code>CommunitySync.Push</code> / <code>CommunitySync.Pull</code></li>
-<li>the wire protocol (<code>/community-sync/v1</code>, transfer formats, headers), so Ferry and CommunitySync sites still
-    transfer to each other</li>
-<li>the package format (<code>.csync.zip</code>)</li>
+<li><strong>Code:</strong> replace <code>CommunitySync</code> with <code>Ferry</code> in namespaces and names, for example <code>AddCommunitySyncUmbracoFull()</code>
+  becomes <code>AddFerryUmbracoFull()</code>, <code>CommunitySyncFullOptions</code> becomes <code>FerryFullOptions</code>.</li>
+<li><strong>Configuration:</strong> rename the <code>CommunitySync</code> section to <code>Ferry</code> when convenient. Without a <code>Ferry</code> section, the
+  site keeps reading <code>CommunitySync</code>; it never uses both.</li>
+<li><strong>Unchanged:</strong> database tables (<code>cmsCommunitySync*</code>), migration state, protected connection secrets, permission
+  verbs <code>CommunitySync.Push</code> / <code>CommunitySync.Pull</code>, the wire protocol (<code>/community-sync/v1</code>, formats, headers, so
+  Ferry and CommunitySync sites interoperate) and the <code>.csync.zip</code> format.</li>
 </ul>
 <h2 id="evidence-summary">Evidence summary<a class="headerlink" href="#evidence-summary" title="Permanent link">&para;</a></h2>
-<p>The current suite has 668 ordinary .NET tests and real two-site E2E suites for each module. The
-<a href="supported-scope/">supported scope</a> lists them per capability. Earlier checkpoints are recorded below.</p>
-<p>The experimental Full v5 checkpoint had 433/433 ordinary .NET tests, a fresh
-exact-NuGet fixture-consumer package install using an isolated Docker SDK, a packaged
-Full transfer/publication run (22/22), and an exact-package two-site source-version
-suite with Published <code>UploadField</code> coverage (6/6), including native new-content
-<code>SaveAndPublish</code>, exact bytes, and unchanged replay. It also includes a culture-varying partial republish and a clean
-exact-NuGet two-site culture-Media Push/Pull run (2/2). SQLite and SQL
-Server-target runs cover the restart path. The suite asserts
-different en-US/fr-FR image bytes, captions, durable culture-name metadata, replay
-to <code>Unchanged</code>, and a destination process restart. These results are in ignored
-<code>artifacts/</code> and are local evidence, not remote CI; see the
-<a href="validation-record/">validation record</a> for paths and commands. Delegated Pull
-is draft-only and requires an explicit valid grant.</p>
-<p>Earlier-package Backoffice browser evidence ran three native suites against two
-disposable sites in a Playwright MCP image container: 19/19 passed using the browse
-peer policy (<code>artifacts/e2e/browser-snapshot-final/results.json</code>). It predates the
-current production commit and covers bounded native dashboard, transfer, publication, history and
-remote-browse flows; it is not cross-browser, accessibility, hosted-CI, or production
-topology validation.</p>
-<p>The verified subset includes invariant Content, supported Content variants and
-segments, selected relational MediaPicker3 references, Segment-varying scalar Media
-values, draft-source Content <code>UploadField</code> assets with hash and byte verification,
-and bounded Published-source Content <code>UploadField</code> assets captured as immutable,
-verified publish-time snapshots. Published export uses only the matching saved-content
-snapshot and fails closed when it is absent, corrupt, or does not match the published
-raw value. Preexisting publications without a snapshot fail closed. Native
-new-content <code>SaveAndPublish</code> captures immutable bytes before Umbraco assigns its
-version, then binds them to the assigned <code>PublishedVersionId</code> after publication. A bounded
-SQL Server source E2E verifies the snapshot table, primary key, and saved snapshot
-row. The source-version E2E also covers an en-US-only republish that preserves an
-untouched fr-FR immutable snapshot after its mutable file is overwritten.
-The current package install, source-version, and Full transfer/publication evidence
-is recorded in the validation record. The host sandbox still denies access to the SDK
-trusted-root PEM, so the clean install used an isolated Docker SDK rather than the
-host restore environment.
-Arbitrary UploadField/editor configurations, multi-node hosting, hosted CI, and
-cross-browser coverage are pending; unknown/custom
-editors and user/member references remain unsupported. This does not establish
-support for every Umbraco editor or parity with any commercial product. Templates must already exist at the destination;
-schema changes that require storage migration are blocked. Durable jobs and approval
-state are process-local, so multi-node operation needs affinity and external
-coordination. See the <a href="supported-scope/">supported scope</a> and
-<a href="acceptance-checklist/">acceptance checklist</a> for exact boundaries.</p>
+<p>668 .NET tests plus real two-site E2E suites per module, listed per capability in the
+<a href="supported-scope/">supported scope</a>. Earlier checkpoints (Full v5: 433/433 tests, exact-NuGet install and
+two-site runs on SQLite and SQL Server; Backoffice browser suites 19/19) are local evidence in ignored <code>artifacts/</code>,
+not remote CI; the <a href="validation-record/">validation record</a> has paths and commands.</p>
+<p><strong>Verified:</strong> invariant Content, Content variants and segments, selected MediaPicker3 references, segment-varying
+scalar Media values, Content <code>UploadField</code> assets (draft with hash and byte checks; published as immutable
+publish-time snapshots, failing closed when the snapshot is missing, corrupt or mismatched).</p>
+<p><strong>Limits:</strong></p>
+<ul>
+<li>Pending: arbitrary <code>UploadField</code>/editor configurations, multi-node hosting, hosted CI, cross-browser, accessibility
+  and production-topology testing.</li>
+<li>Unsupported: unknown/custom editors, user/member references. Not every Umbraco editor is supported.</li>
+<li>Templates must already exist at the destination; schema changes needing storage migration are blocked.</li>
+<li>Jobs and approvals are process-local; multi-node needs affinity and external coordination.</li>
+</ul>
+<p>See the <a href="acceptance-checklist/">acceptance checklist</a> for exact boundaries.</p>
 <h2 id="transfer-model">Transfer model<a class="headerlink" href="#transfer-model" title="Permanent link">&para;</a></h2>
 <ul>
-<li>Stable GUID identities across sites with different local numeric IDs.</li>
-<li>Create/update/unchanged previews, dependency ordering and cyclic soft references.</li>
-<li>Whole-site or selected-tree transfer with prerequisite/reference closure.</li>
-<li>Full-mode selected exports resolve their source closure before reading content
-  or staging media; selected preview/apply also reads only destination entities in
-  that closure and external direct prerequisites. Adapters without scoped
-  destination support retain full-snapshot validation.</li>
-<li>Full mode optionally scopes Content variant transfer to selected cultures: it includes
-  selected variant names and values plus invariant values, and preserves unselected
-  destination variants. The culture scope is bound into the manifest and approval
-  fingerprint. A Pull peer without the scoped-culture capability fails closed.
-  Creating scoped content requires the default and mandatory cultures.</li>
-<li>Selected destination fingerprints and before-state recovery records use that
-  bounded snapshot. Incoming-entity or prerequisite edits stale the approval;
-  unrelated destination edits do not. Shared-schema collision checks still run.</li>
-<li>Peers negotiate a versioned, authenticated capability declaration before export,
-  asset staging or destination writes. Incompatible transfer formats fail closed.</li>
-<li>Preview fingerprints bound to source and destination snapshots; stale approval
-  requires a fresh preview.</li>
-<li>Native draft saves, independently of source publication state.</li>
-<li>Streaming media assets are verified by SHA256 and length before application. An
-  optional authenticated, bounded, capability-gated availability probe lets Push, Pull
-  and the generic client skip repeat network byte transfer when the peer already has
-  the verified staged asset. Older peers fall back to full transfer; target media is
-  still re-exported and staged locally during planning, so this saves network bytes,
-  not local export work. Cache eviction fails safely.</li>
-<li>Full mode transfers the tested culture-varying Media shape: culture names, scalar
-  captions, and distinct culture file descriptors. Because Umbraco 17.6.2 drops
-  Media culture names on a fresh native read, Ferry stores approved names by
-  Media GUID and canonical culture in its own migration-owned table. That preserves
-  Ferry transfer semantics, but does not make the names appear in native
-  Umbraco APIs or the Backoffice after a restart.</li>
-<li>An administrator can opt in to a draft-only pull from a configured remote source,
-  with typed roots, dependency closure, asset verification and
-  local recovery journaling.</li>
-<li>An optional, metadata-only remote Browse capability lists one bounded page of
-  direct Content or Media children for a configured pull source.</li>
-<li>An optional BrowseSearch capability finds Content or Media by <strong>name only</strong>
-  within that same configured and authorized remote scope; it returns the same
-  metadata-only page shape as Browse.</li>
-<li>Destination-only entities are preserved. No implicit deletion or rollback.</li>
-<li>Completed and potentially touched entities are reported separately on failure.</li>
+<li>Stable GUID identities across sites; local numeric IDs may differ.</li>
+<li>Create/update/unchanged previews, dependency ordering, cyclic soft references.</li>
+<li>Whole-site or selected-tree transfer with prerequisite/reference closure (Full mode reads only that closure).</li>
+<li>Optional culture scope (Full mode): selected variants plus invariant values; other destination variants untouched.
+  Bound into the approval; peers without the capability are rejected. New scoped content needs the default and
+  mandatory cultures.</li>
+<li>Approvals are bound to source and destination fingerprints: edits to incoming entities or prerequisites need a fresh
+  preview, unrelated edits do not.</li>
+<li>Peers negotiate a versioned, authenticated capability declaration first; incompatible formats fail closed.</li>
+<li>Native draft saves, whatever the source publication state.</li>
+<li>Media is verified by SHA256 and length. An optional probe skips bytes the peer already has.</li>
+<li>Culture-varying Media (Full mode). Umbraco 17.6.2 drops Media culture names on read, so Ferry keeps them in its own
+  table; native APIs and the backoffice do not show them after a restart.</li>
+<li><a href="#administrator-pull">Administrator pull</a>, and optional metadata-only Browse and name-only BrowseSearch.</li>
+<li>Destination-only entities are kept. No implicit deletion or rollback.</li>
+<li>On failure, completed and possibly touched entities are reported separately.</li>
 </ul>
-<p>Two adapters are available. <code>AddFerryUmbraco()</code> supports invariant
-TextBox/TextArea drafts with matching preinstalled schemas.
-<code>AddFerryUmbracoFull()</code> is standalone and writes content and media through Umbraco's own
-services, so other packages' save handlers see Ferry's changes as normal saves. Full mode
-requires an <code>ISyncAssetStore</code>.
-See the documented supported editors and verified scenarios above. Existing shared
-data type editor/storage migrations are blocked; declared source storage is
-preserved. Older experimental manifests without this metadata must be re-exported.</p>
-<p>The installed BackOffice package also has a native Umbraco composer, so its
-services can activate independently of Ferry's transport switch or chosen adapter.</p>
+<p>Adapters:</p>
+<ul>
+<li><code>AddFerryUmbraco()</code>: invariant TextBox/TextArea drafts on matching preinstalled schemas.</li>
+<li><code>AddFerryUmbracoFull()</code>: writes through Umbraco's services, so other packages' save handlers run. Requires an
+  <code>ISyncAssetStore</code>. Editor/storage changes to existing shared data types are blocked. Re-export older experimental
+  manifests.</li>
+</ul>
+<p>The BackOffice package has its own composer, independent of the transport switch and adapter.</p>
 <h2 id="host-integration">Host integration<a class="headerlink" href="#host-integration" title="Permanent link">&para;</a></h2>
-<p>Register the selected Umbraco adapter, then configure transport explicitly:</p>
+<p>Register the adapter, then configure transport explicitly:</p>
 <div class="highlight"><pre><span></span><code><span class="n">builder</span><span class="p">.</span><span class="n">Services</span><span class="p">.</span><span class="n">AddFerryTransport</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">SyncTransportOptions</span>
 <span class="p">{</span>
 <span class="w">    </span><span class="n">BearerToken</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tokenFromYourSecretProvider</span>
@@ -1261,34 +1195,29 @@ services can activate independently of Ferry's transport switch or chosen adapte
 <span class="c1">// After building/configuring the Umbraco application:</span>
 <span class="n">app</span><span class="p">.</span><span class="n">MapFerry</span><span class="p">();</span>
 </code></pre></div>
-<p>For operation-scoped named peers, load the token through the host's secret provider
-and use the reload-aware registration:</p>
+<p>For named peers with per-operation permissions, use the reload-aware registration:</p>
 <div class="highlight"><pre><span></span><code><span class="n">builder</span><span class="p">.</span><span class="n">Configuration</span><span class="p">.</span><span class="n">AddEnvironmentVariables</span><span class="p">();</span><span class="w"> </span><span class="c1">// or the host's managed secret provider</span>
 <span class="n">builder</span><span class="p">.</span><span class="n">Services</span><span class="p">.</span><span class="n">AddFerryTransportFromConfiguration</span><span class="p">(</span>
 <span class="w">    </span><span class="n">builder</span><span class="p">.</span><span class="n">Configuration</span><span class="p">.</span><span class="n">GetRequiredSection</span><span class="p">(</span><span class="s">"Ferry"</span><span class="p">));</span>
 </code></pre></div>
-<p>Set peer identity, revision and permitted operation names in <code>Ferry:Peers</code>;
-provide each token through the secret provider, such as
-<code>Ferry__Peers__0__Tokens__0</code>. See the <a href="research/peer-policy-design/">peer-policy contract</a>
-for the allowed operation names, reload behavior and approval lifecycle.</p>
-<p>Supply a random bearer secret of at least 32 characters. Keep asset/recovery
-storage outside public static-file directories. Endpoints are disabled by default
-in the sample. <code>Ferry:Mode</code> selects <code>DraftText</code> (default) or <code>Full</code> there.
-No default deployment credentials are provided.</p>
+<p>Set peer identity, revision and permitted operations in <code>Ferry:Peers</code>, with tokens from the secret provider (for
+example <code>Ferry__Peers__0__Tokens__0</code>). See the <a href="research/peer-policy-design/">peer-policy contract</a>.</p>
+<ul>
+<li>Bearer secrets: random, at least 32 characters. No defaults are provided.</li>
+<li>Keep asset and recovery storage outside public static-file directories.</li>
+<li>In the sample, endpoints are off by default and <code>Ferry:Mode</code> is <code>DraftText</code> (default) or <code>Full</code>.</li>
+</ul>
 <h3 id="access-keys-from-the-backoffice-only">Access keys from the backoffice only<a class="headerlink" href="#access-keys-from-the-backoffice-only" title="Permanent link">&para;</a></h3>
-<p>When Ferry.Backoffice is installed, the access keys created under Settings › Ferry › Sites (<em>Create pairing code</em>) are receiver
-credentials too. A receiver whose only credentials are those keys needs no configured token or placeholder peer:
-<code>AddFerryTransportFromConfiguration</code> (or <code>AddFerryTransport</code>) accepts an empty <code>Ferry</code>
-section when an <code>ISyncManagedPeerSource</code> is registered, and the host refuses to start when there is neither.</p>
+<p>Access keys from Settings › Ferry › Sites (<em>Create pairing code</em>) are also receiver credentials. A receiver using only
+those needs no token or placeholder peer: <code>AddFerryTransportFromConfiguration</code> (or <code>AddFerryTransport</code>) accepts an
+empty <code>Ferry</code> section when an <code>ISyncManagedPeerSource</code> is registered. With neither, the host refuses to start.</p>
 <h3 id="getting-past-host-authentication">Getting past host authentication<a class="headerlink" href="#getting-past-host-authentication" title="Permanent link">&para;</a></h3>
-<p>The receiver path <code>/community-sync/v1</code> authenticates every call itself (HTTPS plus a bearer token). Anything in
-front of it that challenges the request first - Umbraco basic auth on lower environments, an IP or SSO gateway -
-turns another site's call into a login page or a 401 before Ferry sees it. Let that path through: for
-Umbraco basic auth, add its shared-secret header (<code>Umbraco:CMS:BasicAuth:SharedSecret</code>) to requests on that path
-before <code>UseUmbraco()</code>, or exclude the path in the gateway.</p>
+<p><code>/community-sync/v1</code> does its own authentication. Basic auth or an IP/SSO gateway in front will block it. For
+Umbraco basic auth, add the shared-secret header (<code>Umbraco:CMS:BasicAuth:SharedSecret</code>) to requests on that path
+before <code>UseUmbraco()</code>; otherwise exclude the path in the gateway.</p>
 <h3 id="tls-terminated-by-a-proxy">TLS terminated by a proxy<a class="headerlink" href="#tls-terminated-by-a-proxy" title="Permanent link">&para;</a></h3>
-<p>The receiver rejects plain HTTP. When TLS ends at a load balancer or container ingress (Azure Container Apps, App
-Service, Front Door, nginx), forward the original scheme so the request is seen as HTTPS:</p>
+<p>The receiver rejects plain HTTP. When TLS ends at a proxy (Azure Container Apps, App Service, Front Door, nginx),
+forward the scheme:</p>
 <div class="highlight"><pre><span></span><code><span class="n">builder</span><span class="p">.</span><span class="n">Services</span><span class="p">.</span><span class="n">Configure</span><span class="o">&lt;</span><span class="n">ForwardedHeadersOptions</span><span class="o">&gt;</span><span class="p">(</span><span class="n">options</span><span class="w"> </span><span class="o">=&gt;</span>
 <span class="p">{</span>
 <span class="w">    </span><span class="n">options</span><span class="p">.</span><span class="n">ForwardedHeaders</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ForwardedHeaders</span><span class="p">.</span><span class="n">XForwardedFor</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">ForwardedHeaders</span><span class="p">.</span><span class="n">XForwardedProto</span><span class="p">;</span>
@@ -1304,71 +1233,65 @@ Service, Front Door, nginx), forward the original scheme so the request is seen 
 <tr>
 <th>State</th>
 <th>Storage</th>
-<th>Survives a redeploy or new replica?</th>
+<th>Survives redeploy / new replica?</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Servers and access keys (backoffice)</td>
-<td>Umbraco database, tables <code>cmsCommunitySyncServer</code> and <code>cmsCommunitySyncAccessKey</code></td>
-<td>Yes. A <code>connections.json</code> from 0.1.1 or earlier is imported once at startup and renamed <code>.migrated</code>.</td>
+<td>Servers and access keys</td>
+<td><code>cmsCommunitySyncServer</code>, <code>cmsCommunitySyncAccessKey</code></td>
+<td>Yes. A 0.1.1-or-earlier <code>connections.json</code> is imported once.</td>
 </tr>
 <tr>
-<td>Secrets inside those rows</td>
-<td>Encrypted with ASP.NET Data Protection</td>
-<td>Only if the key ring is persisted and shared, for example <code>PersistKeysToAzureBlobStorage</code>. Otherwise keys stop authenticating after a redeploy and a warning is logged.</td>
+<td>Secrets in those rows</td>
+<td>ASP.NET Data Protection</td>
+<td>Only with a persisted, shared key ring (e.g. <code>PersistKeysToAzureBlobStorage</code>); otherwise keys stop working after a redeploy and a warning is logged.</td>
 </tr>
 <tr>
 <td>Peer cache</td>
 <td>Memory, 30 seconds</td>
-<td>A key revoked on one instance stops authenticating on the others within 30 seconds.</td>
+<td>Revoked keys stop working on other instances within 30 seconds.</td>
 </tr>
 <tr>
-<td>Operation history, durable submission mappings, snapshots and restore points</td>
-<td>Umbraco database, tables <code>cmsCommunitySyncOperation</code>, <code>cmsCommunitySyncSubmission</code> and <code>cmsCommunitySyncSnapshot</code> (package bytes included)</td>
-<td>Yes. The <code>App_Data/CommunitySync</code> folders from 0.1.1 or earlier are imported once at startup and renamed <code>.migrated</code>.</td>
+<td>Operation history, submissions, snapshots, restore points</td>
+<td><code>cmsCommunitySyncOperation</code>, <code>cmsCommunitySyncSubmission</code>, <code>cmsCommunitySyncSnapshot</code></td>
+<td>Yes. 0.1.1-or-earlier <code>App_Data/CommunitySync</code> folders are imported once.</td>
 </tr>
 <tr>
-<td>Reviews (previews) and batch sessions</td>
+<td>Previews and batch sessions</td>
 <td>Memory</td>
 <td>No. See <a href="#hosting-requirements">Hosting requirements</a>.</td>
 </tr>
 <tr>
 <td>Receiver approvals (push, publication, tree trash)</td>
-<td>Memory, keyed to the process</td>
+<td>Memory, per process</td>
 <td>No. See <a href="#hosting-requirements">Hosting requirements</a>.</td>
 </tr>
 <tr>
-<td>Staged assets and recovery records</td>
-<td>The directories passed to <code>AddFerryFileAssets</code> / <code>AddFerryFileRecovery</code></td>
+<td>Staged assets, recovery records</td>
+<td>Directories given to <code>AddFerryFileAssets</code> / <code>AddFerryFileRecovery</code></td>
 <td>Only on persistent storage.</td>
 </tr>
 </tbody>
 </table>
-<p>Ferry creates its tables (<code>cmsCommunitySync*</code>) at startup whenever its packages are installed, even when <code>Ferry:Enabled</code>
-or <code>Ferry:Backoffice:Enabled</code> is <code>false</code>. A site that only serves transfers still uses the lease table
-(<code>cmsCommunitySyncLease</code>), and the full adapter keeps media culture names and published asset snapshots in its own
-tables. To remove Ferry from a site completely, uninstall the packages, then drop the <code>cmsCommunitySync*</code> tables and
-delete the <code>umbracoKeyValue</code> rows whose key starts with <code>CommunitySync.</code> or <code>Umbraco.Core.Upgrader.State+CommunitySync.</code>.</p>
+<p><code>cmsCommunitySync*</code> tables are created whenever the packages are installed, even with <code>Ferry:Enabled</code> or
+<code>Ferry:Backoffice:Enabled</code> <code>false</code>. To remove Ferry: uninstall the packages, drop the
+<code>cmsCommunitySync*</code> tables, and delete <code>umbracoKeyValue</code> rows whose key starts with <code>CommunitySync.</code> or
+<code>Umbraco.Core.Upgrader.State+CommunitySync.</code>.</p>
 <h3 id="hosting-requirements">Hosting requirements<a class="headerlink" href="#hosting-requirements" title="Permanent link">&para;</a></h3>
-<p><strong>Database.</strong> Use SQL Server for sites that receive transfers in production. On SQLite, a burst of writes (a large
-apply, for example) can deadlock Umbraco's own end-of-request cache write with its background jobs under the default
-<code>Cache=Shared</code> connection string; every later request then waits. If a site must run on SQLite, use <code>Cache=Private</code>
-in its connection string, as Ferry's own test sites do.</p>
-<p>Previews, batch sessions and the receiver's approvals are held in process memory. A preview lasts 15 minutes (a
-batched push session 4 hours) and is used once. It is lost when the site restarts, scales to zero, or the apply
-request reaches a different instance than the preview did. Both sites in a transfer must therefore run one warm
-instance:</p>
+<p><strong>Database.</strong> Use SQL Server for production receivers. On SQLite with the default <code>Cache=Shared</code>, a burst of writes
+(such as a large apply) can deadlock Umbraco's cache write with its background jobs, and every later request hangs. If
+you must use SQLite, set <code>Cache=Private</code>.</p>
+<p><strong>One warm instance.</strong> Previews (15 minutes, single-use), batched push sessions (4 hours) and receiver approvals live
+in memory and are lost on restart, scale-to-zero or a different instance. Both sites must run one warm instance:</p>
 <ul>
-<li>Azure Container Apps: minimum replicas 1 (no scale-to-zero) and maximum replicas 1.</li>
-<li>App Service or other load-balanced hosts: one instance, or session affinity for the source's backoffice. The
-  receiver must still be a single instance: site-to-site calls carry no affinity cookie.</li>
+<li>Azure Container Apps: minimum and maximum replicas 1.</li>
+<li>App Service and other load-balanced hosts: one instance, or session affinity for the source backoffice. The receiver
+  must be a single instance; site-to-site calls carry no affinity cookie.</li>
 </ul>
-<p>Otherwise apply answers <code>410 Gone</code> ("This preview has expired") and nothing is changed; the dashboard asks for a
-new preview. A receiver that loses its approval answers <code>410</code> too, and the source shows the same message.</p>
+<p>Otherwise apply returns <code>410 Gone</code> ("This preview has expired") and changes nothing.</p>
 <h2 id="protocol">Protocol<a class="headerlink" href="#protocol" title="Permanent link">&para;</a></h2>
-<p>Endpoints under <code>/community-sync/v1</code> require HTTPS and bearer authentication.
-Responses disable caching.</p>
+<p>Endpoints under <code>/community-sync/v1</code> require HTTPS and bearer authentication; responses are not cached.</p>
 <table>
 <thead>
 <tr>
@@ -1379,7 +1302,7 @@ Responses disable caching.</p>
 <tbody>
 <tr>
 <td><code>GET /capabilities</code></td>
-<td>Describe authenticated peer protocol, adapter, entity, operation and effective-limit support</td>
+<td>Peer protocol, adapter, entity, operation and limit support</td>
 </tr>
 <tr>
 <td><code>GET /manifest</code></td>
@@ -1387,19 +1310,19 @@ Responses disable caching.</p>
 </tr>
 <tr>
 <td><code>POST /export</code></td>
-<td>Export selected roots, descendants and required dependencies</td>
+<td>Export selected roots, descendants and dependencies</td>
 </tr>
 <tr>
 <td><code>POST /browse</code></td>
-<td>Return one metadata-only page of direct Content or Media children when the optional Browse reader is registered</td>
+<td>One metadata-only page of Content or Media children (if Browse is registered)</td>
 </tr>
 <tr>
 <td><code>POST /browse/search</code></td>
-<td>Return one bounded metadata-only name-search page when BrowseSearch is explicitly granted</td>
+<td>One metadata-only name-search page (if BrowseSearch is granted)</td>
 </tr>
 <tr>
 <td><code>POST /preview</code></td>
-<td>Validate a manifest and return a plan</td>
+<td>Validate a manifest, return a plan</td>
 </tr>
 <tr>
 <td><code>POST /apply</code></td>
@@ -1415,83 +1338,66 @@ Responses disable caching.</p>
 </tr>
 <tr>
 <td><code>GET /operations</code></td>
-<td>List recovery operation summaries when registered</td>
+<td>List recovery operation summaries (if registered)</td>
 </tr>
 <tr>
 <td><code>GET /operations/{id}</code></td>
-<td>Inspect an operation outcome</td>
+<td>Operation outcome</td>
 </tr>
 <tr>
 <td><code>GET /operations/{id}/recovery</code></td>
-<td>Retrieve its before-state recovery record</td>
+<td>Before-state recovery record</td>
 </tr>
 <tr>
 <td><code>POST /publication/preview</code></td>
-<td>Validate explicit destination keys and cultures</td>
+<td>Validate destination keys and cultures</td>
 </tr>
 <tr>
 <td><code>POST /publication/apply</code></td>
-<td>Publish only the separately approved selection</td>
+<td>Publish only the approved selection</td>
 </tr>
 </tbody>
 </table>
-<p>Inspect <code>SyncPlan.IsValid</code> and <code>ExecutionResult.Status</code>; HTTP 200 alone does not
-mean an import succeeded. Authentication failures return 401, malformed requests
-400, oversized requests 413 and known adapter capability errors 422. JSON defaults
-to an 8 MiB request limit; assets have a separate configurable limit.</p>
-<p><code>SyncRemoteClient</code> offers capability/export/preview/apply calls against one fixed
-HTTPS destination. <code>SyncTransferClient.PrepareAsync()</code> negotiates capabilities,
-exports a selection, stages assets and previews; <code>ApplyAsync()</code> is separate and
-rechecks the peer declaration. Redirects are disabled. Only configure trusted peers.
-For deployments behind a TLS proxy, configure trusted forwarded headers in the host.</p>
+<p>HTTP 200 does not mean success: check <code>SyncPlan.IsValid</code> and <code>ExecutionResult.Status</code>. Errors: 401 authentication,
+400 malformed, 413 oversized, 422 adapter capability. JSON requests default to 8 MiB; assets have a separate limit.</p>
+<p><code>SyncRemoteClient</code> calls one fixed HTTPS destination. <code>SyncTransferClient.PrepareAsync()</code> negotiates, exports, stages
+assets and previews; <code>ApplyAsync()</code> is separate and rechecks the peer. Redirects are disabled. Configure only trusted
+peers.</p>
 <h2 id="administrator-pull">Administrator pull<a class="headerlink" href="#administrator-pull" title="Permanent link">&para;</a></h2>
-<p>The management API can pull a draft transfer from a configured source only
-when that server-side connection has <code>AllowPull: true</code>. <code>POST
-/umbraco/management/api/v1/community-sync/pull/preview</code> accepts a full-site
-choice or 1–1000 typed roots and returns an owner-bound, expiring
-approval. <code>POST /umbraco/management/api/v1/community-sync/pull/{id}/apply</code>
-consumes that approval, rechecks the connection and capabilities, then applies the
-frozen manifest through the local store and recovery journal. It neither publishes,
-deletes, schedules, nor re-exports remotely during apply.</p>
-<p>Full-mode Pull can optionally scope variant data by culture. It includes names and
-values for selected variants plus invariant values, leaves unselected destination
-variants unchanged, and binds the scope into the frozen manifest and approval
-fingerprint. The peer must advertise the scoped-culture capability; an older Pull
-peer is rejected before export. Creating a culture-variant item within a scoped
-transfer requires the default and all mandatory cultures. The Content transfer modal
-exposes an optional localized culture-code input. Leaving
-it empty means all cultures; review displays the selected scope. Media transfer does
-not offer culture scope. Browser coverage verifies this bounded interaction, not broad
-visual, accessibility or cross-browser behavior.</p>
-<p><code>POST /umbraco/management/api/v1/community-sync/pull/browse</code> accepts a configured
-<code>AllowPull</code> source, <code>Content</code> or <code>Media</code>, an optional parent key, and page/page-size
-(1–100). It performs the same pull compatibility preflight as selection: source
-<code>Browse</code> and <code>Export</code>, local <code>Preview</code> and <code>Apply</code>, matching transfer format, and
-the requested kind. The source receiver itself grants <code>Browse</code> independently of
-<code>Export</code>, so a browse-only peer may call <code>/community-sync/v1/browse</code> without export
-access. Its response contains only key, name, a human-readable bounded breadcrumb,
-child presence, and cultures; it never returns properties, serialized entities,
-snapshots, or media bytes. A breadcrumb resolves at most the trailing 16 ancestors
-and begins with <code>…</code> if earlier ancestors were omitted.</p>
-<p><code>POST /umbraco/management/api/v1/community-sync/pull/browse/search</code> uses the same
-connection, authorization, compatibility and delegated-scope checks. It accepts a
-2–128-character name term, rejects SQL wildcard characters (<code>%</code>, <code>_</code>, <code>[</code>), and
-returns pages of at most 50 matches with a maximum 10,000-item offset. Search is
-name-only: it never searches property values or serializes entities. <code>BrowseSearch</code>
-is an opt-in protocol extension (<code>GET /capabilities?extensions=browse-search</code>) so
-older capability clients do not need to parse the new operation value.</p>
-<p>The administrator Browse API drives native Content/Media send and receive actions
-and a paged remote selector. Native publication selection, administrator operation
-history, and limited delegated editor Push are also available. Delegated Pull is
-available to explicitly granted groups for permitted roots and cultures, subject to
-native Umbraco permissions. It creates drafts only. Search and field-level
-differences are implemented within their documented bounds. Three native Backoffice
-suites passed 19/19 against two packaged disposable sites in the Playwright MCP image
-container, with a browse-authorized peer. Broad layout, accessibility, cross-browser
-and production-topology acceptance remains pending.</p>
+<p>Requires <code>AllowPull: true</code> on the server-side connection. Endpoints under
+<code>/umbraco/management/api/v1/community-sync/pull</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Endpoint</th>
+<th>Behaviour</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>POST /preview</code></td>
+<td>Full site or 1–1000 typed roots; returns an owner-bound, expiring approval.</td>
+</tr>
+<tr>
+<td><code>POST /{id}/apply</code></td>
+<td>Consumes the approval, rechecks connection and capabilities, applies the frozen manifest with recovery journal. Never publishes, deletes, schedules or re-exports.</td>
+</tr>
+<tr>
+<td><code>POST /browse</code></td>
+<td><code>Content</code> or <code>Media</code>, optional parent key, page size 1–100. Returns key, name, breadcrumb (last 16 ancestors, <code>…</code> if truncated), child presence, cultures. Never properties, entities, snapshots or bytes.</td>
+</tr>
+<tr>
+<td><code>POST /browse/search</code></td>
+<td>Name term 2–128 characters, no <code>%</code>, <code>_</code> or <code>[</code>; up to 50 per page, offset up to 10,000. Names only.</td>
+</tr>
+</tbody>
+</table>
+<p>Browse and search need source <code>Browse</code> and <code>Export</code> and local <code>Preview</code> and <code>Apply</code>; a source can grant <code>Browse</code>
+alone. <code>BrowseSearch</code> is opt-in (<code>GET /capabilities?extensions=browse-search</code>). Content (not Media) can be scoped by
+culture; see <a href="#transfer-model">transfer model</a>. Delegated Pull is draft-only, for granted groups within permitted
+roots, cultures and Umbraco permissions.</p>
 <h2 id="delegated-editor-push">Delegated editor Push<a class="headerlink" href="#delegated-editor-push" title="Permanent link">&para;</a></h2>
-<p>Administrators may grant a named Umbraco user group a limited Push to one
-configured destination. Add explicit grants under <code>Ferry:Backoffice</code>:</p>
+<p>Administrators can grant a user group a limited Push to one destination:</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">"Ferry"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">"Backoffice"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
@@ -1511,47 +1417,38 @@ configured destination. Add explicit grants under <code>Ferry:Backoffice</code>:
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<p><code>GroupAlias</code> is the persisted Umbraco group alias, not its display name;
-<code>ConnectionId</code> must match the configured destination key. Local root keys are
-the Content and Media roots members may send, and <code>AllowedCultures</code> limits
-variant values included in the transfer. Delegated Push also checks native
-Umbraco <code>Read</code> permission and rechecks the grant and scope through preview and
-apply. Missing, invalid, or non-matching grants deny access by default.</p>
-<p>Push preview keeps the legacy <code>contentRoots</code> array for compatible callers and also
-accepts <code>roots: [{ kind: "Content" | "Media", key }]</code>. A selected request supplies
-exactly one selector with 1–1000 unique nonempty keys; a full-site request accepts
-only the legacy empty <code>contentRoots</code> array. The source and destination must both
-advertise every selected kind before source export begins.</p>
+<ul>
+<li><code>GroupAlias</code>: the stored group alias, not the display name. <code>ConnectionId</code>: the configured destination key.</li>
+<li><code>ContentRootKeys</code> / <code>MediaRootKeys</code>: roots members may send. <code>AllowedCultures</code>: variant values sent.</li>
+<li>Native <code>Read</code> permission is also required; grant and scope are rechecked at preview and apply. Anything missing,
+  invalid or non-matching denies access.</li>
+</ul>
+<p>Push preview takes legacy <code>contentRoots</code> or <code>roots: [{ kind: "Content" | "Media", key }]</code>: one of them, with 1–1000
+unique keys, or an empty <code>contentRoots</code> for the whole site. Both sites must support every selected kind.</p>
 <h2 id="operational-boundaries">Operational boundaries<a class="headerlink" href="#operational-boundaries" title="Permanent link">&para;</a></h2>
-<p>The optional legacy receiver bearer credential grants all receiver operations. Named
-receiver peers can instead be limited to explicit operations and rotated tokens;
-their credentials and policy reload after the host publishes a new configuration
-snapshot, while request and asset limits stay fixed until restart. Treat every
-receiver credential as an administrative secret. Backoffice operator authorization is a separate layer.
-Fingerprints detect snapshot changes; they do not lock all CMS editors or replace
-authorization. The receiver serializes requests within its process; external CMS
-edits and multi-node writers require additional coordination.</p>
-<p>Recovery records preserve before-state and known outcomes. They are not an atomic
-transaction or automatic rollback; an interrupted write can leave partial changes.
-Reinspect the destination and obtain a new preview before retrying. Missing outcome
-records mean completion is unknown. Recovery data contains site content and must
-be protected accordingly.</p>
-<p>Draft content transfer does not infer publication. Schema, media, hierarchy and
-sort changes can affect live rendering independently of content publication.
-Executable templates/scripts, account replication and commercial product branding
-are outside scope; installed template assignments use stable keys.</p>
+<ul>
+<li><strong>Credentials.</strong> The legacy bearer credential grants every operation; named peers can be limited and rotated, and
+  reload with configuration (limits need a restart). Treat every receiver credential as an administrative secret.</li>
+<li><strong>Concurrency.</strong> Fingerprints detect changes; they do not lock editors or replace authorization. The receiver
+  serializes requests per process; external edits and multi-node writers need extra coordination.</li>
+<li><strong>Recovery.</strong> Records keep before-state and known outcomes, not an atomic transaction or rollback. An interrupted
+  write can leave partial changes: inspect the destination and preview again before retrying. No outcome record means
+  completion is unknown. Recovery data contains site content; protect it.</li>
+<li><strong>Live impact.</strong> Drafts are not published, but schema, media, hierarchy and sort changes can affect the live site.</li>
+<li><strong>Out of scope:</strong> executable templates/scripts, account replication.</li>
+</ul>
 <p>See <a href="umbraco-package-guide/">integration decisions</a>,
 <a href="supported-scope/">supported scope and recovery limits</a> and
-<a href="third-party-notices/">third-party notices</a>. Ferry is proprietary freeware (<a href="license/">license</a>).</p>
+<a href="third-party-notices/">third-party notices</a>.</p>
 <h2 id="help-and-feedback">Help and feedback<a class="headerlink" href="#help-and-feedback" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>Bugs:</strong> <a href="https://github.com/imkeuri/ferry-umbraco/issues/new/choose">open an issue</a> with your Ferry and Umbraco
-  versions, the database and the steps. Remove tokens, connection strings and passwords from settings and logs.</li>
+<li><strong>Bugs:</strong> <a href="https://github.com/imkeuri/ferry-umbraco/issues/new/choose">open an issue</a> with Ferry and Umbraco
+  versions, database and steps. Remove tokens, connection strings and passwords.</li>
 <li><strong>Questions and ideas:</strong> <a href="https://github.com/imkeuri/ferry-umbraco/discussions">Discussions</a>.</li>
-<li><strong>A package or editor Ferry should support:</strong> use the <em>Package or editor support</em> issue form, or add it yourself
-  with <a href="extending/">extending Ferry</a>.</li>
-<li><strong>Security problems:</strong> report them <a href="https://github.com/imkeuri/ferry-umbraco/security/advisories/new">privately</a>,
-  never in a public issue.</li>
+<li><strong>Package or editor support:</strong> use the <em>Package or editor support</em> issue form, or see
+  <a href="extending/">extending Ferry</a>.</li>
+<li><strong>Security problems:</strong> report <a href="https://github.com/imkeuri/ferry-umbraco/security/advisories/new">privately</a>, never
+  in a public issue.</li>
 </ul>
 
 
