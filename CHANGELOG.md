@@ -3,6 +3,17 @@
 All notable changes to Ferry. Versions follow [Semantic Versioning](https://semver.org/); while Ferry is pre-1.0,
 minor versions may contain breaking changes.
 
+## 0.6.0-beta.2
+
+### Security
+- **Umbraco Forms file settings.** Forms transfers refuse a view path outside the Forms email template folder
+  (`Forms/Emails/`), and a *Save as an XML file* workflow whose `Extension` is not `xml`, `txt` or `csv`. Before, any
+  relative `.cshtml` path and any extension that did not look like a server file were accepted (behaviour change).
+- **Managed server access keys.** Changing a managed server's address (scheme, host or port) now requires entering its
+  access key again, so a stored key is never sent to a different host. Saving the same address keeps the stored key.
+- **Redirect conflicts.** The Skybrud redirects conflict error no longer includes the receiving site's own redirect
+  key, which a peer with only Preview permission could read.
+
 ## 0.6.0-beta.1
 
 ### Schema as generated C# migrations

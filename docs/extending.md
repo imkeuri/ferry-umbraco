@@ -99,8 +99,9 @@ builder.AddFerrySkybrudRedirects();
 builder.AddFerryUmbracoForms();
 ```
 
-Forms workflows act on the server, so every workflow and field setting is checked: a view path must stay inside the
-site's views, and an address must be an http or https URL to a public host. Ferry checks the address as written; it
+Forms workflows act on the server, so every workflow and field setting is checked: a view path must be a Razor view
+in the Forms email template folder (`Forms/Emails/`), and an address must be an http or https URL to a public host. A
+*Save as an XML file* workflow may only write `xml`, `txt` or `csv` files. Ferry checks the address as written; it
 cannot see what a host name resolves to when Umbraco Forms later calls it.
 
 ### Turning it on
