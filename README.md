@@ -61,7 +61,8 @@ Ferry.Backoffice adds a **Ferry** workspace under **Settings › Synchronisation
 not the access key itself, so a copied code is useless once used. When A allowed two-way, B's admin can also choose
 what A may do on B, and both connections are made in the same step. Each site creates the key that protects it, with
 its own admin's choices. Codes from Ferry 0.7 (`ferry1.…`) are refused; create a new one. Without a code, connect with
-an address and an access key (*Create an access key instead*).
+an address and an access key (*Create an access key instead*). Other sites label this one with
+`Ferry:Backoffice:SiteName` when set, otherwise with its host (for example `staging.example.com`).
 
 Content tree **Actions** offer *Send to…*, *Get from…*, *Add to queue* and (administrators) *Publish on another
 site…*, each ending in a review ("4 new pages, 1 updated page", schema, move and template callouts, *Show details*).

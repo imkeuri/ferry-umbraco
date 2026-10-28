@@ -3,6 +3,19 @@
 All notable changes to Ferry. Versions follow [Semantic Versioning](https://semver.org/); while Ferry is pre-1.0,
 minor versions may contain breaking changes.
 
+## 0.7.0-beta.3
+
+### Fixes
+- Paired sites are no longer all named "Ferry". Pairing codes and claims name this site with the new optional
+  `Ferry:Backoffice:SiteName`, otherwise its host (e.g. `staging.example.com`, `localhost:49191`), set by the server
+  instead of the browser page title.
+- Review notes use the singular for one note ("1 note — it does not block sending").
+- Unresolved-reference notes name the item that links to the missing one, and shorten the missing item's key:
+  "Unresolved reference to Media 279fdd7b… in Content “Home”: …".
+- Publish after sending says what was sent and what was published: "Sent 1 changed item (3 unchanged) and published
+  4 pages on Target", with singulars.
+- The *Connect a site* wizard shows its first step as one sentence instead of one line per fragment.
+
 ## 0.7.0-beta.2
 
 ### Features
