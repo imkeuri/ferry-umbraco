@@ -14,15 +14,15 @@
       
       
       
-        <link rel="next" href="supported-scope/">
+        <link rel="next" href="overview/">
       
       
-      <link rel="icon" href="assets/images/favicon.png">
+      <link rel="icon" href="assets/logo.svg">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.23">
     
     
       
-        <title>Ferry for Umbraco</title>
+        <title>Ferry for Umbraco - Ferry for Umbraco</title>
       
     
     
@@ -48,6 +48,8 @@
       
     
     
+      <link rel="stylesheet" href="stylesheets/ferry.css">
+    
     <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -65,7 +67,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -92,8 +94,7 @@
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href="." title="Ferry for Umbraco" class="md-header__button md-logo" aria-label="Ferry for Umbraco" data-md-component="logo">
       
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+  <img src="assets/logo.svg" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -110,7 +111,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Home
+              Ferry for Umbraco
             
           </span>
         </div>
@@ -123,7 +124,7 @@
     
     
     
-    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Dark mode"  type="radio" name="__palette" id="__palette_0">
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Dark mode"  type="radio" name="__palette" id="__palette_0">
     
       <label class="md-header__button md-icon" title="Dark mode" for="__palette_1" hidden>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
@@ -133,7 +134,7 @@
     
     
     
-    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Light mode"  type="radio" name="__palette" id="__palette_1">
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Light mode"  type="radio" name="__palette" id="__palette_1">
     
       <label class="md-header__button md-icon" title="Light mode" for="__palette_0" hidden>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
@@ -217,7 +218,9 @@
           
             
               
-              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
@@ -228,8 +231,7 @@
   <label class="md-nav__title" for="__drawer">
     <a href="." title="Ferry for Umbraco" class="md-nav__button md-logo" aria-label="Ferry for Umbraco" data-md-component="logo">
       
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+  <img src="assets/logo.svg" alt="logo">
 
     </a>
     Ferry for Umbraco
@@ -306,141 +308,81 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#quick-start" class="md-nav__link">
+  <a href="#reviewed-transfers" class="md-nav__link">
     <span class="md-ellipsis">
-      Quick start
+      Reviewed transfers
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#using-the-backoffice" class="md-nav__link">
+  <a href="#schema-as-code" class="md-nav__link">
     <span class="md-ellipsis">
-      Using the backoffice
+      Schema as code
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#supported-and-limits" class="md-nav__link">
+  <a href="#packages-and-snapshots" class="md-nav__link">
     <span class="md-ellipsis">
-      Supported and limits
+      Packages and snapshots
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#transfer-model" class="md-nav__link">
+  <a href="#safe-on-real-sites" class="md-nav__link">
     <span class="md-ellipsis">
-      Transfer model
+      Safe on real sites
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#host-integration" class="md-nav__link">
+  <a href="#extensible" class="md-nav__link">
     <span class="md-ellipsis">
-      Host integration
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Host integration">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#access-keys-from-the-backoffice-only" class="md-nav__link">
-    <span class="md-ellipsis">
-      Access keys from the backoffice only
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#getting-past-host-authentication" class="md-nav__link">
-    <span class="md-ellipsis">
-      Getting past host authentication
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#tls-terminated-by-a-proxy" class="md-nav__link">
-    <span class="md-ellipsis">
-      TLS terminated by a proxy
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#where-state-is-kept" class="md-nav__link">
-    <span class="md-ellipsis">
-      Where state is kept
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#hosting-requirements" class="md-nav__link">
-    <span class="md-ellipsis">
-      Hosting requirements
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#protocol" class="md-nav__link">
-    <span class="md-ellipsis">
-      Protocol
+      Extensible
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#administrator-pull" class="md-nav__link">
+  <a href="#free-to-use" class="md-nav__link">
     <span class="md-ellipsis">
-      Administrator pull
+      Free to use
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#delegated-editor-push" class="md-nav__link">
+  <a href="#tour" class="md-nav__link">
     <span class="md-ellipsis">
-      Delegated editor Push
+      See it in action
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#operational-boundaries" class="md-nav__link">
+  <a href="#built-into-the-backoffice" class="md-nav__link">
     <span class="md-ellipsis">
-      Operational boundaries
+      Built into the backoffice
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#help-and-feedback" class="md-nav__link">
+  <a href="#try-it-in-three-steps" class="md-nav__link">
     <span class="md-ellipsis">
-      Help and feedback
+      Try it in three steps
     </span>
   </a>
   
@@ -450,6 +392,28 @@
   
 </nav>
       
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -474,10 +438,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
         
           
-          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
             
   
   
@@ -490,8 +454,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_2">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             Guides
           </label>
@@ -616,10 +580,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
         
           
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
             
   
   
@@ -632,8 +596,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             Design notes
           </label>
@@ -743,7 +707,9 @@
             
             
               
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" hidden>
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
@@ -762,141 +728,81 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#quick-start" class="md-nav__link">
+  <a href="#reviewed-transfers" class="md-nav__link">
     <span class="md-ellipsis">
-      Quick start
+      Reviewed transfers
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#using-the-backoffice" class="md-nav__link">
+  <a href="#schema-as-code" class="md-nav__link">
     <span class="md-ellipsis">
-      Using the backoffice
+      Schema as code
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#supported-and-limits" class="md-nav__link">
+  <a href="#packages-and-snapshots" class="md-nav__link">
     <span class="md-ellipsis">
-      Supported and limits
+      Packages and snapshots
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#transfer-model" class="md-nav__link">
+  <a href="#safe-on-real-sites" class="md-nav__link">
     <span class="md-ellipsis">
-      Transfer model
+      Safe on real sites
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#host-integration" class="md-nav__link">
+  <a href="#extensible" class="md-nav__link">
     <span class="md-ellipsis">
-      Host integration
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Host integration">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#access-keys-from-the-backoffice-only" class="md-nav__link">
-    <span class="md-ellipsis">
-      Access keys from the backoffice only
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#getting-past-host-authentication" class="md-nav__link">
-    <span class="md-ellipsis">
-      Getting past host authentication
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#tls-terminated-by-a-proxy" class="md-nav__link">
-    <span class="md-ellipsis">
-      TLS terminated by a proxy
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#where-state-is-kept" class="md-nav__link">
-    <span class="md-ellipsis">
-      Where state is kept
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#hosting-requirements" class="md-nav__link">
-    <span class="md-ellipsis">
-      Hosting requirements
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#protocol" class="md-nav__link">
-    <span class="md-ellipsis">
-      Protocol
+      Extensible
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#administrator-pull" class="md-nav__link">
+  <a href="#free-to-use" class="md-nav__link">
     <span class="md-ellipsis">
-      Administrator pull
+      Free to use
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#delegated-editor-push" class="md-nav__link">
+  <a href="#tour" class="md-nav__link">
     <span class="md-ellipsis">
-      Delegated editor Push
+      See it in action
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#operational-boundaries" class="md-nav__link">
+  <a href="#built-into-the-backoffice" class="md-nav__link">
     <span class="md-ellipsis">
-      Operational boundaries
+      Built into the backoffice
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#help-and-feedback" class="md-nav__link">
+  <a href="#try-it-in-three-steps" class="md-nav__link">
     <span class="md-ellipsis">
-      Help and feedback
+      Try it in three steps
     </span>
   </a>
   
@@ -915,39 +821,82 @@
               <article class="md-content__inner md-typeset">
                 
                   
+  
 
 
 
-<h1 id="ferry">Ferry<a class="headerlink" href="#ferry" title="Permanent link">&para;</a></h1>
-<p><strong>Code-first schema and safe content deployment for Umbraco 17.</strong></p>
-<p>Ferry keeps schema in your code and moves content between sites, such as development, staging and live:</p>
-<ul>
-<li><strong>Code-first schema.</strong> <code>SchemaBuilder</code> declares data types, templates, media types and document types in Umbraco
-  migrations, run once per environment. Keys derive from aliases, so schema is identical everywhere. An existing site
-  can download its schema as one key-preserving migration. See <a href="code-first-schema/">code-first schema</a>.</li>
-<li><strong>Generated migrations.</strong> Development backoffice schema edits become C# migrations you commit; other environments
-  run them at startup and report drift. See <a href="code-first-schema/#generated-migrations">generated migrations</a>.</li>
-<li><strong>Content-only sites.</strong> With <code>Ferry:Full:ContentOnly</code>, a site rejects any transfer that would change its schema and
-  lists what to deploy first.</li>
-<li><strong>Reviewed transfers.</strong> Send and Get (Push and Pull in the API) list every create, update and move and need an
-  owner-bound approval before applying. Schema, media, references and blocks travel with the content.</li>
-<li><strong>Deployment workflow.</strong> Per-user queue, offline <code>.ferry.zip</code> packages, import at startup, snapshots and restore
-  points, user-group permissions for delegated editors.</li>
-<li><strong>Extensible.</strong> Custom property editors and package data (Skybrud redirects, Umbraco Forms, your own package) can
-  join transfers. See <a href="extending/">extending Ferry</a>.</li>
-<li><strong>Safe on real sites.</strong> One operation at a time across load-balanced instances (database lease). Indexing and caches
-  pause during large imports. Each apply writes a recovery journal.</li>
-</ul>
-<p><strong>Documentation:</strong> <a href="https://imkeuri.github.io/ferry-umbraco/">https://imkeuri.github.io/ferry-umbraco/</a>. Ferry needs no other synchronisation tool or file export.</p>
-<blockquote>
-<p><strong>Free to use, closed source.</strong> Free for any site, including commercial work, under the
-<a href="license/">Ferry Freeware License</a>.</p>
-</blockquote>
-<p><strong>Status: experimental, pre-1.0.</strong> Tested on Umbraco <strong>17.6.2</strong> and .NET 10. See <a href="supported-scope/">supported scope</a>.</p>
-<h2 id="quick-start">Quick start<a class="headerlink" href="#quick-start" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code>dotnet<span class="w"> </span>add<span class="w"> </span>package<span class="w"> </span>Ferry.Umbraco
-dotnet<span class="w"> </span>add<span class="w"> </span>package<span class="w"> </span>Ferry.Backoffice
+
+<div class="fy-hero">
+<div class="fy-hero__inner">
+<p><img class="fy-hero__logo" src="assets/logo.svg" alt="" width="88" height="88"></p>
+<h1 class="fy-hero__title" id="ferry">Ferry<a class="headerlink" href="#ferry" title="Permanent link">&para;</a></h1>
+<p class="fy-hero__tagline">Move Umbraco content and schema between sites, <strong>reviewed before anything changes</strong>.</p>
+<p class="fy-hero__sub">Code-first schema and safe content deployment for Umbraco 17, from development to staging to live.</p>
+<div class="fy-hero__actions">
+<a class="md-button md-button--primary" href="overview/#quick-start">Get started</a>
+<a class="md-button" href="#tour">Watch the tour</a>
+<a class="md-button" href="https://www.nuget.org/packages/Ferry.Umbraco">NuGet</a>
+</div>
+<pre class="fy-hero__install"><code>dotnet add package Ferry.Umbraco --prerelease
+dotnet add package Ferry.Backoffice --prerelease</code></pre>
+</div>
+</div>
+<div class="fy-section">
+<div class="fy-grid">
+<div class="fy-card">
+<h3 id="reviewed-transfers">Reviewed transfers<a class="headerlink" href="#reviewed-transfers" title="Permanent link">&para;</a></h3>
+<p>Send and Get pages, media and their dependencies between sites. Every change is planned and shown first, and items arrive as drafts.</p>
+</div>
+<div class="fy-card">
+<h3 id="schema-as-code">Schema as code<a class="headerlink" href="#schema-as-code" title="Permanent link">&para;</a></h3>
+<p><code>SchemaBuilder</code> migrations and generated C# migrations keep document types, data types and templates identical on every environment, with drift reported.</p>
+</div>
+<div class="fy-card">
+<h3 id="packages-and-snapshots">Packages and snapshots<a class="headerlink" href="#packages-and-snapshots" title="Permanent link">&para;</a></h3>
+<p>Export offline <code>.ferry.zip</code> packages, import them by drag and drop or at startup, and keep restore points.</p>
+</div>
+<div class="fy-card">
+<h3 id="safe-on-real-sites">Safe on real sites<a class="headerlink" href="#safe-on-real-sites" title="Permanent link">&para;</a></h3>
+<p>Fingerprinted reviews that can be used once, per-site permissions, one operation at a time and a recovery journal for every apply.</p>
+</div>
+<div class="fy-card">
+<h3 id="extensible">Extensible<a class="headerlink" href="#extensible" title="Permanent link">&para;</a></h3>
+<p>Value mappers for your own property editors and package providers for data outside content. Skybrud redirects and Umbraco Forms included.</p>
+</div>
+<div class="fy-card">
+<h3 id="free-to-use">Free to use<a class="headerlink" href="#free-to-use" title="Permanent link">&para;</a></h3>
+<p>Free for any site, including commercial work, under the <a href="license/">Ferry Freeware License</a>. Needs no other synchronisation tool.</p>
+</div>
+</div>
+</div>
+<div class="fy-section fy-section--tint">
+<h2 class="fy-heading" id="tour">See it in action<a class="headerlink" href="#tour" title="Permanent link">&para;</a></h2>
+<p class="fy-lead">Two sites, one reviewed Send: the options, the review, the result on the target, and a repeat that changes nothing.</p>
+<video class="fy-video" controls="controls" poster="assets/images/poster.jpg" preload="metadata">
+<source src="assets/ferry-showcase.mp4" type="video/mp4">
+</video>
+</div>
+<div class="fy-section">
+<h2 class="fy-heading" id="built-into-the-backoffice">Built into the backoffice<a class="headerlink" href="#built-into-the-backoffice" title="Permanent link">&para;</a></h2>
+<div class="fy-shots">
+<figure><img src="assets/images/review.jpg" alt="The review panel listing new pages, document types, media and a template before sending" loading="lazy"><figcaption><strong>Review</strong> every create, update and dependency before it is applied.</figcaption></figure>
+<figure><img src="assets/images/sites.jpg" alt="The Sites tab with a connected target site" loading="lazy"><figcaption><strong>Sites</strong>: pair with a code and grant each peer only what it needs.</figcaption></figure>
+<figure><img src="assets/images/queue.jpg" alt="The transfer queue panel opened from the backoffice header" loading="lazy"><figcaption><strong>Queue</strong> items across the tree and send them together.</figcaption></figure>
+</div>
+</div>
+<div class="fy-section fy-section--tint">
+<h2 class="fy-heading" id="try-it-in-three-steps">Try it in three steps<a class="headerlink" href="#try-it-in-three-steps" title="Permanent link">&para;</a></h2>
+<div class="fy-steps">
+<div class="fy-step">
+<p><span class="fy-step__n">1</span></p>
+<p><strong>Install</strong> on each site.</p>
+<div class="highlight"><pre><span></span><code>dotnet<span class="w"> </span>add<span class="w"> </span>package<span class="w"> </span>Ferry.Umbraco<span class="w"> </span>--prerelease
+dotnet<span class="w"> </span>add<span class="w"> </span>package<span class="w"> </span>Ferry.Backoffice<span class="w"> </span>--prerelease
 </code></pre></div>
+</div>
+<div class="fy-step">
+<p><span class="fy-step__n">2</span></p>
+<p><strong>Register</strong> Ferry in <code>Program.cs</code>.</p>
 <div class="highlight"><pre><span></span><code><span class="n">builder</span><span class="p">.</span><span class="n">CreateUmbracoBuilder</span><span class="p">()</span>
 <span class="w">    </span><span class="p">.</span><span class="n">AddBackOffice</span><span class="p">()</span>
 <span class="w">    </span><span class="p">.</span><span class="n">AddWebsite</span><span class="p">()</span>
@@ -955,346 +904,14 @@ dotnet<span class="w"> </span>add<span class="w"> </span>package<span class="w">
 <span class="w">    </span><span class="p">.</span><span class="n">AddFerryUmbracoFull</span><span class="p">()</span>
 <span class="w">    </span><span class="p">.</span><span class="n">Build</span><span class="p">();</span>
 </code></pre></div>
-<p>Configuration goes in a <code>Ferry</code> section of <code>appsettings.json</code>; see <a href="#host-integration">Host integration</a>.</p>
-<h2 id="using-the-backoffice">Using the backoffice<a class="headerlink" href="#using-the-backoffice" title="Permanent link">&para;</a></h2>
-<p>Ferry.Backoffice adds a <strong>Ferry</strong> workspace under <strong>Settings › Synchronisation</strong>:</p>
-<table>
-<thead>
-<tr>
-<th>Tab</th>
-<th>Use</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Overview</strong></td>
-<td>Connected sites, <em>Send to another site</em>, <em>Get from another site</em> (whole site or chosen pages), recent activity. <em>Connect your first site</em> when none is connected.</td>
-</tr>
-<tr>
-<td><strong>Sites</strong></td>
-<td>Site status, the <em>Connect a site</em> wizard (paste a pairing code), and <em>Sites that can connect to this one</em> (create pairing codes, revoke access).</td>
-</tr>
-<tr>
-<td><strong>Packages</strong></td>
-<td>Export a <code>.ferry.zip</code> (chosen pages and media, or whole site), import one by dropping it on the page, create or restore snapshots.</td>
-</tr>
-<tr>
-<td><strong>Advanced</strong></td>
-<td><em>Publish on another site</em>; danger zone with <em>Move to recycle bin on another site</em> and <em>Seed another site</em>.</td>
-</tr>
-</tbody>
-</table>
-<p>Content tree <strong>Actions</strong> offer <em>Send to…</em>, <em>Get from…</em>, <em>Add to queue</em> and (administrators) <em>Publish on another
-site…</em>, each ending in a review ("4 new pages, 1 updated page", schema, move and template callouts, <em>Show details</em>).
-Items always arrive as drafts. The top-bar <strong>Ferry</strong> button opens the queue (send all or download as a package) and
-recent activity. The <em>Send with Ferry</em> and <em>Get with Ferry</em> group permissions control access, on top of
-<a href="#delegated-editor-push">delegated-editor grants</a>.</p>
-<h2 id="supported-and-limits">Supported and limits<a class="headerlink" href="#supported-and-limits" title="Permanent link">&para;</a></h2>
-<p><strong>Supported:</strong> invariant Content, Content variants and segments, selected MediaPicker3 references, segment-varying
-scalar Media values, Content <code>UploadField</code> assets (draft with hash and byte checks; published as immutable
-publish-time snapshots, failing closed when the snapshot is missing, corrupt or mismatched). Each capability and its
-limits are listed in the <a href="supported-scope/">supported scope</a>.</p>
-<p><strong>Limits:</strong></p>
-<ul>
-<li>Not yet covered: arbitrary <code>UploadField</code>/editor configurations, multi-node hosting, cross-browser, accessibility
-  and production topologies.</li>
-<li>Unsupported: unknown/custom editors, user/member references. Not every Umbraco editor is supported.</li>
-<li>Templates must already exist at the destination; schema changes needing storage migration are blocked.</li>
-<li>Jobs and approvals are process-local; multi-node needs affinity and external coordination.</li>
-</ul>
-<h2 id="transfer-model">Transfer model<a class="headerlink" href="#transfer-model" title="Permanent link">&para;</a></h2>
-<ul>
-<li>Stable GUID identities across sites; local numeric IDs may differ.</li>
-<li>Create/update/unchanged previews, dependency ordering, cyclic soft references.</li>
-<li>Whole-site or selected-tree transfer with prerequisite/reference closure (Full mode reads only that closure).</li>
-<li>Optional culture scope (Full mode): selected variants plus invariant values; other destination variants untouched.
-  Bound into the approval; peers without the capability are rejected. New scoped content needs the default and
-  mandatory cultures.</li>
-<li>Approvals are bound to source and destination fingerprints: edits to incoming entities or prerequisites need a fresh
-  preview, unrelated edits do not.</li>
-<li>Peers negotiate a versioned, authenticated capability declaration first; incompatible formats fail closed.</li>
-<li>Native draft saves, whatever the source publication state.</li>
-<li>Media is verified by SHA256 and length. An optional probe skips bytes the peer already has.</li>
-<li>Culture-varying Media (Full mode). Umbraco 17.6.2 drops Media culture names on read, so Ferry keeps them in its own
-  table; native APIs and the backoffice do not show them after a restart.</li>
-<li><a href="#administrator-pull">Administrator pull</a>, and optional metadata-only Browse and name-only BrowseSearch.</li>
-<li>Destination-only entities are kept. No implicit deletion or rollback.</li>
-<li>On failure, completed and possibly touched entities are reported separately.</li>
-</ul>
-<p>Adapters:</p>
-<ul>
-<li><code>AddFerryUmbraco()</code>: invariant TextBox/TextArea drafts on matching preinstalled schemas.</li>
-<li><code>AddFerryUmbracoFull()</code>: writes through Umbraco's services, so other packages' save handlers run. Requires an
-  <code>ISyncAssetStore</code>. Editor/storage changes to existing shared data types are blocked. Re-export older experimental
-  manifests.</li>
-</ul>
-<p>The BackOffice package has its own composer, independent of the transport switch and adapter.</p>
-<h2 id="host-integration">Host integration<a class="headerlink" href="#host-integration" title="Permanent link">&para;</a></h2>
-<p>Register the adapter, then configure transport explicitly:</p>
-<div class="highlight"><pre><span></span><code><span class="n">builder</span><span class="p">.</span><span class="n">Services</span><span class="p">.</span><span class="n">AddFerryTransport</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">SyncTransportOptions</span>
-<span class="p">{</span>
-<span class="w">    </span><span class="n">BearerToken</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tokenFromYourSecretProvider</span>
-<span class="p">});</span>
-<span class="n">builder</span><span class="p">.</span><span class="n">Services</span><span class="p">.</span><span class="n">AddFerryFileAssets</span><span class="p">(</span><span class="n">privateAssetDirectory</span><span class="p">);</span>
-<span class="n">builder</span><span class="p">.</span><span class="n">Services</span><span class="p">.</span><span class="n">AddFerryFileRecovery</span><span class="p">(</span><span class="n">privateRecoveryDirectory</span><span class="p">);</span>
-<span class="c1">// After building/configuring the Umbraco application:</span>
-<span class="n">app</span><span class="p">.</span><span class="n">MapFerry</span><span class="p">();</span>
-</code></pre></div>
-<p>For named peers with per-operation permissions, use the reload-aware registration:</p>
-<div class="highlight"><pre><span></span><code><span class="n">builder</span><span class="p">.</span><span class="n">Configuration</span><span class="p">.</span><span class="n">AddEnvironmentVariables</span><span class="p">();</span><span class="w"> </span><span class="c1">// or the host's managed secret provider</span>
-<span class="n">builder</span><span class="p">.</span><span class="n">Services</span><span class="p">.</span><span class="n">AddFerryTransportFromConfiguration</span><span class="p">(</span>
-<span class="w">    </span><span class="n">builder</span><span class="p">.</span><span class="n">Configuration</span><span class="p">.</span><span class="n">GetRequiredSection</span><span class="p">(</span><span class="s">"Ferry"</span><span class="p">));</span>
-</code></pre></div>
-<p>Set peer identity, revision and permitted operations in <code>Ferry:Peers</code>, with tokens from the secret provider (for
-example <code>Ferry__Peers__0__Tokens__0</code>). See the <a href="research/peer-policy-design/">peer-policy contract</a>.</p>
-<ul>
-<li>Bearer secrets: random, at least 32 characters. No defaults are provided.</li>
-<li>Keep asset and recovery storage outside public static-file directories.</li>
-<li>In the sample, endpoints are off by default and <code>Ferry:Mode</code> is <code>DraftText</code> (default) or <code>Full</code>.</li>
-</ul>
-<h3 id="access-keys-from-the-backoffice-only">Access keys from the backoffice only<a class="headerlink" href="#access-keys-from-the-backoffice-only" title="Permanent link">&para;</a></h3>
-<p>Access keys from Settings › Ferry › Sites (<em>Create pairing code</em>) are also receiver credentials. A receiver using only
-those needs no token or placeholder peer: <code>AddFerryTransportFromConfiguration</code> (or <code>AddFerryTransport</code>) accepts an
-empty <code>Ferry</code> section when an <code>ISyncManagedPeerSource</code> is registered. With neither, the host refuses to start.</p>
-<h3 id="getting-past-host-authentication">Getting past host authentication<a class="headerlink" href="#getting-past-host-authentication" title="Permanent link">&para;</a></h3>
-<p><code>/ferry/v1</code> does its own authentication. Basic auth or an IP/SSO gateway in front will block it. For
-Umbraco basic auth, add the shared-secret header (<code>Umbraco:CMS:BasicAuth:SharedSecret</code>) to requests on that path
-before <code>UseUmbraco()</code>; otherwise exclude the path in the gateway.</p>
-<h3 id="tls-terminated-by-a-proxy">TLS terminated by a proxy<a class="headerlink" href="#tls-terminated-by-a-proxy" title="Permanent link">&para;</a></h3>
-<p>The receiver rejects plain HTTP. When TLS ends at a proxy (Azure Container Apps, App Service, Front Door, nginx),
-forward the scheme:</p>
-<div class="highlight"><pre><span></span><code><span class="n">builder</span><span class="p">.</span><span class="n">Services</span><span class="p">.</span><span class="n">Configure</span><span class="o">&lt;</span><span class="n">ForwardedHeadersOptions</span><span class="o">&gt;</span><span class="p">(</span><span class="n">options</span><span class="w"> </span><span class="o">=&gt;</span>
-<span class="p">{</span>
-<span class="w">    </span><span class="n">options</span><span class="p">.</span><span class="n">ForwardedHeaders</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ForwardedHeaders</span><span class="p">.</span><span class="n">XForwardedFor</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">ForwardedHeaders</span><span class="p">.</span><span class="n">XForwardedProto</span><span class="p">;</span>
-<span class="w">    </span><span class="n">options</span><span class="p">.</span><span class="n">KnownIPNetworks</span><span class="p">.</span><span class="n">Clear</span><span class="p">();</span><span class="w"> </span><span class="c1">// only when the ingress is the sole way in; otherwise list its network</span>
-<span class="w">    </span><span class="n">options</span><span class="p">.</span><span class="n">KnownProxies</span><span class="p">.</span><span class="n">Clear</span><span class="p">();</span>
-<span class="p">});</span>
-<span class="c1">// First in the pipeline:</span>
-<span class="n">app</span><span class="p">.</span><span class="n">UseForwardedHeaders</span><span class="p">();</span>
-</code></pre></div>
-<h3 id="where-state-is-kept">Where state is kept<a class="headerlink" href="#where-state-is-kept" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>State</th>
-<th>Storage</th>
-<th>Survives redeploy / new replica?</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Servers and access keys</td>
-<td><code>cmsFerryServer</code>, <code>cmsFerryAccessKey</code></td>
-<td>Yes.</td>
-</tr>
-<tr>
-<td>Secrets in those rows</td>
-<td>ASP.NET Data Protection</td>
-<td>Only with a persisted, shared key ring (e.g. <code>PersistKeysToAzureBlobStorage</code>); otherwise keys stop working after a redeploy and a warning is logged.</td>
-</tr>
-<tr>
-<td>Peer cache</td>
-<td>Memory, 30 seconds</td>
-<td>Revoked keys stop working on other instances within 30 seconds.</td>
-</tr>
-<tr>
-<td>Operation history, submissions, snapshots, restore points</td>
-<td><code>cmsFerryOperation</code>, <code>cmsFerrySubmission</code>, <code>cmsFerrySnapshot</code></td>
-<td>Yes.</td>
-</tr>
-<tr>
-<td>Previews and batch sessions</td>
-<td>Memory</td>
-<td>No. See <a href="#hosting-requirements">Hosting requirements</a>.</td>
-</tr>
-<tr>
-<td>Receiver approvals (push, publication, tree trash)</td>
-<td>Memory, per process</td>
-<td>No. See <a href="#hosting-requirements">Hosting requirements</a>.</td>
-</tr>
-<tr>
-<td>Staged assets, recovery records</td>
-<td>Directories given to <code>AddFerryFileAssets</code> / <code>AddFerryFileRecovery</code></td>
-<td>Only on persistent storage.</td>
-</tr>
-</tbody>
-</table>
-<p><code>cmsFerry*</code> tables are created whenever the packages are installed, even with <code>Ferry:Enabled</code> or
-<code>Ferry:Backoffice:Enabled</code> <code>false</code>. To remove Ferry: uninstall the packages, drop the
-<code>cmsFerry*</code> tables, and delete <code>umbracoKeyValue</code> rows whose key starts with <code>Ferry.</code> or
-<code>Umbraco.Core.Upgrader.State+Ferry.</code>.</p>
-<h3 id="hosting-requirements">Hosting requirements<a class="headerlink" href="#hosting-requirements" title="Permanent link">&para;</a></h3>
-<p><strong>Database.</strong> Use SQL Server for production receivers. On SQLite with the default <code>Cache=Shared</code>, a burst of writes
-(such as a large apply) can deadlock Umbraco's cache write with its background jobs, and every later request hangs. If
-you must use SQLite, set <code>Cache=Private</code>.</p>
-<p><strong>One warm instance.</strong> Previews (15 minutes, single-use), batched push sessions (4 hours) and receiver approvals live
-in memory and are lost on restart, scale-to-zero or a different instance. Both sites must run one warm instance:</p>
-<ul>
-<li>Azure Container Apps: minimum and maximum replicas 1.</li>
-<li>App Service and other load-balanced hosts: one instance, or session affinity for the source backoffice. The receiver
-  must be a single instance; site-to-site calls carry no affinity cookie.</li>
-</ul>
-<p>Otherwise apply returns <code>410 Gone</code> ("This preview has expired") and changes nothing.</p>
-<h2 id="protocol">Protocol<a class="headerlink" href="#protocol" title="Permanent link">&para;</a></h2>
-<p>Endpoints under <code>/ferry/v1</code> require HTTPS and bearer authentication; responses are not cached.</p>
-<table>
-<thead>
-<tr>
-<th>Endpoint</th>
-<th>Purpose</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>GET /capabilities</code></td>
-<td>Peer protocol, adapter, entity, operation and limit support</td>
-</tr>
-<tr>
-<td><code>GET /manifest</code></td>
-<td>Export the complete supported snapshot</td>
-</tr>
-<tr>
-<td><code>POST /export</code></td>
-<td>Export selected roots, descendants and dependencies</td>
-</tr>
-<tr>
-<td><code>POST /browse</code></td>
-<td>One metadata-only page of Content or Media children (if Browse is registered)</td>
-</tr>
-<tr>
-<td><code>POST /browse/search</code></td>
-<td>One metadata-only name-search page (if BrowseSearch is granted)</td>
-</tr>
-<tr>
-<td><code>POST /preview</code></td>
-<td>Validate a manifest, return a plan</td>
-</tr>
-<tr>
-<td><code>POST /apply</code></td>
-<td>Revalidate the approved fingerprint and apply</td>
-</tr>
-<tr>
-<td><code>GET /assets/{hash}</code></td>
-<td>Stream an asset</td>
-</tr>
-<tr>
-<td><code>PUT /assets/{hash}?length=...</code></td>
-<td>Verify and stage an asset</td>
-</tr>
-<tr>
-<td><code>GET /operations</code></td>
-<td>List recovery operation summaries (if registered)</td>
-</tr>
-<tr>
-<td><code>GET /operations/{id}</code></td>
-<td>Operation outcome</td>
-</tr>
-<tr>
-<td><code>GET /operations/{id}/recovery</code></td>
-<td>Before-state recovery record</td>
-</tr>
-<tr>
-<td><code>POST /publication/preview</code></td>
-<td>Validate destination keys and cultures</td>
-</tr>
-<tr>
-<td><code>POST /publication/apply</code></td>
-<td>Publish only the approved selection</td>
-</tr>
-</tbody>
-</table>
-<p>HTTP 200 does not mean success: check <code>SyncPlan.IsValid</code> and <code>ExecutionResult.Status</code>. Errors: 401 authentication,
-400 malformed, 413 oversized, 422 adapter capability. JSON requests default to 8 MiB; assets have a separate limit.</p>
-<p><code>SyncRemoteClient</code> calls one fixed HTTPS destination. <code>SyncTransferClient.PrepareAsync()</code> negotiates, exports, stages
-assets and previews; <code>ApplyAsync()</code> is separate and rechecks the peer. Redirects are disabled. Configure only trusted
-peers.</p>
-<h2 id="administrator-pull">Administrator pull<a class="headerlink" href="#administrator-pull" title="Permanent link">&para;</a></h2>
-<p>Requires <code>AllowPull: true</code> on the server-side connection. Endpoints under
-<code>/umbraco/management/api/v1/ferry/pull</code>:</p>
-<table>
-<thead>
-<tr>
-<th>Endpoint</th>
-<th>Behaviour</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>POST /preview</code></td>
-<td>Full site or 1–1000 typed roots; returns an owner-bound, expiring approval.</td>
-</tr>
-<tr>
-<td><code>POST /{id}/apply</code></td>
-<td>Consumes the approval, rechecks connection and capabilities, applies the frozen manifest with recovery journal. Never publishes, deletes, schedules or re-exports.</td>
-</tr>
-<tr>
-<td><code>POST /browse</code></td>
-<td><code>Content</code> or <code>Media</code>, optional parent key, page size 1–100. Returns key, name, breadcrumb (last 16 ancestors, <code>…</code> if truncated), child presence, cultures. Never properties, entities, snapshots or bytes.</td>
-</tr>
-<tr>
-<td><code>POST /browse/search</code></td>
-<td>Name term 2–128 characters, no <code>%</code>, <code>_</code> or <code>[</code>; up to 50 per page, offset up to 10,000. Names only.</td>
-</tr>
-</tbody>
-</table>
-<p>Browse and search need source <code>Browse</code> and <code>Export</code> and local <code>Preview</code> and <code>Apply</code>; a source can grant <code>Browse</code>
-alone. <code>BrowseSearch</code> is opt-in (<code>GET /capabilities?extensions=browse-search</code>). Content (not Media) can be scoped by
-culture; see <a href="#transfer-model">transfer model</a>. Delegated Pull is draft-only, for granted groups within permitted
-roots, cultures and Umbraco permissions.</p>
-<h2 id="delegated-editor-push">Delegated editor Push<a class="headerlink" href="#delegated-editor-push" title="Permanent link">&para;</a></h2>
-<p>Administrators can grant a user group a limited Push to one destination:</p>
-<div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">"Ferry"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">"Backoffice"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">"DelegatedEditors"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">        </span><span class="p">{</span>
-<span class="w">          </span><span class="nt">"GroupAlias"</span><span class="p">:</span><span class="w"> </span><span class="s2">"editors"</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">"Direction"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Push"</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">"ConnectionId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Production"</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">"ContentRootKeys"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"11111111-1111-1111-1111-111111111111"</span><span class="p">],</span>
-<span class="w">          </span><span class="nt">"MediaRootKeys"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"22222222-2222-2222-2222-222222222222"</span><span class="p">],</span>
-<span class="w">          </span><span class="nt">"RemoteContentRootKeys"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
-<span class="w">          </span><span class="nt">"RemoteMediaRootKeys"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
-<span class="w">          </span><span class="nt">"AllowedCultures"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"en-US"</span><span class="p">]</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">      </span><span class="p">]</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div>
-<ul>
-<li><code>GroupAlias</code>: the stored group alias, not the display name. <code>ConnectionId</code>: the configured destination key.</li>
-<li><code>ContentRootKeys</code> / <code>MediaRootKeys</code>: roots members may send. <code>AllowedCultures</code>: variant values sent.</li>
-<li>Native <code>Read</code> permission is also required; grant and scope are rechecked at preview and apply. Anything missing,
-  invalid or non-matching denies access.</li>
-</ul>
-<p>Push preview takes legacy <code>contentRoots</code> or <code>roots: [{ kind: "Content" | "Media", key }]</code>: one of them, with 1–1000
-unique keys, or an empty <code>contentRoots</code> for the whole site. Both sites must support every selected kind.</p>
-<h2 id="operational-boundaries">Operational boundaries<a class="headerlink" href="#operational-boundaries" title="Permanent link">&para;</a></h2>
-<ul>
-<li><strong>Credentials.</strong> The legacy bearer credential grants every operation; named peers can be limited and rotated, and
-  reload with configuration (limits need a restart). Treat every receiver credential as an administrative secret.</li>
-<li><strong>Concurrency.</strong> Fingerprints detect changes; they do not lock editors or replace authorization. The receiver
-  serializes requests per process; external edits and multi-node writers need extra coordination.</li>
-<li><strong>Recovery.</strong> Records keep before-state and known outcomes, not an atomic transaction or rollback. An interrupted
-  write can leave partial changes: inspect the destination and preview again before retrying. No outcome record means
-  completion is unknown. Recovery data contains site content; protect it.</li>
-<li><strong>Live impact.</strong> Drafts are not published, but schema, media, hierarchy and sort changes can affect the live site.</li>
-<li><strong>Out of scope:</strong> executable templates/scripts, account replication.</li>
-</ul>
-<p>See <a href="umbraco-package-guide/">integration decisions</a>,
-<a href="supported-scope/">supported scope and recovery limits</a> and
-<a href="third-party-notices/">third-party notices</a>.</p>
-<h2 id="help-and-feedback">Help and feedback<a class="headerlink" href="#help-and-feedback" title="Permanent link">&para;</a></h2>
-<ul>
-<li><strong>Bugs:</strong> <a href="https://github.com/imkeuri/ferry-umbraco/issues/new/choose">open an issue</a> with Ferry and Umbraco
-  versions, database and steps. Remove tokens, connection strings and passwords.</li>
-<li><strong>Questions and ideas:</strong> <a href="https://github.com/imkeuri/ferry-umbraco/discussions">Discussions</a>.</li>
-<li><strong>Package or editor support:</strong> use the <em>Package or editor support</em> issue form, or see
-  <a href="extending/">extending Ferry</a>.</li>
-<li><strong>Security problems:</strong> report <a href="https://github.com/imkeuri/ferry-umbraco/security/advisories/new">privately</a>, never
-  in a public issue.</li>
-</ul>
+</div>
+<div class="fy-step">
+<p><span class="fy-step__n">3</span></p>
+<p><strong>Connect</strong> the sites: on one, <em>Settings › Ferry › Sites › Create pairing code</em>; on the other, <em>Connect a site</em> and paste it. Then pick a page, <em>Actions › Send to…</em>, and review.</p>
+</div>
+</div>
+<p class="fy-center"><a class="md-button md-button--primary" href="overview/">Read the overview</a> <a class="md-button" href="extending/">Extend Ferry</a></p>
+</div>
 
 
 
@@ -1302,8 +919,13 @@ unique keys, or an empty <code>contentRoots</code> for the whole site. Both site
 
 
 
+  
+  
 
 
+
+
+  
 
 
 
@@ -1327,17 +949,19 @@ unique keys, or an empty <code>contentRoots</code> for the whole site. Both site
   
     
       
+        
+      
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
         
           
-          <a href="supported-scope/" class="md-footer__link md-footer__link--next" aria-label="Next: Supported scope">
+          <a href="overview/" class="md-footer__link md-footer__link--next" aria-label="Next: Overview">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Supported scope
+                Overview
               </div>
             </div>
             <div class="md-footer__button md-icon">
@@ -1361,6 +985,27 @@ unique keys, or an empty <code>contentRoots</code> for the whole site. Both site
     Made with
     <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
       Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://github.com/imkeuri/ferry-umbraco" target="_blank" rel="noopener" title="Ferry on GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://www.nuget.org/packages/Ferry.Umbraco" target="_blank" rel="noopener" title="Ferry on NuGet" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M224.3-2.5c19.8-11.4 44.2-11.4 64 0L464.2 99c19.8 11.4 32 32.6 32 55.4v203c0 22.9-12.2 44-32 55.4L288.3 514.5a64.16 64.16 0 0 1-64 0L48.5 413c-19.8-11.4-32-32.6-32-55.4v-203c0-22.9 12.2-44 32-55.4zm207.8 360V191.4l-143.8 83v166.1z"/></svg>
     </a>
   
 </div>
