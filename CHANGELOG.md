@@ -3,6 +3,12 @@
 All notable changes to Ferry. Versions follow [Semantic Versioning](https://semver.org/); while Ferry is pre-1.0,
 minor versions may contain breaking changes.
 
+## 0.7.0-beta.4
+
+### Fixes
+- **Publish after sending** counts only published pages as already up to date: "Sent 1 changed item and published 4
+  pages (3 already up to date) on Target." Before, the unchanged count included every dependency in the review.
+
 ## 0.7.0-beta.3
 
 ### Fixes
