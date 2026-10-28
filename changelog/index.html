@@ -567,6 +567,48 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#070-beta2" class="md-nav__link">
+    <span class="md-ellipsis">
+      0.7.0-beta.2
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.7.0-beta.2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features" class="md-nav__link">
+    <span class="md-ellipsis">
+      Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changed" class="md-nav__link">
+    <span class="md-ellipsis">
+      Changed
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fixes
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#070-beta1" class="md-nav__link">
     <span class="md-ellipsis">
       0.7.0-beta.1
@@ -709,7 +751,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixes" class="md-nav__link">
+  <a href="#fixes_1" class="md-nav__link">
     <span class="md-ellipsis">
       Fixes
     </span>
@@ -751,7 +793,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixes_1" class="md-nav__link">
+  <a href="#fixes_2" class="md-nav__link">
     <span class="md-ellipsis">
       Fixes
     </span>
@@ -793,7 +835,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#features" class="md-nav__link">
+  <a href="#features_1" class="md-nav__link">
     <span class="md-ellipsis">
       Features
     </span>
@@ -903,6 +945,48 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#070-beta2" class="md-nav__link">
+    <span class="md-ellipsis">
+      0.7.0-beta.2
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.7.0-beta.2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features" class="md-nav__link">
+    <span class="md-ellipsis">
+      Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changed" class="md-nav__link">
+    <span class="md-ellipsis">
+      Changed
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fixes
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#070-beta1" class="md-nav__link">
     <span class="md-ellipsis">
       0.7.0-beta.1
@@ -1045,7 +1129,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixes" class="md-nav__link">
+  <a href="#fixes_1" class="md-nav__link">
     <span class="md-ellipsis">
       Fixes
     </span>
@@ -1087,7 +1171,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixes_1" class="md-nav__link">
+  <a href="#fixes_2" class="md-nav__link">
     <span class="md-ellipsis">
       Fixes
     </span>
@@ -1129,7 +1213,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#features" class="md-nav__link">
+  <a href="#features_1" class="md-nav__link">
     <span class="md-ellipsis">
       Features
     </span>
@@ -1179,6 +1263,42 @@
 <h1 id="changelog">Changelog<a class="headerlink" href="#changelog" title="Permanent link">&para;</a></h1>
 <p>All notable changes to Ferry. Versions follow <a href="https://semver.org/">Semantic Versioning</a>; while Ferry is pre-1.0,
 minor versions may contain breaking changes.</p>
+<h2 id="070-beta2">0.7.0-beta.2<a class="headerlink" href="#070-beta2" title="Permanent link">&para;</a></h2>
+<h3 id="features">Features<a class="headerlink" href="#features" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Send or get a whole tree.</strong> Administrators get <em>Send everything to…</em> and <em>Get everything from…</em> on the Content and
+  Media section roots. Each opens the usual transfer panel with every top-level item and its descendants selected;
+  Content brings its dependencies and referenced media, Media sends only the media library. Large sends split into
+  batches as before.</li>
+<li><strong>Publish after sending.</strong> Content sends (single items, the queue and whole-tree sends) offer <em>Publish on <site>
+  after sending</em> to administrators when the destination supports publication. After the send, Ferry reviews and
+  publishes the selected items and their child items (not dependencies) in the sent cultures, and reports "Sent N
+  items and published M on <site>". A publication review with errors is not forced: the drafts stay and the review
+  opens. Not available for background sends. Preview operations now carry their parent key, and
+  <code>GET connections/{id}/publication-support</code> tells administrators whether a destination can publish.</li>
+</ul>
+<h3 id="changed">Changed<a class="headerlink" href="#changed" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Pairing codes work once and can connect both ways.</strong> A pairing code (<code>ferry2.…</code>) is now a one-time invitation that
+  expires after 24 hours, not the access key itself. The site that pastes it redeems it at the new
+  <code>POST /ferry/v1/pairing/claim</code>; the issuing site then creates a new access key and records which site used it. A
+  second use says "This pairing code was already used. Create a new one." With <em>Allow two-way</em>, the other site's admin
+  can grant access back in the same step, and both connections are saved. <code>ferry1.…</code> codes are refused (breaking).</li>
+<li>The Sites tab lists unused pairing codes with their expiry, and access keys with the site that used them; both can
+  be revoked. <em>Create an access key instead</em> still issues a plain key for connecting by address.</li>
+<li><code>POST access-keys</code> no longer returns a pairing code; pairing uses the new <code>pairing-codes</code> and <code>servers/pair</code>
+  management endpoints. Existing access keys and connections keep working.</li>
+</ul>
+<h3 id="fixes">Fixes<a class="headerlink" href="#fixes" title="Permanent link">&para;</a></h3>
+<ul>
+<li>The add-to-queue message says "1 item is queued" instead of "1 items are queued" (English and Spanish).</li>
+<li><strong>Get shows its notes.</strong> The Get (pull) and package-import reviews now list the same notes as Send, such as a page
+  pointing at media that is not in the transfer. Before, a Get silently left such references unresolved.</li>
+<li><strong>Clearer unresolved-reference note.</strong> It now says that an item deleted or in the source's recycle bin must be
+  restored there and sent again, and that saving the page before it arrives removes the link.</li>
+<li><strong>Export failures say why.</strong> When the source cannot export a selection, the destination now shows the source's reason
+  instead of a bare "400 (Bad Request)".</li>
+</ul>
 <h2 id="070-beta1">0.7.0-beta.1<a class="headerlink" href="#070-beta1" title="Permanent link">&para;</a></h2>
 <h3 id="breaking">Breaking<a class="headerlink" href="#breaking" title="Permanent link">&para;</a></h3>
 <ul>
@@ -1278,7 +1398,7 @@ minor versions may contain breaking changes.</p>
 <li><strong><code>Ferry:Full:AdditionalMediaExtensions</code></strong> allows a site's own static media types (for example <code>.pdn</code>). Types a
   browser or the server can run are refused.</li>
 </ul>
-<h3 id="fixes">Fixes<a class="headerlink" href="#fixes" title="Permanent link">&para;</a></h3>
+<h3 id="fixes_1">Fixes<a class="headerlink" href="#fixes_1" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Templates whose <code>Layout</code> is a plain view rather than a template transfer, including over an existing view file.</li>
 <li>Pages that no longer fit their type's root or child rules copy as the source has them when the type comes along.</li>
@@ -1320,7 +1440,7 @@ minor versions may contain breaking changes.</p>
 <li>The Danger zone heading contrast is fixed in the light and dark themes (#31).</li>
 <li><strong>Queue changes survive a reload</strong> (#32): clearing the queue and reloading at once no longer brings items back.</li>
 </ul>
-<h3 id="fixes_1">Fixes<a class="headerlink" href="#fixes_1" title="Permanent link">&para;</a></h3>
+<h3 id="fixes_2">Fixes<a class="headerlink" href="#fixes_2" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>Get fixes</strong> (#29):</li>
 <li>non-root pages kept their templates;</li>
@@ -1362,7 +1482,7 @@ minor versions may contain breaking changes.</p>
 <li>Settings-tab text is translatable through <code>ferry_*</code> keys (#26, #27).</li>
 <li>Connection checks on the Sites tab are cached for five minutes (#26).</li>
 </ul>
-<h3 id="features">Features<a class="headerlink" href="#features" title="Permanent link">&para;</a></h3>
+<h3 id="features_1">Features<a class="headerlink" href="#features_1" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>Editors see their own activity:</strong> <code>GET ferry/operations/mine</code> (#26).</li>
 <li><strong>Code-first schema:</strong> <code>SchemaBuilder</code> with stable, alias-derived keys (#18).</li>

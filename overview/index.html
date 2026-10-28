@@ -996,7 +996,7 @@ dotnet<span class="w"> </span>add<span class="w"> </span>package<span class="w">
 </tr>
 <tr>
 <td><strong>Sites</strong></td>
-<td>Site status, the <em>Connect a site</em> wizard (paste a pairing code), and <em>Sites that can connect to this one</em> (create pairing codes, revoke access).</td>
+<td>Site status, the <em>Connect a site</em> wizard (paste a pairing code), and <em>Sites that can connect to this one</em> (create pairing codes, see which site used each access key, revoke).</td>
 </tr>
 <tr>
 <td><strong>Packages</strong></td>
@@ -1008,9 +1008,22 @@ dotnet<span class="w"> </span>add<span class="w"> </span>package<span class="w">
 </tr>
 </tbody>
 </table>
+<p><strong>Pairing.</strong> On site A, <em>Create pairing code</em>: name the other site, choose what it may do here, and optionally tick
+<em>Allow two-way</em>. On site B, <em>Connect a site</em> and paste the code. A code works once and expires after 24 hours; it is
+not the access key itself, so a copied code is useless once used. When A allowed two-way, B's admin can also choose
+what A may do on B, and both connections are made in the same step. Each site creates the key that protects it, with
+its own admin's choices. Codes from Ferry 0.7 (<code>ferry1.…</code>) are refused; create a new one. Without a code, connect with
+an address and an access key (<em>Create an access key instead</em>).</p>
 <p>Content tree <strong>Actions</strong> offer <em>Send to…</em>, <em>Get from…</em>, <em>Add to queue</em> and (administrators) <em>Publish on another
 site…</em>, each ending in a review ("4 new pages, 1 updated page", schema, move and template callouts, <em>Show details</em>).
-Items always arrive as drafts. The top-bar <strong>Ferry</strong> button opens the queue (send all or download as a package) and
+Administrators also get <em>Send everything to…</em> and <em>Get everything from…</em> on the <strong>Content</strong> and <strong>Media</strong> section
+roots: every top-level item with its descendants (Content brings its dependencies and referenced media as usual; Media
+sends only the media library), through the same review, background option and batches. Items arrive as drafts.
+Administrators sending Content to a site that supports publication can tick <em>Publish on <site> after sending</em>: the
+review button becomes <em>Send and publish</em>, and after the send the selected items (and their child items, never items
+pulled in as dependencies) are published in the sent cultures. If the publication check finds a problem, such as an
+unpublished parent there, the drafts stay and the publication review opens instead. Not available for background
+sends. The top-bar <strong>Ferry</strong> button opens the queue (send all or download as a package) and
 recent activity. The <em>Send with Ferry</em> and <em>Get with Ferry</em> group permissions control access, on top of
 <a href="#delegated-editor-push">delegated-editor grants</a>.</p>
 <h2 id="supported-and-limits">Supported and limits<a class="headerlink" href="#supported-and-limits" title="Permanent link">&para;</a></h2>
@@ -1077,9 +1090,15 @@ example <code>Ferry__Peers__0__Tokens__0</code>). See the <a href="../research/p
 <li>In the sample, endpoints are off by default and <code>Ferry:Mode</code> is <code>DraftText</code> (default) or <code>Full</code>.</li>
 </ul>
 <h3 id="access-keys-from-the-backoffice-only">Access keys from the backoffice only<a class="headerlink" href="#access-keys-from-the-backoffice-only" title="Permanent link">&para;</a></h3>
-<p>Access keys from Settings › Ferry › Sites (<em>Create pairing code</em>) are also receiver credentials. A receiver using only
-those needs no token or placeholder peer: <code>AddFerryTransportFromConfiguration</code> (or <code>AddFerryTransport</code>) accepts an
-empty <code>Ferry</code> section when an <code>ISyncManagedPeerSource</code> is registered. With neither, the host refuses to start.</p>
+<p>Access keys from Settings › Ferry › Sites (made when a pairing code is used, or created directly) are also receiver
+credentials. A receiver using only those needs no token or placeholder peer: <code>AddFerryTransportFromConfiguration</code> (or
+<code>AddFerryTransport</code>) accepts an empty <code>Ferry</code> section when an <code>ISyncManagedPeerSource</code> is registered. With neither,
+the host refuses to start.</p>
+<p>Pairing codes are redeemed at <code>POST /ferry/v1/pairing/claim</code>, mapped by <code>MapFerry()</code>. It is the one route without a
+bearer token (the single-use code is the credential): HTTPS only, 8 KiB bodies, and at most 10 attempts per client
+address and 60 overall per minute on each instance. A gateway in front must let it through like the rest of
+<code>/ferry/v1</code>. For two-way codes, the issuing site calls the other site's <code>/ferry/v1/capabilities</code> before saving the
+connection, so it must be able to reach that address.</p>
 <h3 id="getting-past-host-authentication">Getting past host authentication<a class="headerlink" href="#getting-past-host-authentication" title="Permanent link">&para;</a></h3>
 <p><code>/ferry/v1</code> does its own authentication. Basic auth or an IP/SSO gateway in front will block it. For
 Umbraco basic auth, add the shared-secret header (<code>Umbraco:CMS:BasicAuth:SharedSecret</code>) to requests on that path
@@ -1107,8 +1126,8 @@ forward the scheme:</p>
 </thead>
 <tbody>
 <tr>
-<td>Servers and access keys</td>
-<td><code>cmsFerryServer</code>, <code>cmsFerryAccessKey</code></td>
+<td>Servers, access keys and pairing codes</td>
+<td><code>cmsFerryServer</code>, <code>cmsFerryAccessKey</code>, <code>cmsFerryPairingInvitation</code> (token hashes only)</td>
 <td>Yes.</td>
 </tr>
 <tr>
@@ -1160,7 +1179,8 @@ in memory and are lost on restart, scale-to-zero or a different instance. Both s
 </ul>
 <p>Otherwise apply returns <code>410 Gone</code> ("This preview has expired") and changes nothing.</p>
 <h2 id="protocol">Protocol<a class="headerlink" href="#protocol" title="Permanent link">&para;</a></h2>
-<p>Endpoints under <code>/ferry/v1</code> require HTTPS and bearer authentication; responses are not cached.</p>
+<p>Endpoints under <code>/ferry/v1</code> require HTTPS and bearer authentication, except <code>POST /pairing/claim</code> (see
+<a href="#access-keys-from-the-backoffice-only">Access keys from the backoffice only</a>); responses are not cached.</p>
 <table>
 <thead>
 <tr>

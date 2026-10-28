@@ -969,7 +969,9 @@ Scheduled destination and schema identity conflicts reject before writes.</p>
 <p>No commercial parity is claimed. Ferry is standalone; its Backoffice is at Settings →
 Synchronisation → Ferry. Full transfer saves through Umbraco's native services, so
 other packages' save handlers fire normally. Schema and media changes go to live
-definitions and files; publishing content is separate. Back up the site and database
+definitions and files; publishing content is separate, unless an administrator ticks
+<em>Publish on <site> after sending</em>, which runs the normal publication review and apply after
+the send and stops at the review when it reports errors. Back up the site and database
 before using it on a real site.</p>
 <h2 id="selected-transfers-and-operational-limits">Selected transfers and operational limits<a class="headerlink" href="#selected-transfers-and-operational-limits" title="Permanent link">&para;</a></h2>
 <p><strong>Scoped planning.</strong> Full mode implements <code>IScopedSyncExportStore</code> (a root selection
@@ -1199,6 +1201,11 @@ capability on both; default sites stay on protocol 1 (Full format v5).</p>
 <td>Bulk apply suspensions</td>
 <td>On; <code>Ferry:Full:BulkApply:Suspensions</code> (<code>None</code>, <code>ScheduledPublishing</code>, <code>Examine</code>, <code>DocumentCache</code>, <code>All</code>), <code>MinimumOperations</code> (50)</td>
 <td>Large batches pause scheduled publishing, Examine and document cache via <code>Suspendable</code>, resuming on every exit. Resuming Examine rebuilds all indexes, hence the threshold. Overlaps are reference-counted; failed resumes are logged. Process-local.</td>
+</tr>
+<tr>
+<td>Send or get everything</td>
+<td>Administrators; <em>Send everything to…</em> / <em>Get everything from…</em> on the Content and Media section roots</td>
+<td>Selects every top-level item of that tree (up to 1000) with descendants, never the whole site. Send reads this site's tree; Get asks the source for its top-level items at review. Oversized sends split into batches as usual; Get is one review (use <em>Get in the background</em> for large trees). An empty tree shows <em>Nothing to send</em>.</td>
 </tr>
 <tr>
 <td>Transfer queue</td>
