@@ -13,7 +13,7 @@ Ferry keeps schema in your code and moves content between sites, such as develop
   lists what to deploy first.
 - **Reviewed transfers.** Send and Get (Push and Pull in the API) list every create, update and move and need an
   owner-bound approval before applying. Schema, media, references and blocks travel with the content.
-- **Deployment workflow.** Per-user queue, offline `.csync.zip` packages, import at startup, snapshots and restore
+- **Deployment workflow.** Per-user queue, offline `.ferry.zip` packages, import at startup, snapshots and restore
   points, user-group permissions for delegated editors.
 - **Extensible.** Custom property editors and package data (Skybrud redirects, Umbraco Forms, your own package) can
   join transfers. See [extending Ferry](docs/extending.md).
@@ -25,8 +25,7 @@ Ferry keeps schema in your code and moves content between sites, such as develop
 > **Free to use, closed source.** Free for any site, including commercial work, under the
 > [Ferry Freeware License](LICENSE).
 
-**Status: experimental, pre-1.0.** Tested on Umbraco **17.6.2** and .NET 10. See [supported scope](docs/supported-scope.md)
-and the [validation record](docs/validation-record.md).
+**Status: experimental, pre-1.0.** Tested on Umbraco **17.6.2** and .NET 10. See [supported scope](docs/supported-scope.md).
 
 ## Quick start
 
@@ -54,7 +53,7 @@ Ferry.Backoffice adds a **Ferry** workspace under **Settings › Synchronisation
 | --- | --- |
 | **Overview** | Connected sites, *Send to another site*, *Get from another site* (whole site or chosen pages), recent activity. *Connect your first site* when none is connected. |
 | **Sites** | Site status, the *Connect a site* wizard (paste a pairing code), and *Sites that can connect to this one* (create pairing codes, revoke access). |
-| **Packages** | Export a `.csync.zip` (chosen pages and media, or whole site), import one by dropping it on the page, create or restore snapshots. |
+| **Packages** | Export a `.ferry.zip` (chosen pages and media, or whole site), import one by dropping it on the page, create or restore snapshots. |
 | **Advanced** | *Publish on another site*; danger zone with *Move to recycle bin on another site* and *Seed another site*. |
 
 Content tree **Actions** offer *Send to…*, *Get from…*, *Add to queue* and (administrators) *Publish on another
@@ -63,40 +62,20 @@ Items always arrive as drafts. The top-bar **Ferry** button opens the queue (sen
 recent activity. The *Send with Ferry* and *Get with Ferry* group permissions control access, on top of
 [delegated-editor grants](#delegated-editor-push).
 
-## Upgrading from CommunitySync
+## Supported and limits
 
-Ferry was released as **CommunitySync**. Upgrading is a rename; site data is kept.
-
-- **Packages:** `CommunitySync.*` becomes `Ferry.*` (`Ferry.Core`, `Ferry.Transport`, `Ferry.Umbraco`,
-  `Ferry.Backoffice`).
-- **Code:** replace `CommunitySync` with `Ferry` in namespaces and names, for example `AddCommunitySyncUmbracoFull()`
-  becomes `AddFerryUmbracoFull()`, `CommunitySyncFullOptions` becomes `FerryFullOptions`.
-- **Configuration:** rename the `CommunitySync` section to `Ferry` when convenient. Without a `Ferry` section, the
-  site keeps reading `CommunitySync`; it never uses both.
-- **Unchanged:** database tables (`cmsCommunitySync*`), migration state, protected connection secrets, permission
-  verbs `CommunitySync.Push` / `CommunitySync.Pull`, the wire protocol (`/community-sync/v1`, formats, headers, so
-  Ferry and CommunitySync sites interoperate) and the `.csync.zip` format.
-
-## Evidence summary
-
-668 .NET tests plus real two-site E2E suites per module, listed per capability in the
-[supported scope](docs/supported-scope.md). Earlier checkpoints (Full v5: 433/433 tests, exact-NuGet install and
-two-site runs on SQLite and SQL Server; Backoffice browser suites 19/19) are local evidence in ignored `artifacts/`,
-not remote CI; the [validation record](docs/validation-record.md) has paths and commands.
-
-**Verified:** invariant Content, Content variants and segments, selected MediaPicker3 references, segment-varying
+**Supported:** invariant Content, Content variants and segments, selected MediaPicker3 references, segment-varying
 scalar Media values, Content `UploadField` assets (draft with hash and byte checks; published as immutable
-publish-time snapshots, failing closed when the snapshot is missing, corrupt or mismatched).
+publish-time snapshots, failing closed when the snapshot is missing, corrupt or mismatched). Each capability and its
+limits are listed in the [supported scope](docs/supported-scope.md).
 
 **Limits:**
 
-- Pending: arbitrary `UploadField`/editor configurations, multi-node hosting, hosted CI, cross-browser, accessibility
-  and production-topology testing.
+- Not yet covered: arbitrary `UploadField`/editor configurations, multi-node hosting, cross-browser, accessibility
+  and production topologies.
 - Unsupported: unknown/custom editors, user/member references. Not every Umbraco editor is supported.
 - Templates must already exist at the destination; schema changes needing storage migration are blocked.
 - Jobs and approvals are process-local; multi-node needs affinity and external coordination.
-
-See the [acceptance checklist](docs/acceptance-checklist.md) for exact boundaries.
 
 ## Transfer model
 
@@ -164,7 +143,7 @@ empty `Ferry` section when an `ISyncManagedPeerSource` is registered. With neith
 
 ### Getting past host authentication
 
-`/community-sync/v1` does its own authentication. Basic auth or an IP/SSO gateway in front will block it. For
+`/ferry/v1` does its own authentication. Basic auth or an IP/SSO gateway in front will block it. For
 Umbraco basic auth, add the shared-secret header (`Umbraco:CMS:BasicAuth:SharedSecret`) to requests on that path
 before `UseUmbraco()`; otherwise exclude the path in the gateway.
 
@@ -188,18 +167,18 @@ app.UseForwardedHeaders();
 
 | State | Storage | Survives redeploy / new replica? |
 | --- | --- | --- |
-| Servers and access keys | `cmsCommunitySyncServer`, `cmsCommunitySyncAccessKey` | Yes. A 0.1.1-or-earlier `connections.json` is imported once. |
+| Servers and access keys | `cmsFerryServer`, `cmsFerryAccessKey` | Yes. |
 | Secrets in those rows | ASP.NET Data Protection | Only with a persisted, shared key ring (e.g. `PersistKeysToAzureBlobStorage`); otherwise keys stop working after a redeploy and a warning is logged. |
 | Peer cache | Memory, 30 seconds | Revoked keys stop working on other instances within 30 seconds. |
-| Operation history, submissions, snapshots, restore points | `cmsCommunitySyncOperation`, `cmsCommunitySyncSubmission`, `cmsCommunitySyncSnapshot` | Yes. 0.1.1-or-earlier `App_Data/CommunitySync` folders are imported once. |
+| Operation history, submissions, snapshots, restore points | `cmsFerryOperation`, `cmsFerrySubmission`, `cmsFerrySnapshot` | Yes. |
 | Previews and batch sessions | Memory | No. See [Hosting requirements](#hosting-requirements). |
 | Receiver approvals (push, publication, tree trash) | Memory, per process | No. See [Hosting requirements](#hosting-requirements). |
 | Staged assets, recovery records | Directories given to `AddFerryFileAssets` / `AddFerryFileRecovery` | Only on persistent storage. |
 
-`cmsCommunitySync*` tables are created whenever the packages are installed, even with `Ferry:Enabled` or
+`cmsFerry*` tables are created whenever the packages are installed, even with `Ferry:Enabled` or
 `Ferry:Backoffice:Enabled` `false`. To remove Ferry: uninstall the packages, drop the
-`cmsCommunitySync*` tables, and delete `umbracoKeyValue` rows whose key starts with `CommunitySync.` or
-`Umbraco.Core.Upgrader.State+CommunitySync.`.
+`cmsFerry*` tables, and delete `umbracoKeyValue` rows whose key starts with `Ferry.` or
+`Umbraco.Core.Upgrader.State+Ferry.`.
 
 ### Hosting requirements
 
@@ -218,7 +197,7 @@ Otherwise apply returns `410 Gone` ("This preview has expired") and changes noth
 
 ## Protocol
 
-Endpoints under `/community-sync/v1` require HTTPS and bearer authentication; responses are not cached.
+Endpoints under `/ferry/v1` require HTTPS and bearer authentication; responses are not cached.
 
 | Endpoint | Purpose |
 | --- | --- |
@@ -247,7 +226,7 @@ peers.
 ## Administrator pull
 
 Requires `AllowPull: true` on the server-side connection. Endpoints under
-`/umbraco/management/api/v1/community-sync/pull`:
+`/umbraco/management/api/v1/ferry/pull`:
 
 | Endpoint | Behaviour |
 | --- | --- |

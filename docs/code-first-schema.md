@@ -33,8 +33,7 @@ public sealed class AddLanding(IMigrationContext context, SchemaBuilder schema) 
 ```
 
 From 0.6 Ferry can [generate these migrations](#generated-migrations) from backoffice changes. Hand-written ones go
-in your own plan, run at startup like any Umbraco migration (example: `SampleSchemaMigrationComponent` in
-`tests/e2e/FixtureSupport/FixtureSupport.cs`):
+in your own plan, run at startup like any Umbraco migration:
 
 ```csharp
 var plan = new MigrationPlan("MySite.Schema")
@@ -95,7 +94,7 @@ await new Upgrader(plan).ExecuteAsync(migrationPlanExecutor, coreScopeProvider, 
 1. As an administrator, choose **Settings › Ferry › Advanced › Download schema as code**, or call:
 
    ```
-   GET /umbraco/management/api/v1/community-sync/schema/code?namespace=MySite.Schema&className=AdoptSchema
+   GET /umbraco/management/api/v1/ferry/schema/code?namespace=MySite.Schema&className=AdoptSchema
    ```
 
    This returns a zip of partial-class files: `AdoptSchema.cs` (the migration) plus `AdoptSchema.DataTypes.cs`,
@@ -111,9 +110,6 @@ are not included (Ferry transfers them only with people).
 
 Schema `SchemaBuilder` cannot state (e.g. a group containing groups outside a tab) is refused:
 [Create migration](#create-migration) returns 409 with the reason and writes nothing.
-
-Validated on a real site (165 document types, 463 data types, 28 templates, 9 media types): a fresh content-only
-install ran it and pulled 6,117 items with all schema unchanged; a rerun changed nothing.
 
 ## Removing, renaming and moving
 
@@ -196,11 +192,11 @@ As an administrator, enter a name such as `AddLandingPage` on **Settings › Fer
 migration** (class name: capital first letter, letters and digits only), or:
 
 ```
-POST /umbraco/management/api/v1/community-sync/schema/migrations
+POST /umbraco/management/api/v1/ferry/schema/migrations
 { "name": "AddLandingPage" }
 ```
 
-`GET …/community-sync/schema/migrations/status` returns history, draft and drift.
+`GET …/ferry/schema/migrations/status` returns history, draft and drift.
 
 - Writes `{Folder}/{yyyyMMddHHmm}_{Name}.cs`, adds it to the plan, deletes the draft, and marks it applied on your
   database.
@@ -263,7 +259,7 @@ unless the result matches exactly. Resolve by either:
   `keys` accepts everything. It returns the new status.
 
   ```
-  POST /umbraco/management/api/v1/community-sync/schema/migrations/accept
+  POST /umbraco/management/api/v1/ferry/schema/migrations/accept
   { "keys": ["<item key>", "..."] }
   ```
 
@@ -288,7 +284,3 @@ Ferry never reads or rewrites another plan's state.
   license key, so reference 3.2.0 if licensed, or record the advisory as accepted.
 - Environments on different migrations have different schema; content-only transfers between them are rejected with
   the items to deploy first.
-- E2E suites (`python3 scripts/e2e/run.py --mode Full --suite <name>`): `schema-migrations` runs the sample migration
-  on two sites and checks generated code; `schema-files` generates migrations, ships a release to a second site, and
-  checks content-only transfers, restarts, a folder move, moving a property with values, drift, Accept current schema
-  and a failing removal.

@@ -1,14 +1,9 @@
-# Supported scope and validation
+# Supported scope
 
 Tested baseline: Umbraco 17.6.2 on .NET 10; the package name does not imply support
-for another major. The experimental Full v5 checkpoint has 433/433 .NET tests, a fresh
-exact-NuGet fixture-consumer install (isolated Docker SDK), a packaged Full
-transfer/publication run (22/22) and an exact-NuGet two-site culture-Media Push/Pull
-run (2/2) on SQLite and SQL Server targets. Commands and artifacts are in the
-[validation record](validation-record.md); they are local artifacts, not CI evidence
-(CI is pending). Real-site evidence is from earlier packages unless stated.
+for another major.
 
-Covered by real two-site tests: invariant draft text, hierarchy and stable
+Supported between two sites: invariant draft text, hierarchy and stable
 identities; draft changes to live content; missing document/data types and
 compositions; language creation and en-US/fr-FR values; rich-text local links and
 embedded images (with native legacy-link normalization); reciprocal content pickers;
@@ -18,26 +13,26 @@ named-segment values; existing template assignments (template files and hierarch
 are not transferred); explicit culture publication and mandatory-language protection.
 Scheduled destination and schema identity conflicts reject before writes.
 
-| Capability | Evidence and limits |
+| Capability | Limits |
 | --- | --- |
-| Image media, new media types, scalar metadata, MediaPicker3 references | Full/Full real-site (`run-d95a28499b02`); picker identities map to destination Media keys |
-| Segment-varying scalar Media | Full/Full real-site (`run-19664d3bb671`): TextBox, invariant values, case-varied segment identities, unchanged replay |
-| Culture-varying Media names, captions, files | Push/Pull 2/2 and SQL Server-target restart 2/2: distinct en-US/fr-FR captions and bytes, names kept in Ferry's durable store, repeat `Unchanged`. Umbraco 17.6.2 returns native culture names as `null` on a fresh read, so the Backoffice does not show them. |
-| Content UploadField | Source-version 6/6, SQL Server source 4/4, target 2/2; see [exclusions](#explicit-exclusions-and-fail-closed-behavior) |
-| Block Grid, Multinode Treepicker, Multi URL Picker | `editors` 3/3: documents in Block Grid blocks (with element and data types), MNTP documents/media, Multi URL Picker document/media links. Values identical; media link `url` is the destination path; external links kept; repeat `Unchanged`. Not covered: Block Grid areas, nested grids, Single Block. |
-| Full-site Dictionary Items | NuGet E2E 1/1. Keeps GUID identity, hierarchy, translations, language dependencies. No moves or deletion; deleting a destination translation rejects. Opt-in `dictionary-item` capability (older peers reject). Audit identity `Umbraco SuperUserKey`. |
-| Scoped destination preview/apply, recovery before-state | Package E2E 1/1 |
-| Tree moves / tree trash | Push/Pull 3/3 and Chromium 16/16 / package E2E 3/3; see [below](#selected-transfers-and-operational-limits) |
-| Published source version; culture-scoped transfer | Source-version 6/6; transfer/publication 22/22, admin Pull 4/4, Content modal Chromium 12/12 |
-| Administrator preview/apply and approval ownership | Management API tests |
-| Peer capabilities, Full/Draft format rejection | Two real-site scenarios |
-| Named receiver peers, reload fail-closed, approval envelopes | Transport tests, 4 real-site scenarios |
-| Administrator draft pull | Three NuGet consumer scenarios |
+| Image media, new media types, scalar metadata, MediaPicker3 references | Full mode; picker identities map to destination Media keys |
+| Segment-varying scalar Media | Full mode: TextBox, invariant values, case-varied segment identities, unchanged replay |
+| Culture-varying Media names, captions, files | Distinct en-US/fr-FR captions and bytes, names kept in Ferry's durable store, repeat `Unchanged`. Umbraco 17.6.2 returns native culture names as `null` on a fresh read, so the Backoffice does not show them. |
+| Content UploadField | See [exclusions](#explicit-exclusions-and-fail-closed-behavior) |
+| Block Grid, Multinode Treepicker, Multi URL Picker | Documents in Block Grid blocks (with element and data types), MNTP documents/media, Multi URL Picker document/media links. Values identical; media link `url` is the destination path; external links kept; repeat `Unchanged`. Not covered: Block Grid areas, nested grids, Single Block. |
+| Full-site Dictionary Items | Keeps GUID identity, hierarchy, translations, language dependencies. No moves or deletion; deleting a destination translation rejects. Opt-in `dictionary-item` capability (older peers reject). Audit identity `Umbraco SuperUserKey`. |
+| Scoped destination preview/apply, recovery before-state | — |
+| Tree moves / tree trash | See [below](#selected-transfers-and-operational-limits) |
+| Published source version; culture-scoped transfer | See [below](#selected-transfers-and-operational-limits) |
+| Administrator preview/apply and approval ownership | — |
+| Peer capabilities, Full/Draft format rejection | — |
+| Named receiver peers, reload fail-closed, approval envelopes | See [named receiver policies](#named-receiver-policies) |
+| Administrator draft pull | See [administrator pull](#administrator-pull) |
 | Update field comparison | Bounded Content/Media differences in admin previews; only known scalar editors show values; receiver preview needs a current Export grant for target values |
 | Typed Media push | Destination kind preflight before export |
-| Settings dashboard, transfer, publication, history | Backoffice suites 19/19 (Playwright, two disposable sites); predate the current commit. Layout, accessibility, cross-browser and production topology untested. |
-| Delegated editor Push | One connection; exact group alias; local roots; allowed cultures; native Read; `CommunitySync.Push` ([permissions](#user-group-permissions-for-delegated-editors)). No verb: 403. |
-| Delegated editor Pull | Explicit grant, existing local root, permitted remote root/culture, native permission, `CommunitySync.Pull` on updated items and create parents. Draft-only; no full-site or schema changes. |
+| Settings dashboard, transfer, publication, history | Layout, accessibility, cross-browser and production topology untested. |
+| Delegated editor Push | One connection; exact group alias; local roots; allowed cultures; native Read; `Ferry.Push` ([permissions](#user-group-permissions-for-delegated-editors)). No verb: 403. |
+| Delegated editor Pull | Explicit grant, existing local root, permitted remote root/culture, native permission, `Ferry.Pull` on updated items and create parents. Draft-only; no full-site or schema changes. |
 
 No commercial parity is claimed. Ferry is standalone; its Backoffice is at Settings →
 Synchronisation → Ferry. Full transfer saves through Umbraco's native services, so
@@ -155,8 +150,8 @@ run one receiver instance. They are not a replay ledger. See the
 
 ## User-group permissions for delegated editors
 
-Two verbs, **Send with Ferry** (`CommunitySync.Push`) and **Receive with Ferry**
-(`CommunitySync.Pull`), are assigned in Users per document or as a group default
+Two verbs, **Send with Ferry** (`Ferry.Push`) and **Receive with Ferry**
+(`Ferry.Pull`), are assigned in Users per document or as a group default
 (media always uses the default). Delegated editors need the verb plus their grant and
 native permissions; administrators are exempt. `Ferry:Backoffice:RequireGranularPermissions`
 (default `true`) disables the check. The first start after upgrading gives each
@@ -195,9 +190,9 @@ Untested values reject before writes:
   corrupt, preexisting or mismatched snapshots fail closed. New `SaveAndPublish`
   content is captured before the version exists and bound afterwards; an en-US-only
   republish carries the fr-FR snapshot forward. SQL Server stores them in
-  `cmsCommunitySyncPublishedContentAsset`. Draft-source uses hash-addressed
+  `cmsFerryPublishedContentAsset`. Draft-source uses hash-addressed
   descriptors with byte checks. Untested: other culture-varying UploadField setups,
-  other file editors, multi-node hosting, hosted CI, production topology.
+  other file editors, multi-node hosting, production topology.
 - **Relational Media editors** other than MediaPicker3.
 - **Custom editors** without a registered contract ([below](#custom-property-editors)).
 - **User and Member references** and arbitrary relation types.
@@ -209,27 +204,26 @@ Untested values reject before writes:
 ## Optional modules
 
 Off unless stated. Any transfer opt-in moves a site to protocol/schema 2
-(`communitysync.full.v6`), which negotiates only with v6 peers and needs the
-capability on both; default sites stay on protocol 1 (`communitysync.full.v5`).
-Evidence: two-site runs (2026-09-27), 494 .NET tests and client tests.
+(Full format v6), which negotiates only with v6 peers and needs the
+capability on both; default sites stay on protocol 1 (Full format v5).
 
-| Module | Enable | Contract and limits | E2E |
-| --- | --- | --- | --- |
-| Executable templates | `Ferry:Full:AllowTemplateTransfer`, both peers | Create-only Razor as SHA-256 assets (1 MiB each; 16 MiB/200 per manifest). Aliases `[A-Za-z0-9_]`; `_ViewStart`/`_ViewImports` blocked; alias/key, duplicate and existing `Views/*.cshtml` collisions reject (fails closed without a content root). Parents first; a stored alias or `Layout` parent differing from the approval is removed. Shows an executable-code warning. No updates, renames, deletions; rendering unproven. | `templates` 4/4 |
-| People | `Ferry:Full:AllowPeopleTransfer`, both peers | Full-site. User groups (sections, fallback and document permissions, languages, start nodes), users (groups, start nodes, language), member groups/types, members (identity, approval on create, groups, invariant text/textarea/email/integer/decimal/true-false/date values). Never administrators, their group, the super-user or API users. **No passwords, security stamps, lockout, login state or tokens**; reset passwords. Collisions on name/alias/user name/email reject; other editors and permission types fail closed; max 10,000 members. | `people` 5/5 |
-| Domains | `Ferry:Full:AllowDomainTransfer`, both peers | Default culture and ordered hostnames travel with the node. Taken or duplicated hostnames, wildcard/unsafe names and non-BCP-47 cultures reject. Apply replaces the node's set; no domains never clears. | `domains` 3/3 |
-| Offline packages | Administrators | `.csync.zip`: header (capabilities, manifest) plus `assets/<sha256>` blobs. Rejects unexpected names, traversal, duplicates, undeclared/missing blobs, entries over `MaximumPackageBytes` (256 MiB), unsupported versions, hash mismatches (even cached). Pull planner, one-time approval, journal; never publishes. No commercial format compatibility. | `packages` 3/3 |
-| Startup import | `Ferry:Backoffice:ImportOnStartup:Enabled`, `Files` (default `umbraco/Ferry/import-on-startup.csync.zip`, relative to the content root) | Validated like an upload, applied under one gate hold with journal, restore point and history (actor `startup`) before the site reports started. Errors block apply; never publishes. File renamed `.imported`/`.failed` with a `.result.json`, so it never runs twice; other instances plan it unchanged. | `startup-import` 1/1 |
-| Snapshots and restore points | Administrators; `CreateRestorePoints` on by default | Snapshots (full site or roots) in `cmsCommunitySyncSnapshot`, shared by instances; compare or restore. Restore points capture every touched entity before each local apply (import, restore, Pull, received Push, durable); capture failure aborts (409). Restores write drafts; they do **not** delete newer entities, restore published versions, files, secrets or infrastructure. `MaximumSnapshots` (50) evicts oldest restore points, never manual snapshots. | `snapshots` 4/4 |
-| Relations | `Ferry:Full:AllowRelationTransfer`, both peers | Full-site. Custom Document/Media relation types and relations; never system types. Identity is (type, parent, child); added or comment-updated, never deleted. Alias/object-type collisions reject. | `relations` 2/2 |
-| Document blueprints | `Ferry:Full:AllowBlueprintTransfer`, both peers | Full-site, full content pipeline; folders not transferred (blueprints land at root). | `blueprints` 2/2 |
-| Bulk apply suspensions | On; `Ferry:Full:BulkApply:Suspensions` (`None`, `ScheduledPublishing`, `Examine`, `DocumentCache`, `All`), `MinimumOperations` (50) | Large batches pause scheduled publishing, Examine and document cache via `Suspendable`, resuming on every exit. Resuming Examine rebuilds all indexes, hence the threshold. Overlaps are reference-counted; failed resumes are logged. Process-local. | Unit tests; `packages` 3/3 |
-| Transfer queue | Users with Ferry access; `GET`/`PUT community-sync/queue` | Up to 1000 roots per user in `cmsCommunitySyncQueue` (plan `CommunitySync.TransferQueue`), across browsers; cleared after transfer. Older browser queues upload once; servers without the endpoint keep browser-only queues. Trees show "Queued for transfer" (`CommunitySync.QueuedForTransfer`). Grants nothing. | `queue` 1/1 |
-| Content-only sites | `Ferry:Full:ContentOnly`, receiver | Rejects any transfer or import that would create, update or move document/media/member types, data types, languages, templates, media-type variations or relation types, listing up to 20 (kind, alias, key). Unchanged schema is fine. Items breaking root/child rules are placed as at the source when its type is in the transfer. Checked at review and apply. Dictionary and members unaffected. | `content-only` 2/2 |
-| Code-first schema (`SchemaBuilder`) | Your migrations; see [code-first schema](code-first-schema.md) | `Ensure…` creates or converges data types, templates, languages, media and document types; never removes, refuses destructive changes. Keys are RFC 4122 v5 UUIDs from aliases. `Remove…Async` (refused with stored values unless `allowDataLoss: true`), `Rename…Async`, `MovePropertyAsync`. `GET …/community-sync/schema/code` exports a key-preserving migration. | `schema-migrations` 6/6 |
-| Generated migrations | `Ferry:Schema:Migrations:Enabled`; `WriteDrafts`, `ProjectPath` on dev; see [generated migrations](code-first-schema.md#generated-migrations) | **Create migration** writes a timestamped migration and plan file (first adopts the schema). Pending ones run at startup in order; a failure rolls back with its views, blocks later ones and shows on the Advanced tab and a health check. Drift listed until resolved or **Accept current schema**. No member types. Verified on an upgraded site (330 items Unchanged, 2,512 applied). | `schema-files` 5/5 |
-| Package data | `Ferry:Full:AllowPackageItemTransfer` and a provider on both peers (`AddFerrySkybrudRedirects()`, `AddFerryUmbracoForms()`, `AddFerryPackageProvider<T>()`) | Keyed `PackageItem` entities. Full-site carries all; selected carries items whose pages/media are all selected; items pointing at missing/binned content are skipped and logged. Never deleted. Missing providers refuse before writes. Skybrud: site paths or http(s) only. Forms: definitions and workflows only; forms missing a prevalue/data source at the destination are refused. See [extending Ferry](extending.md). | `package-items` 4/4 |
-| Site seed | Administrators | `seed/preflight` reports compatibility, emptiness (with Browse) and shared features; the seed is a full-site Push review, so reruns apply remaining differences. | `seed` 3/3 |
+| Module | Enable | Contract and limits |
+| --- | --- | --- |
+| Executable templates | `Ferry:Full:AllowTemplateTransfer`, both peers | Create-only Razor as SHA-256 assets (1 MiB each; 16 MiB/200 per manifest). Aliases `[A-Za-z0-9_]`; `_ViewStart`/`_ViewImports` blocked; alias/key, duplicate and existing `Views/*.cshtml` collisions reject (fails closed without a content root). Parents first; a stored alias or `Layout` parent differing from the approval is removed. Shows an executable-code warning. No updates, renames, deletions; rendering unproven. |
+| People | `Ferry:Full:AllowPeopleTransfer`, both peers | Full-site. User groups (sections, fallback and document permissions, languages, start nodes), users (groups, start nodes, language), member groups/types, members (identity, approval on create, groups, invariant text/textarea/email/integer/decimal/true-false/date values). Never administrators, their group, the super-user or API users. **No passwords, security stamps, lockout, login state or tokens**; reset passwords. Collisions on name/alias/user name/email reject; other editors and permission types fail closed; max 10,000 members. |
+| Domains | `Ferry:Full:AllowDomainTransfer`, both peers | Default culture and ordered hostnames travel with the node. Taken or duplicated hostnames, wildcard/unsafe names and non-BCP-47 cultures reject. Apply replaces the node's set; no domains never clears. |
+| Offline packages | Administrators | `.ferry.zip`: header (capabilities, manifest) plus `assets/<sha256>` blobs. Rejects unexpected names, traversal, duplicates, undeclared/missing blobs, entries over `MaximumPackageBytes` (256 MiB), unsupported versions, hash mismatches (even cached). Pull planner, one-time approval, journal; never publishes. No commercial format compatibility. |
+| Startup import | `Ferry:Backoffice:ImportOnStartup:Enabled`, `Files` (default `umbraco/Ferry/import-on-startup.ferry.zip`, relative to the content root) | Validated like an upload, applied under one gate hold with journal, restore point and history (actor `startup`) before the site reports started. Errors block apply; never publishes. File renamed `.imported`/`.failed` with a `.result.json`, so it never runs twice; other instances plan it unchanged. |
+| Snapshots and restore points | Administrators; `CreateRestorePoints` on by default | Snapshots (full site or roots) in `cmsFerrySnapshot`, shared by instances; compare or restore. Restore points capture every touched entity before each local apply (import, restore, Pull, received Push, durable); capture failure aborts (409). Restores write drafts; they do **not** delete newer entities, restore published versions, files, secrets or infrastructure. `MaximumSnapshots` (50) evicts oldest restore points, never manual snapshots. |
+| Relations | `Ferry:Full:AllowRelationTransfer`, both peers | Full-site. Custom Document/Media relation types and relations; never system types. Identity is (type, parent, child); added or comment-updated, never deleted. Alias/object-type collisions reject. |
+| Document blueprints | `Ferry:Full:AllowBlueprintTransfer`, both peers | Full-site, full content pipeline; folders not transferred (blueprints land at root). |
+| Bulk apply suspensions | On; `Ferry:Full:BulkApply:Suspensions` (`None`, `ScheduledPublishing`, `Examine`, `DocumentCache`, `All`), `MinimumOperations` (50) | Large batches pause scheduled publishing, Examine and document cache via `Suspendable`, resuming on every exit. Resuming Examine rebuilds all indexes, hence the threshold. Overlaps are reference-counted; failed resumes are logged. Process-local. |
+| Transfer queue | Users with Ferry access; `GET`/`PUT ferry/queue` | Up to 1000 roots per user in `cmsFerryQueue`, across browsers; cleared after transfer. Older browser queues upload once; servers without the endpoint keep browser-only queues. Trees show "Queued for transfer". Grants nothing. |
+| Content-only sites | `Ferry:Full:ContentOnly`, receiver | Rejects any transfer or import that would create, update or move document/media/member types, data types, languages, templates, media-type variations or relation types, listing up to 20 (kind, alias, key). Unchanged schema is fine. Items breaking root/child rules are placed as at the source when its type is in the transfer. Checked at review and apply. Dictionary and members unaffected. |
+| Code-first schema (`SchemaBuilder`) | Your migrations; see [code-first schema](code-first-schema.md) | `Ensure…` creates or converges data types, templates, languages, media and document types; never removes, refuses destructive changes. Keys are RFC 4122 v5 UUIDs from aliases. `Remove…Async` (refused with stored values unless `allowDataLoss: true`), `Rename…Async`, `MovePropertyAsync`. `GET …/ferry/schema/code` exports a key-preserving migration. |
+| Generated migrations | `Ferry:Schema:Migrations:Enabled`; `WriteDrafts`, `ProjectPath` on dev; see [generated migrations](code-first-schema.md#generated-migrations) | **Create migration** writes a timestamped migration and plan file (first adopts the schema). Pending ones run at startup in order; a failure rolls back with its views, blocks later ones and shows on the Advanced tab and a health check. Drift listed until resolved or **Accept current schema**. No member types. |
+| Package data | `Ferry:Full:AllowPackageItemTransfer` and a provider on both peers (`AddFerrySkybrudRedirects()`, `AddFerryUmbracoForms()`, `AddFerryPackageProvider<T>()`) | Keyed `PackageItem` entities. Full-site carries all; selected carries items whose pages/media are all selected; items pointing at missing/binned content are skipped and logged. Never deleted. Missing providers refuse before writes. Skybrud: site paths or http(s) only. Forms: definitions and workflows only; forms missing a prevalue/data source at the destination are refused. See [extending Ferry](extending.md). |
+| Site seed | Administrators | `seed/preflight` reports compatibility, emptiness (with Browse) and shared features; the seed is a full-site Push review, so reruns apply remaining differences. |
 
 ## Schema storage and migrations
 
@@ -278,7 +272,7 @@ backups are the host's job.
 
 One operation gate covers inbound sync, export and planning, Pull/package/snapshot
 apply and durable jobs. With the backoffice package it also holds a cluster lease
-(`cmsCommunitySyncLease` row) so instances sharing a database run one operation at a
+(`cmsFerryLease` row) so instances sharing a database run one operation at a
 time: claimed by conditional update and renewed every 30 seconds; waits until free (a
 canceled request gives up); lost two minutes after an instance stops; expiry uses UTC
 clocks, so keep them synchronized. Receiver-only hosts use a process-local gate.

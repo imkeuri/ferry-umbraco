@@ -35,14 +35,11 @@ the build targets 17.6.2. This is not a compatibility claim for all 17.x version
 
 - Constrained adapter: invariant text properties on existing matching document/data types.
 - Full adapter: staged schema and language transfer, variant draft content, mapper-based references and media.
-- Only real-site fixture results and explicit editor coverage count as verified. Template code, arbitrary custom
-  editors and unsupported tree operations must never be dropped silently. Check the verification record before
-  deploying.
+- Template code, arbitrary custom editors and unsupported tree operations must never be dropped silently.
 
 Preview and apply run a whole-manifest preflight before writing, repeated at write boundaries. Backoffice export holds
 the operation gate for snapshot and asset staging, then releases it before remote requests. This is process-local,
 not a distributed transaction: external editors or another node can still race an operation. Database integration and
 locking must be established before a production release.
 
-See the example website for an acceptance fixture and verification for
-the tests run.
+See the example website for a two-site sample.

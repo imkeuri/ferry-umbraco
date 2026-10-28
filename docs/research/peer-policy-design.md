@@ -60,10 +60,3 @@ builder.Services.AddFerryTransportFromConfiguration(
 | No replay ledger | Envelopes are not single-use; the backoffice prepared-transfer store stays single-use. |
 | Revision in the hash | Token rotation keeps envelopes valid; reusing an old revision can revive one, so always advance it. |
 | Fail closed over compatibility | Strict older clients may reject the new fields; upgrade both peers. |
-
-## Verification
-
-At the time of this design: 191 .NET tests (Transport 74, Core 42, Backoffice 8, Umbraco 67) covering binding,
-expiry, revocation, envelope rejection before I/O and directional asset capabilities, and 30 real-site E2E
-scenarios (19 consumer, 4 named-policy, 4 coexistence, 1 scoped-export, 2 legacy). See
-verification.

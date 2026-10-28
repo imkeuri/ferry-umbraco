@@ -3,6 +3,14 @@
 All notable changes to Ferry. Versions follow [Semantic Versioning](https://semver.org/); while Ferry is pre-1.0,
 minor versions may contain breaking changes.
 
+## Unreleased
+
+### Breaking
+- Every remaining pre-Ferry name is now a Ferry name, with no compatibility: routes `/ferry/v1/…`, headers
+  `X-Ferry-*`, tables `cmsFerry*`, permissions `Ferry.Push` / `Ferry.Pull`, packages `.ferry.zip`, pairing codes
+  `ferry1.…`, configuration only under `Ferry`, and no legacy file imports. Both sites must run the same version;
+  existing Ferry data starts fresh.
+
 ## 0.6.0-beta.2
 
 ### Security
@@ -19,7 +27,7 @@ minor versions may contain breaking changes.
 ### Schema as generated C# migrations
 - **Generated migrations.** With `Ferry:Schema:Migrations` enabled on a development site, schema edits in the
   backoffice keep a draft migration (`_PendingSchemaChanges.cs`, never compiled) up to date, and **Create migration**
-  (Settings › Ferry › Advanced, or `POST /umbraco/management/api/v1/community-sync/schema/migrations`) turns it into a
+  (Settings › Ferry › Advanced, or `POST /umbraco/management/api/v1/ferry/schema/migrations`) turns it into a
   timestamped `SchemaBuilder` migration and adds it to the generated plan file `FerrySchemaPlan.g.cs`. The first one
   adopts the site's whole schema; later ones contain only what changed. See
   [generated migrations](docs/code-first-schema.md#generated-migrations).
@@ -29,7 +37,7 @@ minor versions may contain breaking changes.
 - **Drift.** Schema changed outside the migrations (for example directly on live) is listed on the Advanced tab and by
   the health check until it is resolved, across deploys: a migration that changes a drifted item does not hide it.
   Administrators can **Accept current schema** (Advanced tab, or
-  `POST …/community-sync/schema/migrations/accept`, all items or selected keys) to take the schema as it is there.
+  `POST …/ferry/schema/migrations/accept`, all items or selected keys) to take the schema as it is there.
 - **Create migration** refuses while the plan lists migrations the database has not run, so a teammate's change is
   never undone by a diff against a database without it.
 - **New `SchemaBuilder` steps**: `Remove…Async` for every schema kind and for properties, groups, tabs and
@@ -68,7 +76,7 @@ minor versions may contain breaking changes.
   editors; see [extending Ferry](docs/extending.md).
 - Language keys are derived from the ISO code, and built-in member property keys from the member type and alias, so
   every site agrees on them.
-- **Transfer formats are now `communitysync.full.v7` / `v8`.** Upgrade both sites together: 0.4 and 0.5 sites refuse
+- **Transfer formats are now Full v7 / v8.** Upgrade both sites together: 0.4 and 0.5 sites refuse
   to exchange transfers or packages with each other.
 
 ## 0.4.0-beta.1 — first public release
@@ -77,8 +85,7 @@ minor versions may contain breaking changes.
 - **Ferry is now free to use and closed source**, under the [Ferry Freeware License](LICENSE): free for any site,
   including commercial work; no redistribution, modification or reverse engineering. Earlier builds were never
   published.
-- Packages ship obfuscated, without source, symbols or repository links. `scripts/release.py` builds and checks them;
-  the package E2E checks run against the same obfuscated build.
+- Packages ship obfuscated, without source, symbols or repository links.
 
 ### Package data in transfers
 - **Package providers**: a package can add data it keeps outside content (redirects, forms, …) to Ferry transfers
@@ -92,7 +99,7 @@ minor versions may contain breaking changes.
 - **`Ferry:Full:AdditionalMediaExtensions`** allows a site's own static media types (for example `.pdn`). Types a
   browser or the server can run are refused.
 
-### Fixes from two more real-site trials (Umbraco 17: 2,800 items with 19 redirects; 6,600 items with a form)
+### Fixes
 - Templates whose `Layout` is a plain view rather than a template transfer, including over an existing view file.
 - Pages that no longer fit their type's root or child rules copy as the source has them when the type comes along.
 - Blueprints kept in a blueprint folder no longer stop a whole-site export.
@@ -122,20 +129,18 @@ minor versions may contain breaking changes.
   Definitions are written through the same serializers transfers use, so a migration produces exactly the schema
   a content-only transfer compares. Nothing is removed, and destructive changes are refused.
 - **Adopt code-first on an existing site** (#30, #33):
-  - **Settings › Ferry › Advanced › Download schema as code**, or `GET community-sync/schema/code`, writes the site's
+  - **Settings › Ferry › Advanced › Download schema as code**, or `GET ferry/schema/code`, writes the site's
     schema as one migration that keeps every key.
   - The download is a zip with one partial-class file per schema kind; `format=cs` returns a single file.
-  - Validated on a real client site (165 document types, 463 data types): a fresh content-only install ran the
-    migration and got 6,117 items with every schema item unchanged.
 
 ### Backoffice
 - **Spanish translation** (#31). Every term the backoffice uses now has English and Spanish text, including the
-  workspace tab labels; a test keeps it that way.
-- **Accessibility checks** with axe in the light and dark themes (#31); the Danger zone heading contrast is fixed.
+  workspace tab labels.
+- The Danger zone heading contrast is fixed in the light and dark themes (#31).
 - **Queue changes survive a reload** (#32): clearing the queue and reloading at once no longer brings items back.
 
 ### Fixes
-- **Real-site Get fixes** (#29):
+- **Get fixes** (#29):
   - non-root pages kept their templates;
   - template layouts come from the Razor `Layout`;
   - `.jfif`, `.jpe`, `.heic` and `.heif` media are allowed;
@@ -143,22 +148,19 @@ minor versions may contain breaking changes.
   - `FerryImport.IsActive` lets site handlers skip work during an apply;
   - legacy block UDIs, SQL Server and SQLite dates, empty values and empty rich-text blocks no longer plan as updates.
 - **Items Umbraco renamed "Name (n)"** because a destination sibling holds the source name plan as unchanged (#32).
-- The packaged dashboard imported a chunk that was not committed; CI now fails when the committed backoffice build
-  differs from a fresh one (#31).
+- The packaged dashboard no longer imports a chunk that was not committed (#31).
 - **SQLite: a durable apply could stall for minutes** while its restore point was saved. Ferry's database work read and
   then wrote in one deferred transaction; when another request committed in between, SQLite refused the write
   (`SQLITE_BUSY_SNAPSHOT`), which waiting never fixes, and the provider kept retrying it. Ferry's write work now takes
   SQLite's write lock first, as Umbraco does.
-- The E2E fixture uses SQLite `Cache=Private`, which ends an intermittent Umbraco database deadlock in UI tests (#32).
-  The README now recommends SQL Server for production sites that receive transfers.
+- The README now recommends SQL Server for production sites that receive transfers, or SQLite with `Cache=Private`
+  (#32).
 
 ## 0.2.0-alpha.1 — 2026-10-23
 
 ### Renamed and standalone
-- **CommunitySync is now Ferry** (#19). Packages are `Ferry.Core`, `Ferry.Transport`, `Ferry.Umbraco` and
-  `Ferry.Backoffice`. Configuration lives under `Ferry`; a site with only a `CommunitySync` section keeps working.
-  Database tables, routes, headers, permission verbs and file formats keep their CommunitySync names, so existing
-  sites and peers interoperate. See *Upgrading from CommunitySync* in the README.
+- **Ferry name** (#19). Packages are `Ferry.Core`, `Ferry.Transport`, `Ferry.Umbraco` and `Ferry.Backoffice`;
+  configuration lives under `Ferry`.
 - **Standalone package** (#20). Ferry has its own workspace under Settings › Synchronisation and needs no other
   synchronisation package.
 
@@ -178,7 +180,7 @@ minor versions may contain breaking changes.
 - Connection checks on the Sites tab are cached for five minutes (#26).
 
 ### Features
-- **Editors see their own activity:** `GET community-sync/operations/mine` (#26).
+- **Editors see their own activity:** `GET ferry/operations/mine` (#26).
 - **Code-first schema:** `SchemaBuilder` with stable, alias-derived keys (#18).
 - **Content-only sites:** `Ferry:Full:ContentOnly` rejects transfers that would change schema (#17).
 - **Granular permissions** on top of delegated grants (#16) and a **server-side per-user transfer queue** (#14).
@@ -186,10 +188,9 @@ minor versions may contain breaking changes.
 
 ### Fixes and maintenance
 - Audited transitive package versions (#10) and editor reference coverage (#13).
-- The E2E harness proxy streams responses in TLS-record chunks; browser specs record failed requests (#25, #26).
 - The Settings workspace source is TypeScript.
 
 ## 0.1.0-alpha.1
 
-First experimental release as CommunitySync: reviewed Full-mode Push and Pull, packages, snapshots, publication,
+First experimental release: reviewed Full-mode Push and Pull, packages, snapshots, publication,
 delegated editors and the native backoffice dashboard. No package was published.
