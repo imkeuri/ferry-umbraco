@@ -969,8 +969,8 @@
 </blockquote>
 <p><strong>Status: experimental, pre-1.0.</strong> Tested on Umbraco <strong>17.6.2</strong> and .NET 10. See <a href="../supported-scope/">supported scope</a>.</p>
 <h2 id="quick-start">Quick start<a class="headerlink" href="#quick-start" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code>dotnet<span class="w"> </span>add<span class="w"> </span>package<span class="w"> </span>Ferry.Umbraco
-dotnet<span class="w"> </span>add<span class="w"> </span>package<span class="w"> </span>Ferry.Backoffice
+<div class="highlight"><pre><span></span><code>dotnet<span class="w"> </span>add<span class="w"> </span>package<span class="w"> </span>Ferry.Umbraco<span class="w"> </span>--prerelease
+dotnet<span class="w"> </span>add<span class="w"> </span>package<span class="w"> </span>Ferry.Backoffice<span class="w"> </span>--prerelease
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><span class="n">builder</span><span class="p">.</span><span class="n">CreateUmbracoBuilder</span><span class="p">()</span>
 <span class="w">    </span><span class="p">.</span><span class="n">AddBackOffice</span><span class="p">()</span>
