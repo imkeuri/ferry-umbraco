@@ -52,13 +52,27 @@ Ferry.Backoffice adds a **Ferry** workspace under **Settings › Synchronisation
 | Tab | Use |
 | --- | --- |
 | **Overview** | Connected sites, *Send to another site*, *Get from another site* (whole site or chosen pages), recent activity. *Connect your first site* when none is connected. |
-| **Sites** | Site status, the *Connect a site* wizard (paste a pairing code), and *Sites that can connect to this one* (create pairing codes, revoke access). |
+| **Sites** | Site status, the *Connect a site* wizard (paste a pairing code), and *Sites that can connect to this one* (create pairing codes, see which site used each access key, revoke). |
 | **Packages** | Export a `.ferry.zip` (chosen pages and media, or whole site), import one by dropping it on the page, create or restore snapshots. |
 | **Advanced** | *Publish on another site*; danger zone with *Move to recycle bin on another site* and *Seed another site*. |
 
+**Pairing.** On site A, *Create pairing code*: name the other site, choose what it may do here, and optionally tick
+*Allow two-way*. On site B, *Connect a site* and paste the code. A code works once and expires after 24 hours; it is
+not the access key itself, so a copied code is useless once used. When A allowed two-way, B's admin can also choose
+what A may do on B, and both connections are made in the same step. Each site creates the key that protects it, with
+its own admin's choices. Codes from Ferry 0.7 (`ferry1.…`) are refused; create a new one. Without a code, connect with
+an address and an access key (*Create an access key instead*).
+
 Content tree **Actions** offer *Send to…*, *Get from…*, *Add to queue* and (administrators) *Publish on another
 site…*, each ending in a review ("4 new pages, 1 updated page", schema, move and template callouts, *Show details*).
-Items always arrive as drafts. The top-bar **Ferry** button opens the queue (send all or download as a package) and
+Administrators also get *Send everything to…* and *Get everything from…* on the **Content** and **Media** section
+roots: every top-level item with its descendants (Content brings its dependencies and referenced media as usual; Media
+sends only the media library), through the same review, background option and batches. Items arrive as drafts.
+Administrators sending Content to a site that supports publication can tick *Publish on <site> after sending*: the
+review button becomes *Send and publish*, and after the send the selected items (and their child items, never items
+pulled in as dependencies) are published in the sent cultures. If the publication check finds a problem, such as an
+unpublished parent there, the drafts stay and the publication review opens instead. Not available for background
+sends. The top-bar **Ferry** button opens the queue (send all or download as a package) and
 recent activity. The *Send with Ferry* and *Get with Ferry* group permissions control access, on top of
 [delegated-editor grants](#delegated-editor-push).
 
@@ -137,9 +151,16 @@ example `Ferry__Peers__0__Tokens__0`). See the [peer-policy contract](docs/resea
 
 ### Access keys from the backoffice only
 
-Access keys from Settings › Ferry › Sites (*Create pairing code*) are also receiver credentials. A receiver using only
-those needs no token or placeholder peer: `AddFerryTransportFromConfiguration` (or `AddFerryTransport`) accepts an
-empty `Ferry` section when an `ISyncManagedPeerSource` is registered. With neither, the host refuses to start.
+Access keys from Settings › Ferry › Sites (made when a pairing code is used, or created directly) are also receiver
+credentials. A receiver using only those needs no token or placeholder peer: `AddFerryTransportFromConfiguration` (or
+`AddFerryTransport`) accepts an empty `Ferry` section when an `ISyncManagedPeerSource` is registered. With neither,
+the host refuses to start.
+
+Pairing codes are redeemed at `POST /ferry/v1/pairing/claim`, mapped by `MapFerry()`. It is the one route without a
+bearer token (the single-use code is the credential): HTTPS only, 8 KiB bodies, and at most 10 attempts per client
+address and 60 overall per minute on each instance. A gateway in front must let it through like the rest of
+`/ferry/v1`. For two-way codes, the issuing site calls the other site's `/ferry/v1/capabilities` before saving the
+connection, so it must be able to reach that address.
 
 ### Getting past host authentication
 
@@ -167,7 +188,7 @@ app.UseForwardedHeaders();
 
 | State | Storage | Survives redeploy / new replica? |
 | --- | --- | --- |
-| Servers and access keys | `cmsFerryServer`, `cmsFerryAccessKey` | Yes. |
+| Servers, access keys and pairing codes | `cmsFerryServer`, `cmsFerryAccessKey`, `cmsFerryPairingInvitation` (token hashes only) | Yes. |
 | Secrets in those rows | ASP.NET Data Protection | Only with a persisted, shared key ring (e.g. `PersistKeysToAzureBlobStorage`); otherwise keys stop working after a redeploy and a warning is logged. |
 | Peer cache | Memory, 30 seconds | Revoked keys stop working on other instances within 30 seconds. |
 | Operation history, submissions, snapshots, restore points | `cmsFerryOperation`, `cmsFerrySubmission`, `cmsFerrySnapshot` | Yes. |
@@ -197,7 +218,8 @@ Otherwise apply returns `410 Gone` ("This preview has expired") and changes noth
 
 ## Protocol
 
-Endpoints under `/ferry/v1` require HTTPS and bearer authentication; responses are not cached.
+Endpoints under `/ferry/v1` require HTTPS and bearer authentication, except `POST /pairing/claim` (see
+[Access keys from the backoffice only](#access-keys-from-the-backoffice-only)); responses are not cached.
 
 | Endpoint | Purpose |
 | --- | --- |

@@ -37,7 +37,9 @@ Scheduled destination and schema identity conflicts reject before writes.
 No commercial parity is claimed. Ferry is standalone; its Backoffice is at Settings →
 Synchronisation → Ferry. Full transfer saves through Umbraco's native services, so
 other packages' save handlers fire normally. Schema and media changes go to live
-definitions and files; publishing content is separate. Back up the site and database
+definitions and files; publishing content is separate, unless an administrator ticks
+*Publish on <site> after sending*, which runs the normal publication review and apply after
+the send and stops at the review when it reports errors. Back up the site and database
 before using it on a real site.
 
 ## Selected transfers and operational limits
@@ -218,6 +220,7 @@ capability on both; default sites stay on protocol 1 (Full format v5).
 | Relations | `Ferry:Full:AllowRelationTransfer`, both peers | Full-site. Custom Document/Media relation types and relations; never system types. Identity is (type, parent, child); added or comment-updated, never deleted. Alias/object-type collisions reject. |
 | Document blueprints | `Ferry:Full:AllowBlueprintTransfer`, both peers | Full-site, full content pipeline; folders not transferred (blueprints land at root). |
 | Bulk apply suspensions | On; `Ferry:Full:BulkApply:Suspensions` (`None`, `ScheduledPublishing`, `Examine`, `DocumentCache`, `All`), `MinimumOperations` (50) | Large batches pause scheduled publishing, Examine and document cache via `Suspendable`, resuming on every exit. Resuming Examine rebuilds all indexes, hence the threshold. Overlaps are reference-counted; failed resumes are logged. Process-local. |
+| Send or get everything | Administrators; *Send everything to…* / *Get everything from…* on the Content and Media section roots | Selects every top-level item of that tree (up to 1000) with descendants, never the whole site. Send reads this site's tree; Get asks the source for its top-level items at review. Oversized sends split into batches as usual; Get is one review (use *Get in the background* for large trees). An empty tree shows *Nothing to send*. |
 | Transfer queue | Users with Ferry access; `GET`/`PUT ferry/queue` | Up to 1000 roots per user in `cmsFerryQueue`, across browsers; cleared after transfer. Older browser queues upload once; servers without the endpoint keep browser-only queues. Trees show "Queued for transfer". Grants nothing. |
 | Content-only sites | `Ferry:Full:ContentOnly`, receiver | Rejects any transfer or import that would create, update or move document/media/member types, data types, languages, templates, media-type variations or relation types, listing up to 20 (kind, alias, key). Unchanged schema is fine. Items breaking root/child rules are placed as at the source when its type is in the transfer. Checked at review and apply. Dictionary and members unaffected. |
 | Code-first schema (`SchemaBuilder`) | Your migrations; see [code-first schema](code-first-schema.md) | `Ensure…` creates or converges data types, templates, languages, media and document types; never removes, refuses destructive changes. Keys are RFC 4122 v5 UUIDs from aliases. `Remove…Async` (refused with stored values unless `allowDataLoss: true`), `Rename…Async`, `MovePropertyAsync`. `GET …/ferry/schema/code` exports a key-preserving migration. |

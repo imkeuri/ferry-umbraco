@@ -25,7 +25,7 @@ dotnet add package Ferry.Backoffice --prerelease</code></pre>
 <div class="fy-grid">
 <div class="fy-card">
 <h3>Reviewed transfers</h3>
-<p>Send and Get pages, media and their dependencies between sites. Every change is planned and shown first, and items arrive as drafts.</p>
+<p>Send and Get pages, media and their dependencies between sites. Every change is planned and shown first. Items arrive as drafts, or published when you choose. Send a whole tree from the Content or Media root in one action.</p>
 </div>
 <div class="fy-card">
 <h3>Schema as code</h3>
@@ -97,7 +97,7 @@ builder.CreateUmbracoBuilder()
 <div class="fy-step" markdown>
 <span class="fy-step__n">3</span>
 
-**Connect** the sites: on one, *Settings › Ferry › Sites › Create pairing code*; on the other, *Connect a site* and paste it. Then pick a page, *Actions › Send to…*, and review.
+**Connect** the sites: on one, *Settings › Ferry › Sites › Create pairing code* (tick *Allow two-way* to connect both directions); on the other, *Connect a site* and paste it. Codes work once. Then pick a page, *Actions › Send to…*, and review.
 </div>
 </div>
 <p class="fy-center"><a class="md-button md-button--primary" href="overview/">Read the overview</a> <a class="md-button" href="extending/">Extend Ferry</a></p>

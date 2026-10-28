@@ -3,6 +3,40 @@
 All notable changes to Ferry. Versions follow [Semantic Versioning](https://semver.org/); while Ferry is pre-1.0,
 minor versions may contain breaking changes.
 
+## 0.7.0-beta.2
+
+### Features
+- **Send or get a whole tree.** Administrators get *Send everything to…* and *Get everything from…* on the Content and
+  Media section roots. Each opens the usual transfer panel with every top-level item and its descendants selected;
+  Content brings its dependencies and referenced media, Media sends only the media library. Large sends split into
+  batches as before.
+- **Publish after sending.** Content sends (single items, the queue and whole-tree sends) offer *Publish on <site>
+  after sending* to administrators when the destination supports publication. After the send, Ferry reviews and
+  publishes the selected items and their child items (not dependencies) in the sent cultures, and reports "Sent N
+  items and published M on <site>". A publication review with errors is not forced: the drafts stay and the review
+  opens. Not available for background sends. Preview operations now carry their parent key, and
+  `GET connections/{id}/publication-support` tells administrators whether a destination can publish.
+
+### Changed
+- **Pairing codes work once and can connect both ways.** A pairing code (`ferry2.…`) is now a one-time invitation that
+  expires after 24 hours, not the access key itself. The site that pastes it redeems it at the new
+  `POST /ferry/v1/pairing/claim`; the issuing site then creates a new access key and records which site used it. A
+  second use says "This pairing code was already used. Create a new one." With *Allow two-way*, the other site's admin
+  can grant access back in the same step, and both connections are saved. `ferry1.…` codes are refused (breaking).
+- The Sites tab lists unused pairing codes with their expiry, and access keys with the site that used them; both can
+  be revoked. *Create an access key instead* still issues a plain key for connecting by address.
+- `POST access-keys` no longer returns a pairing code; pairing uses the new `pairing-codes` and `servers/pair`
+  management endpoints. Existing access keys and connections keep working.
+
+### Fixes
+- The add-to-queue message says "1 item is queued" instead of "1 items are queued" (English and Spanish).
+- **Get shows its notes.** The Get (pull) and package-import reviews now list the same notes as Send, such as a page
+  pointing at media that is not in the transfer. Before, a Get silently left such references unresolved.
+- **Clearer unresolved-reference note.** It now says that an item deleted or in the source's recycle bin must be
+  restored there and sent again, and that saving the page before it arrives removes the link.
+- **Export failures say why.** When the source cannot export a selection, the destination now shows the source's reason
+  instead of a bare "400 (Bad Request)".
+
 ## 0.7.0-beta.1
 
 ### Breaking
