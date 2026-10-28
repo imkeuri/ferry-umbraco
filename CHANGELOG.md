@@ -3,7 +3,7 @@
 All notable changes to Ferry. Versions follow [Semantic Versioning](https://semver.org/); while Ferry is pre-1.0,
 minor versions may contain breaking changes.
 
-## Unreleased
+## 0.7.0-beta.1
 
 ### Breaking
 - Every remaining pre-Ferry name is now a Ferry name, with no compatibility: routes `/ferry/v1/…`, headers
