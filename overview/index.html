@@ -996,7 +996,7 @@ dotnet<span class="w"> </span>add<span class="w"> </span>package<span class="w">
 </tr>
 <tr>
 <td><strong>Sites</strong></td>
-<td>Site status, the <em>Connect a site</em> wizard (paste a pairing code), and <em>Sites that can connect to this one</em> (create pairing codes, see which site used each access key, revoke).</td>
+<td><em>This site</em> (name, address, role), <em>Connected sites</em> (one row per site: what each may do, status, edit, disconnect), <em>Connect a site</em> (paste a pairing code) and <em>Let another site connect</em> (create pairing codes).</td>
 </tr>
 <tr>
 <td><strong>Packages</strong></td>
@@ -1008,13 +1008,27 @@ dotnet<span class="w"> </span>add<span class="w"> </span>package<span class="w">
 </tr>
 </tbody>
 </table>
-<p><strong>Pairing.</strong> On site A, <em>Create pairing code</em>: name the other site, choose what it may do here, and optionally tick
-<em>Allow two-way</em>. On site B, <em>Connect a site</em> and paste the code. A code works once and expires after 24 hours; it is
-not the access key itself, so a copied code is useless once used. When A allowed two-way, B's admin can also choose
-what A may do on B, and both connections are made in the same step. Each site creates the key that protects it, with
-its own admin's choices. Codes from Ferry 0.7 (<code>ferry1.…</code>) are refused; create a new one. Without a code, connect with
-an address and an access key (<em>Create an access key instead</em>). Other sites label this one with
-<code>Ferry:Backoffice:SiteName</code> when set, otherwise with its host (for example <code>staging.example.com</code>).</p>
+<p><strong>Sites.</strong> <em>This site</em> shows its name, address and role (Development, Staging, Live or Other); other sites see the
+role next to its name. Set <code>Ferry:Backoffice:SiteRole</code> to fix the role in configuration; the card then reads <em>Set in
+configuration</em>. A configured destination can declare its own role with <code>Ferry:Backoffice:Destinations:&lt;id&gt;:Role</code>.</p>
+<p><em>Connected sites</em> has one row per site, joining the connection this site makes to it and the access key it uses to
+call this one, matched by address. Columns: <strong>Site</strong> (role badge, <em>Managed in config</em>), <strong>Address</strong>, <strong>We may</strong> and
+<strong>They may</strong> (Send, Get, Publish and Compare chips) and <strong>Status</strong> (online, unreachable with the reason, or not
+checked, with <em>Check again</em>). <em>Edit</em> changes the name, role, whether we may Get, and what they may do here.
+<em>Disconnect</em> stops this site connecting and revokes their key; <em>Edit</em> also has <em>Revoke their access</em> and <em>Stop connecting</em>
+separately. A site managed in configuration can only have their key revoked, not its connection removed
+here. A site test also reports whether the other site lets this one publish.</p>
+<p><strong>Pairing.</strong> <em>Let another site connect</em> creates a pairing code: name the other site, choose what it may do here
+(Compare is implied by Send or Get) and optionally tick <em>Allow two-way</em>. The code is shown once, with <em>Copy</em>. The
+codes table lists each as <em>Waiting</em> (hours left), <em>Used by <site></em> or <em>Expired</em>, with <em>Revoke</em> or <em>Remove</em>; used and
+expired codes are kept for 30 days. On site B, <em>Connect a site</em> and paste the code: Ferry reads it as you paste and
+shows the site, what it allows, whether it is two-way and the hours left, or says why it cannot be used (older Ferry
+code, expired, already used, not valid, or this site's own code). When A allowed two-way, B's admin picks what A may
+do on B, edits <em>this site's address</em> if A should call a different one, and both connections are made in the same
+step; choose the new site's role there too. A code works once and expires after 24 hours; it is not the access key
+itself. Codes from Ferry 0.7 (<code>ferry1.…</code>) are refused. <em>No pairing code?</em> connects with an address and an access key
+(<em>Create an access key instead</em>). Other sites label this one with <code>Ferry:Backoffice:SiteName</code> when set, otherwise
+with its host (for example <code>staging.example.com</code>).</p>
 <p>Content tree <strong>Actions</strong> offer <em>Send to…</em>, <em>Get from…</em>, <em>Add to queue</em> and (administrators) <em>Publish on another
 site…</em>. Each opens a panel with three steps:</p>
 <ol>
@@ -1096,7 +1110,8 @@ limits are listed in the <a href="../supported-scope/">supported scope</a>.</p>
 <span class="n">builder</span><span class="p">.</span><span class="n">Services</span><span class="p">.</span><span class="n">AddFerryTransportFromConfiguration</span><span class="p">(</span>
 <span class="w">    </span><span class="n">builder</span><span class="p">.</span><span class="n">Configuration</span><span class="p">.</span><span class="n">GetRequiredSection</span><span class="p">(</span><span class="s">"Ferry"</span><span class="p">));</span>
 </code></pre></div>
-<p>Set peer identity, revision and permitted operations in <code>Ferry:Peers</code>, with tokens from the secret provider (for
+<p>Set peer identity, revision and permitted operations in <code>Ferry:Peers</code> (<code>Compare</code>, read-only item inventories, is
+implied for peers that may Preview or Export), with tokens from the secret provider (for
 example <code>Ferry__Peers__0__Tokens__0</code>). See the <a href="../research/peer-policy-design/">peer-policy contract</a>.</p>
 <ul>
 <li>Bearer secrets: random, at least 32 characters. No defaults are provided.</li>
@@ -1104,7 +1119,7 @@ example <code>Ferry__Peers__0__Tokens__0</code>). See the <a href="../research/p
 <li>In the sample, endpoints are off by default and <code>Ferry:Mode</code> is <code>DraftText</code> (default) or <code>Full</code>.</li>
 </ul>
 <h3 id="access-keys-from-the-backoffice-only">Access keys from the backoffice only<a class="headerlink" href="#access-keys-from-the-backoffice-only" title="Permanent link">&para;</a></h3>
-<p>Access keys from Settings › Ferry › Sites (made when a pairing code is used, or created directly) are also receiver
+<p>Access keys from Settings › Ferry › Sites (made when a pairing code is used, or created directly; each shows as a row in <em>Connected sites</em>) are also receiver
 credentials. A receiver using only those needs no token or placeholder peer: <code>AddFerryTransportFromConfiguration</code> (or
 <code>AddFerryTransport</code>) accepts an empty <code>Ferry</code> section when an <code>ISyncManagedPeerSource</code> is registered. With neither,
 the host refuses to start.</p>

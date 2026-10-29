@@ -567,6 +567,39 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#090-beta1" class="md-nav__link">
+    <span class="md-ellipsis">
+      0.9.0-beta.1
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.9.0-beta.1">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features" class="md-nav__link">
+    <span class="md-ellipsis">
+      Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Changes
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#080-beta1" class="md-nav__link">
     <span class="md-ellipsis">
       0.8.0-beta.1
@@ -577,7 +610,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#features" class="md-nav__link">
+  <a href="#features_1" class="md-nav__link">
     <span class="md-ellipsis">
       Features
     </span>
@@ -649,7 +682,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#features_1" class="md-nav__link">
+  <a href="#features_2" class="md-nav__link">
     <span class="md-ellipsis">
       Features
     </span>
@@ -907,7 +940,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#features_2" class="md-nav__link">
+  <a href="#features_3" class="md-nav__link">
     <span class="md-ellipsis">
       Features
     </span>
@@ -1017,6 +1050,39 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#090-beta1" class="md-nav__link">
+    <span class="md-ellipsis">
+      0.9.0-beta.1
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.9.0-beta.1">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features" class="md-nav__link">
+    <span class="md-ellipsis">
+      Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Changes
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#080-beta1" class="md-nav__link">
     <span class="md-ellipsis">
       0.8.0-beta.1
@@ -1027,7 +1093,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#features" class="md-nav__link">
+  <a href="#features_1" class="md-nav__link">
     <span class="md-ellipsis">
       Features
     </span>
@@ -1099,7 +1165,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#features_1" class="md-nav__link">
+  <a href="#features_2" class="md-nav__link">
     <span class="md-ellipsis">
       Features
     </span>
@@ -1357,7 +1423,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#features_2" class="md-nav__link">
+  <a href="#features_3" class="md-nav__link">
     <span class="md-ellipsis">
       Features
     </span>
@@ -1407,8 +1473,37 @@
 <h1 id="changelog">Changelog<a class="headerlink" href="#changelog" title="Permanent link">&para;</a></h1>
 <p>All notable changes to Ferry. Versions follow <a href="https://semver.org/">Semantic Versioning</a>; while Ferry is pre-1.0,
 minor versions may contain breaking changes.</p>
-<h2 id="080-beta1">0.8.0-beta.1<a class="headerlink" href="#080-beta1" title="Permanent link">&para;</a></h2>
+<h2 id="090-beta1">0.9.0-beta.1<a class="headerlink" href="#090-beta1" title="Permanent link">&para;</a></h2>
 <h3 id="features">Features<a class="headerlink" href="#features" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Redesigned Sites page</strong> in Settings › Ferry. <em>This site</em> shows the site's name, address and role (Development,
+  Staging, Live or Other); <code>Ferry:Backoffice:SiteRole</code> fixes the role in configuration (<em>Set in configuration</em>), and
+  configured destinations can declare <code>Ferry:Backoffice:Destinations:&lt;id&gt;:Role</code>.</li>
+<li><strong>Connected sites table.</strong> One row per site, joining our connection and their access key: role badge, address, what
+  we may and they may do (Send, Get, Publish, Compare), and status (online, unreachable with the reason, not checked,
+  <em>Check again</em>). <em>Edit</em> changes name, role, Get and their permissions and has separate <em>Revoke their access</em> and
+  <em>Stop connecting</em>; <em>Disconnect</em> does both. A site managed in configuration can only have their key revoked here.
+  Saving unchanged permissions leaves the key (and approvals bound to it) untouched.</li>
+<li><strong>Connect a site</strong> validates the pasted pairing code as you paste (site, what it allows, two-way, hours left, or why
+  it cannot be used), lets you set the new site's role, and for two-way codes choose what the other site may do and
+  edit <em>this site's address</em>. <em>No pairing code?</em> keeps the address and key fallback, now with a role too.</li>
+<li><strong>Let another site connect.</strong> Create a pairing code with permission chips and two-way wishes; it is shown once with
+  <em>Copy</em>. The codes table shows <em>Waiting</em> (hours left), <em>Used by <site></em> and <em>Expired</em>, with <em>Revoke</em> or <em>Remove</em>.</li>
+<li><strong>Compare permission.</strong> A new read-only peer permission for item inventories, implied by Send or Get on access keys
+  and by Preview or Export on configured peers. Nothing uses it yet; the compare view comes in a later release.
+  Policy hashes are unchanged, so existing approvals and durable jobs stay valid.</li>
+<li>Site tests also report whether the other site lets this site publish.</li>
+<li>Connecting (by pairing code or address and key) to a site that is already a configured destination is refused with a message, so the
+  Sites page never shows one site twice; a pairing code is not used up by the refusal.</li>
+</ul>
+<h3 id="changes">Changes<a class="headerlink" href="#changes" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>The separate <em>Access keys</em> and <em>Pairing codes not used yet</em> lists are gone.</strong> Every access key now appears as a row
+  in <em>Connected sites</em>: edit its permissions there and revoke it with <em>Disconnect</em>.</li>
+<li>The pairing-code list API now also returns used and expired codes, kept for 30 days.</li>
+</ul>
+<h2 id="080-beta1">0.8.0-beta.1<a class="headerlink" href="#080-beta1" title="Permanent link">&para;</a></h2>
+<h3 id="features_1">Features<a class="headerlink" href="#features_1" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>Redesigned transfer panel</strong> for Send, Get and the queue: Choose (site cards, what to send, version, language
   chips and option switches with help), Review (summary tiles, always-visible notes and warnings, schema changes as a
@@ -1436,7 +1531,7 @@ minor versions may contain breaking changes.</p>
 <li>The <em>Connect a site</em> wizard shows its first step as one sentence instead of one line per fragment.</li>
 </ul>
 <h2 id="070-beta2">0.7.0-beta.2<a class="headerlink" href="#070-beta2" title="Permanent link">&para;</a></h2>
-<h3 id="features_1">Features<a class="headerlink" href="#features_1" title="Permanent link">&para;</a></h3>
+<h3 id="features_2">Features<a class="headerlink" href="#features_2" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>Send or get a whole tree.</strong> Administrators get <em>Send everything to…</em> and <em>Get everything from…</em> on the Content and
   Media section roots. Each opens the usual transfer panel with every top-level item and its descendants selected;
@@ -1654,7 +1749,7 @@ minor versions may contain breaking changes.</p>
 <li>Settings-tab text is translatable through <code>ferry_*</code> keys (#26, #27).</li>
 <li>Connection checks on the Sites tab are cached for five minutes (#26).</li>
 </ul>
-<h3 id="features_2">Features<a class="headerlink" href="#features_2" title="Permanent link">&para;</a></h3>
+<h3 id="features_3">Features<a class="headerlink" href="#features_3" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>Editors see their own activity:</strong> <code>GET ferry/operations/mine</code> (#26).</li>
 <li><strong>Code-first schema:</strong> <code>SchemaBuilder</code> with stable, alias-derived keys (#18).</li>
