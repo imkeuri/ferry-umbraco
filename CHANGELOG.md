@@ -3,6 +3,15 @@
 All notable changes to Ferry. Versions follow [Semantic Versioning](https://semver.org/); while Ferry is pre-1.0,
 minor versions may contain breaking changes.
 
+## 0.8.0-beta.1
+
+### Features
+- **Redesigned transfer panel** for Send, Get and the queue: Choose (site cards, what to send, version, language
+  chips and option switches with help), Review (summary tiles, always-visible notes and warnings, schema changes as a
+  change table) and Done (links to the items, *Undo this get* after a Get). Loading placeholders, progress for large
+  sends, *Try again* after an error and an empty state when no site is connected. The queue offers the same version
+  and language choices (when it holds pages) and the same option switches as a single transfer.
+
 ## 0.7.0-beta.4
 
 ### Fixes

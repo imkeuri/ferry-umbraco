@@ -29,6 +29,7 @@ Scheduled destination and schema identity conflicts reject before writes.
 | Named receiver peers, reload fail-closed, approval envelopes | See [named receiver policies](#named-receiver-policies) |
 | Administrator draft pull | See [administrator pull](#administrator-pull) |
 | Update field comparison | Bounded Content/Media differences in admin previews; only known scalar editors show values; receiver preview needs a current Export grant for target values |
+| Schema differences in the review | Changed schema items (document, media and data types, templates) appear in the review as a change table of what differs, not only as a count; the review also notes that every page using them changes too. |
 | Typed Media push | Destination kind preflight before export |
 | Settings dashboard, transfer, publication, history | Layout, accessibility, cross-browser and production topology untested. |
 | Delegated editor Push | One connection; exact group alias; local roots; allowed cultures; native Read; `Ferry.Push` ([permissions](#user-group-permissions-for-delegated-editors)). No verb: 403. |

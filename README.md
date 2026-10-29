@@ -65,7 +65,20 @@ an address and an access key (*Create an access key instead*). Other sites label
 `Ferry:Backoffice:SiteName` when set, otherwise with its host (for example `staging.example.com`).
 
 Content tree **Actions** offer *Send to…*, *Get from…*, *Add to queue* and (administrators) *Publish on another
-site…*, each ending in a review ("4 new pages, 1 updated page", schema, move and template callouts, *Show details*).
+site…*. Each opens a panel with three steps:
+
+1. **Choose.** Pick the site (cards show whether it can be reached), what to send, the version (latest draft or
+   published), the languages, and the options: send or get in the background, allow moves, publish after sending.
+   Every option says in a line what it does.
+2. **Review.** Tiles count what will be created, updated or moved ("4 new pages, 1 updated page"). Schema changes are
+   shown as a change table of what differs, and notes, moves and template warnings are always visible, never behind
+   a toggle. Nothing changes until you send.
+3. **Done.** The result, with links to open the items on the other site. After a *Get*, *Undo this get* restores the
+   restore point taken before it.
+
+While a site is checked or a review is prepared the panel shows placeholders, a send shows its progress (and batch,
+for large sends), a failure shows the reason with *Try again*, and with no sites connected it points to connecting
+one. The queue's *Ready to send* tab offers the same version and language choices (when it holds pages) and the same option switches as a single transfer, then the same Review and Done steps.
 Administrators also get *Send everything to…* and *Get everything from…* on the **Content** and **Media** section
 roots: every top-level item with its descendants (Content brings its dependencies and referenced media as usual; Media
 sends only the media library), through the same review, background option and batches. Items arrive as drafts.
