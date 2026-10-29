@@ -141,8 +141,22 @@ background continuation. These are not tested large-site capacity figures.
 A receiver uses one optional legacy bearer token (all operations) or named peers with
 id, rotation tokens, enabled flag, revision and an allow-list of: capabilities,
 export, preview, apply, asset read/write, publication preview/apply, recovery read,
-browse, BrowseSearch (advertised only on request). Named peers scope the machine
+browse, BrowseSearch (advertised only on request), compare. Named peers scope the machine
 credential only, not user groups, roots or cultures.
+
+**Compare.** A read-only peer permission for item inventories (identity, name, state; no payloads). Access keys
+that allow Send or Get imply it, as do configured peers with Preview or Export; it is not part of the policy hash,
+so upgrading never invalidates existing approvals or durable jobs. Nothing uses it yet; the compare view arrives in
+a later release.
+
+**Sites and roles.** Settings › Ferry › Sites shows each connected site once, joining our outbound connection and
+their access key by address, with what each side may do (Send, Get, Publish, Compare). A site has a role
+(Development, Staging, Live or Other): this site's from the backoffice or `Ferry:Backoffice:SiteRole`, a configured
+destination's from `Ferry:Backoffice:Destinations:<id>:Role`. Roles are labels; they grant nothing. Connections and
+connections defined in configuration are shown as *Managed in config* and cannot be edited or removed there. Inbound
+configured peers (`Ferry:Peers`) do not appear in the Sites table. A configured site that has a matching managed access
+key can still have that key edited or revoked. Saving a key's permissions unchanged keeps its revision (so approvals
+and durable jobs stay valid); a real change takes effect on other instances within the peer cache lifetime (about 30 s).
 
 `AddFerryTransportFromConfiguration` re-reads policy per request after a reload;
 invalid policy fails closed. Request and asset limits are startup settings. Bump the

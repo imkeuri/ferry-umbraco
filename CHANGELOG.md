@@ -3,6 +3,34 @@
 All notable changes to Ferry. Versions follow [Semantic Versioning](https://semver.org/); while Ferry is pre-1.0,
 minor versions may contain breaking changes.
 
+## 0.9.0-beta.1
+
+### Features
+- **Redesigned Sites page** in Settings › Ferry. *This site* shows the site's name, address and role (Development,
+  Staging, Live or Other); `Ferry:Backoffice:SiteRole` fixes the role in configuration (*Set in configuration*), and
+  configured destinations can declare `Ferry:Backoffice:Destinations:<id>:Role`.
+- **Connected sites table.** One row per site, joining our connection and their access key: role badge, address, what
+  we may and they may do (Send, Get, Publish, Compare), and status (online, unreachable with the reason, not checked,
+  *Check again*). *Edit* changes name, role, Get and their permissions and has separate *Revoke their access* and
+  *Stop connecting*; *Disconnect* does both. A site managed in configuration can only have their key revoked here.
+  Saving unchanged permissions leaves the key (and approvals bound to it) untouched.
+- **Connect a site** validates the pasted pairing code as you paste (site, what it allows, two-way, hours left, or why
+  it cannot be used), lets you set the new site's role, and for two-way codes choose what the other site may do and
+  edit *this site's address*. *No pairing code?* keeps the address and key fallback, now with a role too.
+- **Let another site connect.** Create a pairing code with permission chips and two-way wishes; it is shown once with
+  *Copy*. The codes table shows *Waiting* (hours left), *Used by <site>* and *Expired*, with *Revoke* or *Remove*.
+- **Compare permission.** A new read-only peer permission for item inventories, implied by Send or Get on access keys
+  and by Preview or Export on configured peers. Nothing uses it yet; the compare view comes in a later release.
+  Policy hashes are unchanged, so existing approvals and durable jobs stay valid.
+- Site tests also report whether the other site lets this site publish.
+- Connecting (by pairing code or address and key) to a site that is already a configured destination is refused with a message, so the
+  Sites page never shows one site twice; a pairing code is not used up by the refusal.
+
+### Changes
+- **The separate *Access keys* and *Pairing codes not used yet* lists are gone.** Every access key now appears as a row
+  in *Connected sites*: edit its permissions there and revoke it with *Disconnect*.
+- The pairing-code list API now also returns used and expired codes, kept for 30 days.
+
 ## 0.8.0-beta.1
 
 ### Features

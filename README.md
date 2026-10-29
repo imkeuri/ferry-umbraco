@@ -52,17 +52,33 @@ Ferry.Backoffice adds a **Ferry** workspace under **Settings › Synchronisation
 | Tab | Use |
 | --- | --- |
 | **Overview** | Connected sites, *Send to another site*, *Get from another site* (whole site or chosen pages), recent activity. *Connect your first site* when none is connected. |
-| **Sites** | Site status, the *Connect a site* wizard (paste a pairing code), and *Sites that can connect to this one* (create pairing codes, see which site used each access key, revoke). |
+| **Sites** | *This site* (name, address, role), *Connected sites* (one row per site: what each may do, status, edit, disconnect), *Connect a site* (paste a pairing code) and *Let another site connect* (create pairing codes). |
 | **Packages** | Export a `.ferry.zip` (chosen pages and media, or whole site), import one by dropping it on the page, create or restore snapshots. |
 | **Advanced** | *Publish on another site*; danger zone with *Move to recycle bin on another site* and *Seed another site*. |
 
-**Pairing.** On site A, *Create pairing code*: name the other site, choose what it may do here, and optionally tick
-*Allow two-way*. On site B, *Connect a site* and paste the code. A code works once and expires after 24 hours; it is
-not the access key itself, so a copied code is useless once used. When A allowed two-way, B's admin can also choose
-what A may do on B, and both connections are made in the same step. Each site creates the key that protects it, with
-its own admin's choices. Codes from Ferry 0.7 (`ferry1.…`) are refused; create a new one. Without a code, connect with
-an address and an access key (*Create an access key instead*). Other sites label this one with
-`Ferry:Backoffice:SiteName` when set, otherwise with its host (for example `staging.example.com`).
+**Sites.** *This site* shows its name, address and role (Development, Staging, Live or Other); other sites see the
+role next to its name. Set `Ferry:Backoffice:SiteRole` to fix the role in configuration; the card then reads *Set in
+configuration*. A configured destination can declare its own role with `Ferry:Backoffice:Destinations:<id>:Role`.
+
+*Connected sites* has one row per site, joining the connection this site makes to it and the access key it uses to
+call this one, matched by address. Columns: **Site** (role badge, *Managed in config*), **Address**, **We may** and
+**They may** (Send, Get, Publish and Compare chips) and **Status** (online, unreachable with the reason, or not
+checked, with *Check again*). *Edit* changes the name, role, whether we may Get, and what they may do here.
+*Disconnect* stops this site connecting and revokes their key; *Edit* also has *Revoke their access* and *Stop connecting*
+separately. A site managed in configuration can only have their key revoked, not its connection removed
+here. A site test also reports whether the other site lets this one publish.
+
+**Pairing.** *Let another site connect* creates a pairing code: name the other site, choose what it may do here
+(Compare is implied by Send or Get) and optionally tick *Allow two-way*. The code is shown once, with *Copy*. The
+codes table lists each as *Waiting* (hours left), *Used by <site>* or *Expired*, with *Revoke* or *Remove*; used and
+expired codes are kept for 30 days. On site B, *Connect a site* and paste the code: Ferry reads it as you paste and
+shows the site, what it allows, whether it is two-way and the hours left, or says why it cannot be used (older Ferry
+code, expired, already used, not valid, or this site's own code). When A allowed two-way, B's admin picks what A may
+do on B, edits *this site's address* if A should call a different one, and both connections are made in the same
+step; choose the new site's role there too. A code works once and expires after 24 hours; it is not the access key
+itself. Codes from Ferry 0.7 (`ferry1.…`) are refused. *No pairing code?* connects with an address and an access key
+(*Create an access key instead*). Other sites label this one with `Ferry:Backoffice:SiteName` when set, otherwise
+with its host (for example `staging.example.com`).
 
 Content tree **Actions** offer *Send to…*, *Get from…*, *Add to queue* and (administrators) *Publish on another
 site…*. Each opens a panel with three steps:
@@ -156,7 +172,8 @@ builder.Services.AddFerryTransportFromConfiguration(
     builder.Configuration.GetRequiredSection("Ferry"));
 ```
 
-Set peer identity, revision and permitted operations in `Ferry:Peers`, with tokens from the secret provider (for
+Set peer identity, revision and permitted operations in `Ferry:Peers` (`Compare`, read-only item inventories, is
+implied for peers that may Preview or Export), with tokens from the secret provider (for
 example `Ferry__Peers__0__Tokens__0`). See the [peer-policy contract](docs/research/peer-policy-design.md).
 
 - Bearer secrets: random, at least 32 characters. No defaults are provided.
@@ -165,7 +182,7 @@ example `Ferry__Peers__0__Tokens__0`). See the [peer-policy contract](docs/resea
 
 ### Access keys from the backoffice only
 
-Access keys from Settings › Ferry › Sites (made when a pairing code is used, or created directly) are also receiver
+Access keys from Settings › Ferry › Sites (made when a pairing code is used, or created directly; each shows as a row in *Connected sites*) are also receiver
 credentials. A receiver using only those needs no token or placeholder peer: `AddFerryTransportFromConfiguration` (or
 `AddFerryTransport`) accepts an empty `Ferry` section when an `ISyncManagedPeerSource` is registered. With neither,
 the host refuses to start.
