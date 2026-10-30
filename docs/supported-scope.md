@@ -19,7 +19,7 @@ Scheduled destination and schema identity conflicts reject before writes.
 | Segment-varying scalar Media | Full mode: TextBox, invariant values, case-varied segment identities, unchanged replay |
 | Culture-varying Media names, captions, files | Distinct en-US/fr-FR captions and bytes, names kept in Ferry's durable store, repeat `Unchanged`. Umbraco 17.6.2 returns native culture names as `null` on a fresh read, so the Backoffice does not show them. |
 | Content UploadField | See [exclusions](#explicit-exclusions-and-fail-closed-behavior) |
-| Block Grid, Multinode Treepicker, Multi URL Picker | Documents in Block Grid blocks (with element and data types), MNTP documents/media, Multi URL Picker document/media links. Values identical; media link `url` is the destination path; external links kept; repeat `Unchanged`. Not covered: Block Grid areas, nested grids, Single Block. |
+| Block Grid, Multinode Treepicker, Multi URL Picker | Documents in Block Grid blocks (with element and data types), MNTP documents/media, Multi URL Picker document/media links. Values identical; media link `url` is the destination path; external links kept; repeat `Unchanged`. Block Grid areas, nested grids, a grid inside a block property and Single Block values are deep-equal (`tests/e2e/nested-tags.spec.ts`). Single Block element types are not followed as references in this release: send them with the schema. |
 | Full-site Dictionary Items | Keeps GUID identity, hierarchy, translations, language dependencies. No moves or deletion; deleting a destination translation rejects. Opt-in `dictionary-item` capability (older peers reject). Audit identity `Umbraco SuperUserKey`. |
 | Scoped destination preview/apply, recovery before-state | — |
 | Tree moves / tree trash | See [below](#selected-transfers-and-operational-limits) |
@@ -114,11 +114,42 @@ own operations and approval.
 | Typed client manifest/JSON response | 16 MiB |
 | Typed client request timeout | Two minutes |
 | Adapter media export | 100 MiB per file, regardless of transport limits |
-| Recovery journal (optional) | 64 MiB per record default; no atomic rollback |
+| Recovery journal (optional) | 64 MiB per record default; each apply is atomic; recovery records outcomes |
 | Durable job store (optional) | 16 jobs (1–64), 64 MiB records (1–512, not below the JSON limit), 1,000 terminal records (1–1,000); admission timeout 30 s (1–120) |
 
 Each transfer builds one whole manifest: no paged protocol, resumable upload or
 background continuation. These are not tested large-site capacity figures.
+
+**Handlers on the receiving site.** With the Full adapter (`AddFerryUmbracoFull`), each
+apply batch runs in one Umbraco scope that also covers the media, view, partial,
+stylesheet and script file systems. The DraftText adapter still writes item by item and
+keeps the items written before a failure.
+- A veto rolls the whole batch back: a cancelled Saving, Publishing or Moving
+  notification, failed validation, or any error. The result says nothing from the batch
+  was kept and carries the handler's message.
+- Saved and Published handlers run once per batch, after the commit, as Umbraco runs
+  them. If one throws, the batch stays saved and the result is *Completed* with a
+  warning naming the failure. The handlers queued after it did not run; Ferry refreshes
+  the published cache and search index for the batch, but cannot replay webhooks or
+  other site handlers.
+- A push is split into batches of up to 250 counted items; a Pull, package import or
+  restore applies its whole manifest in one transaction. Above
+  `Ferry:Backoffice:LargeApplyWarningItems` (default 1,000 written items; Unchanged
+  and schema items do not count) the preview warns that editors on that site cannot
+  save while it runs, and the review asks for confirmation. While a batch runs: on SQL
+  Server, backoffice reads time out after 60 s and writes after 5 s; on SQLite the
+  database is write-locked. Measured in `tests/e2e/nested-tags.spec.ts` on a developer machine: a
+  250-image media batch applies in about 13–18 s on SQL Server 2025 and 2–3 s on
+  SQLite; a backoffice media save on the target during the SQL Server batch failed
+  after 5 s ("Lock request time out period exceeded"), and the batch completed.
+- An apply refuses to start inside an open Umbraco scope, and reports another
+  file-scoped operation as retryable.
+- On SQLite the batch holds the database write lock, so the background
+  operation-lease renewal cannot write while it runs; the batch renews the lease itself
+  between its entities, inside its own transaction, so a long batch does not let it
+  expire, and renews it once more after the batch, outside it, because what it wrote
+  inside is lost if the batch rolls back. On SQL Server the lease table is not locked by
+  the batch, and the background renewal continues as usual.
 
 ### Durable Push and local Pull
 

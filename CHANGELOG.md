@@ -3,6 +3,36 @@
 All notable changes to Ferry. Versions follow [Semantic Versioning](https://semver.org/); while Ferry is pre-1.0,
 minor versions may contain breaking changes.
 
+## 0.10.0-beta.1
+
+### Features
+- **Atomic apply (Full adapter).** Each apply batch (one push batch, one Pull, one package import or one restore)
+  runs in one Umbraco scope on the receiving site, media and view files included. The DraftText adapter is unchanged:
+  it writes item by item. A cancelling Saving/Publishing/Moving handler,
+  failed validation or any error rolls the whole batch back; the result says nothing was kept. Saved and Published
+  handlers run once per batch, after the commit. If one throws, the batch stays saved and is reported *Completed* with
+  a warning, and Ferry refreshes the cache and search index for the batch.
+- **Handler messages.** The message a handler on the other site gave when it cancelled a save, publish or media save
+  reaches the apply and publication results, operation history and the backoffice.
+- **Large-apply warning.** A Pull, package import or restore above `Ferry:Backoffice:LargeApplyWarningItems` (default
+  1,000 written items; Unchanged and schema items do not count) says that it applies in one transaction and that
+  editors on the site cannot save while it runs;
+  the review asks for confirmation. The apply is never refused on size.
+
+### Fixes
+- Document-type inheritance is kept on the target: an inherited type is no longer placed in folders named after its
+  parents, and Inheritance no longer becomes Composition (F1).
+- Document-type folders keep their keys across sites (F2).
+- New content and media are created with their values in the first save, so a handler that checks required values
+  accepts them; the source sort order is kept (H1-c).
+
+### Upgrade notes
+- Upgrade both sites. Until both run this version, inherited document types in folders show *Update* on every transfer.
+- Site Saved/Published handlers now see a batch at once, after the whole batch is saved, instead of one item at a time
+  between Ferry's writes.
+- A long Pull, package import or restore blocks backoffice editors on that site while it runs: on SQL Server their
+  saves fail after Umbraco's 5 s lock timeout.
+
 ## 0.9.0-beta.1
 
 ### Features

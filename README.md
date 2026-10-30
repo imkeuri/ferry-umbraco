@@ -332,9 +332,11 @@ unique keys, or an empty `contentRoots` for the whole site. Both sites must supp
   reload with configuration (limits need a restart). Treat every receiver credential as an administrative secret.
 - **Concurrency.** Fingerprints detect changes; they do not lock editors or replace authorization. The receiver
   serializes requests per process; external edits and multi-node writers need extra coordination.
-- **Recovery.** Records keep before-state and known outcomes, not an atomic transaction or rollback. An interrupted
-  write can leave partial changes: inspect the destination and preview again before retrying. No outcome record means
-  completion is unknown. Recovery data contains site content; protect it.
+- **Recovery.** With the Full adapter, each apply is all-or-nothing on the receiving site: a cancelling handler, failed validation or error
+  rolls back the whole batch, including media and view files. Saved/Published handlers run after commit; if one fails,
+  the batch stays saved and Ferry shows a warning naming it. A push over 250 items is split into batches, and each
+  batch is atomic on its own. Records keep before-state and known outcomes; no outcome record means completion is
+  unknown. Recovery data contains site content; protect it.
 - **Live impact.** Drafts are not published, but schema, media, hierarchy and sort changes can affect the live site.
 - **Out of scope:** executable templates/scripts, account replication.
 
