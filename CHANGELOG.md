@@ -3,6 +3,24 @@
 All notable changes to Ferry. Versions follow [Semantic Versioning](https://semver.org/); while Ferry is pre-1.0,
 minor versions may contain breaking changes.
 
+## 0.11.0-beta.1
+
+### Features
+- **Set up from configuration, no code.** With `Ferry:Enabled` true, Ferry's composers register the adapter
+  (`Ferry:Mode`, Full by default), the receiver at `/ferry/v1`, and asset and recovery storage under
+  `umbraco/Data/Ferry` in the content root (`Ferry:StorageDirectory` moves it). Installing the packages without that
+  setting opens nothing. `Ferry:AutoRegister` false leaves registration to the site.
+- A site's own `AddFerryUmbracoFull`/`AddFerryUmbraco`, `AddFerryTransport*`, `AddFerryFileAssets` and
+  `AddFerryFileRecovery` calls keep working, before or after the composers: the site's call wins and nothing is
+  registered twice. A host's own peer policy provider is kept. Registering both adapters is refused, naming both.
+- `AddFerryUmbracoFull` now binds `Ferry:Full` itself, so `ContentOnly` and the transfer opt-ins apply however the
+  adapter was registered.
+
+### Breaking
+- **`app.MapFerry()` with `Ferry:Enabled` true now fails at start-up**, because the composer maps `/ferry/v1` itself
+  and a second mapping would otherwise leave the site's own one silently unused. Remove the call, or set
+  `Ferry:AutoRegister` to `false` to keep registering Ferry in code. Sites without `Ferry:Enabled` are unaffected.
+
 ## 0.10.0-beta.2
 
 ### Fixes

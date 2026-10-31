@@ -34,16 +34,22 @@ dotnet add package Ferry.Umbraco --prerelease
 dotnet add package Ferry.Backoffice --prerelease
 ```
 
-```csharp
-builder.CreateUmbracoBuilder()
-    .AddBackOffice()
-    .AddWebsite()
-    .AddComposers()
-    .AddFerryUmbracoFull()
-    .Build();
+Then turn Ferry on in `appsettings.json`. No code is needed: Ferry's composers register it from configuration.
+
+```json
+{
+  "Ferry": {
+    "Enabled": true,
+    "Backoffice": { "Enabled": true }
+  }
+}
 ```
 
-Configuration goes in a `Ferry` section of `appsettings.json`; see [Host integration](#host-integration).
+With `Ferry:Enabled` true, Ferry registers the Full adapter (`Ferry:Mode`: `Full` or `DraftText`), the receiver at
+`/ferry/v1`, and asset and recovery storage under `umbraco/Data/Ferry` in the content root (`Ferry:StorageDirectory`
+moves it; keep it on persistent storage, outside public static files). Connect sites from **Settings › Ferry › Sites**
+with a pairing code. Until `Ferry:Enabled` is true, installing the packages opens nothing. To register Ferry in code
+instead, see [Host integration](#host-integration).
 
 ## Using the backoffice
 
@@ -147,11 +153,26 @@ Adapters:
   `ISyncAssetStore`. Editor/storage changes to existing shared data types are blocked. Re-export older experimental
   manifests.
 
-The BackOffice package has its own composer, independent of the transport switch and adapter.
+The BackOffice package has its own composer, independent of the transport switch and adapter. `AddFerryUmbracoFull` and
+`AddFerryUmbraco` can be called more than once (later options are added); calling both is refused.
 
 ## Host integration
 
-Register the adapter, then configure transport explicitly:
+Ferry's composers do this from configuration when `Ferry:Enabled` is true (see [Quick start](#quick-start)). A site can
+still register any part itself, before or after the composers run: its own call wins and nothing is registered twice.
+The exception is `app.MapFerry()`: while the composer maps `/ferry/v1`, a second mapping fails at start-up. Set
+`Ferry:AutoRegister` to `false` to register everything in code:
+
+```csharp
+builder.CreateUmbracoBuilder()
+    .AddBackOffice()
+    .AddWebsite()
+    .AddComposers()
+    .AddFerryUmbracoFull()   // or AddFerryUmbraco() for DraftText; a site has one adapter
+    .Build();
+```
+
+Then configure transport explicitly:
 
 ```csharp
 builder.Services.AddFerryTransport(new SyncTransportOptions
