@@ -972,14 +972,19 @@
 <div class="highlight"><pre><span></span><code>dotnet<span class="w"> </span>add<span class="w"> </span>package<span class="w"> </span>Ferry.Umbraco<span class="w"> </span>--prerelease
 dotnet<span class="w"> </span>add<span class="w"> </span>package<span class="w"> </span>Ferry.Backoffice<span class="w"> </span>--prerelease
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><span class="n">builder</span><span class="p">.</span><span class="n">CreateUmbracoBuilder</span><span class="p">()</span>
-<span class="w">    </span><span class="p">.</span><span class="n">AddBackOffice</span><span class="p">()</span>
-<span class="w">    </span><span class="p">.</span><span class="n">AddWebsite</span><span class="p">()</span>
-<span class="w">    </span><span class="p">.</span><span class="n">AddComposers</span><span class="p">()</span>
-<span class="w">    </span><span class="p">.</span><span class="n">AddFerryUmbracoFull</span><span class="p">()</span>
-<span class="w">    </span><span class="p">.</span><span class="n">Build</span><span class="p">();</span>
+<p>Then turn Ferry on in <code>appsettings.json</code>. No code is needed: Ferry's composers register it from configuration.</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"Ferry"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"Enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"Backoffice"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"Enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
 </code></pre></div>
-<p>Configuration goes in a <code>Ferry</code> section of <code>appsettings.json</code>; see <a href="#host-integration">Host integration</a>.</p>
+<p>With <code>Ferry:Enabled</code> true, Ferry registers the Full adapter (<code>Ferry:Mode</code>: <code>Full</code> or <code>DraftText</code>), the receiver at
+<code>/ferry/v1</code>, and asset and recovery storage under <code>umbraco/Data/Ferry</code> in the content root (<code>Ferry:StorageDirectory</code>
+moves it; keep it on persistent storage, outside public static files). Connect sites from <strong>Settings › Ferry › Sites</strong>
+with a pairing code. Until <code>Ferry:Enabled</code> is true, installing the packages opens nothing. To register Ferry in code
+instead, see <a href="#host-integration">Host integration</a>.</p>
 <h2 id="using-the-backoffice">Using the backoffice<a class="headerlink" href="#using-the-backoffice" title="Permanent link">&para;</a></h2>
 <p>Ferry.Backoffice adds a <strong>Ferry</strong> workspace under <strong>Settings › Synchronisation</strong>:</p>
 <table>
@@ -1093,9 +1098,21 @@ limits are listed in the <a href="../supported-scope/">supported scope</a>.</p>
   <code>ISyncAssetStore</code>. Editor/storage changes to existing shared data types are blocked. Re-export older experimental
   manifests.</li>
 </ul>
-<p>The BackOffice package has its own composer, independent of the transport switch and adapter.</p>
+<p>The BackOffice package has its own composer, independent of the transport switch and adapter. <code>AddFerryUmbracoFull</code> and
+<code>AddFerryUmbraco</code> can be called more than once (later options are added); calling both is refused.</p>
 <h2 id="host-integration">Host integration<a class="headerlink" href="#host-integration" title="Permanent link">&para;</a></h2>
-<p>Register the adapter, then configure transport explicitly:</p>
+<p>Ferry's composers do this from configuration when <code>Ferry:Enabled</code> is true (see <a href="#quick-start">Quick start</a>). A site can
+still register any part itself, before or after the composers run: its own call wins and nothing is registered twice.
+The exception is <code>app.MapFerry()</code>: while the composer maps <code>/ferry/v1</code>, a second mapping fails at start-up. Set
+<code>Ferry:AutoRegister</code> to <code>false</code> to register everything in code:</p>
+<div class="highlight"><pre><span></span><code><span class="n">builder</span><span class="p">.</span><span class="n">CreateUmbracoBuilder</span><span class="p">()</span>
+<span class="w">    </span><span class="p">.</span><span class="n">AddBackOffice</span><span class="p">()</span>
+<span class="w">    </span><span class="p">.</span><span class="n">AddWebsite</span><span class="p">()</span>
+<span class="w">    </span><span class="p">.</span><span class="n">AddComposers</span><span class="p">()</span>
+<span class="w">    </span><span class="p">.</span><span class="n">AddFerryUmbracoFull</span><span class="p">()</span><span class="w">   </span><span class="c1">// or AddFerryUmbraco() for DraftText; a site has one adapter</span>
+<span class="w">    </span><span class="p">.</span><span class="n">Build</span><span class="p">();</span>
+</code></pre></div>
+<p>Then configure transport explicitly:</p>
 <div class="highlight"><pre><span></span><code><span class="n">builder</span><span class="p">.</span><span class="n">Services</span><span class="p">.</span><span class="n">AddFerryTransport</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">SyncTransportOptions</span>
 <span class="p">{</span>
 <span class="w">    </span><span class="n">BearerToken</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tokenFromYourSecretProvider</span>
