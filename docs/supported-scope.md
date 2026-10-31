@@ -74,9 +74,11 @@ cultures. The Content modal's culture input defaults to all; Media has no scope.
 **Published source version (optional; Draft is default).** The source's
 `PublishedCultures` set the scope; each transfers its name, template and published
 value per segment. Other destination drafts are kept. Selecting an unpublished culture
-rejects. Full-site selection omits unpublished nodes and fails closed if a published
-node needs an omitted ancestor. Results land as destination drafts. Peers without the
-capability reject.
+rejects. A full-site export, or a tree selected with its descendants, omits pages with
+no published version (never published, or unpublished since) and the preview names
+them in a note; a page selected on its own without one is refused by name, and a
+published page below an omitted one fails, naming both. Results land as destination
+drafts. Peers without the capability reject.
 
 **Tree moves.** Set `allowMoves: true` on a Push or Pull preview (default false; a
 toggle in the transfer modals and Settings dashboard). The destination must enable

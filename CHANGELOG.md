@@ -3,6 +3,27 @@
 All notable changes to Ferry. Versions follow [Semantic Versioning](https://semver.org/); while Ferry is pre-1.0,
 minor versions may contain breaking changes.
 
+## 0.10.0-beta.2
+
+### Fixes
+- **Send with the published version no longer fails with HTTP 500 on an unpublished page.** A page that was published
+  and then unpublished keeps an old published version id in Umbraco but has no published name, and the export sent a
+  null name. Ferry now treats such a page, and a page never published, as having no published version.
+- Sending a tree (for example *Send everything*) with the published version leaves out the pages that have no published
+  version, and the review names them ("N pages were left out because they have no published version: …"). A page
+  selected on its own without one is refused by name and key; a published page below a left-out one fails, naming
+  both. The full-site export names the pages it leaves out the same way.
+- A page with no name to send is reported by name and key instead of failing the export.
+- **A transferred relation type is found on the receiving site straight away.** Its relation type and relations were
+  stored, but Umbraco's cached set of relation types still predated the apply, so they were not found until the site
+  restarted.
+- The note naming left-out pages is shown to administrators only: a delegated editor's selection can reach pages outside
+  their grant.
+
+### Testing
+- Each release is checked against the packed packages by every end-to-end suite and the browser tests, and by a check
+  that every Ferry endpoint was called successfully.
+
 ## 0.10.0-beta.1
 
 ### Features
